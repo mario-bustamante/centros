@@ -1,0 +1,96 @@
+<resources>
+    <string name="app_name">Residencias</string>
+
+    <string name="error_oauth">Login with Failed</string>
+    <string name="error_residences">Error getting Residences</string>
+    <string name="error_profile">Error getting Profile</string>
+
+
+    <!-- login -->
+    <string name="label_email">Correo</string>
+    <string name="label_password">Clave</string>
+    <string name="btn_login">Ingresar</string>
+    <string name="label_go_to_register">¿No estas registrado?</string>
+    <string name="label_name">Nombre</string>
+    <string name="label_password_confirmation">Confirmar clave</string>
+    <string name="label_access_login">Ó accede con correo</string>
+
+    <string name="btn_register">Registrar</string>
+    <string name="label_go_to_login">¿Estas registrado?</string>
+    <string name="error_login">Ocurrió un error, verifique su correo y clave</string>
+    <string name="error_login_empty_fields">Ingrese su correo y clave</string>
+    <string name="error_register">Ocurrió un error al registrarse</string>
+    <string name="error_register_empty_fields">Ingrese todos los datos solicitados</string>
+    <string name="error_register_passwords_do_not_match">Las claves no coinciden</string>
+
+    <!-- menu -->
+    <string name="navigation_drawer_open">Abrir</string>
+    <string name="navigation_drawer_close">Cerrar</string>
+    <string name="action_search">Buscar</string>
+
+
+    <string name="btn_save">Guardar</string>
+
+
+    <!-- profile -->
+    <string name="label_username">Usuario</string>
+    <string name="label_address">Dirección</string>
+    <string name="label_phone">Teléfono</string>
+
+
+    <!-- search -->
+    <string name="label_search_for">Buscar por</string>
+    <string name="label_province">Provincia</string>
+    <string name="label_town">Municipio</string>
+    <string name="btn_search">Buscar</string>
+    <string name="label_price">Precios desde €</string>
+    <string name="label_dependence">Tipo de dependencia</string>
+    <string name="label_sector">Tipo de plaza</string>
+    <string name="label_room">Tipo de habitación</string>
+
+    <string name="btn_map">Cómo llegar</string>
+
+    <string name="label_web">Página web</string>
+    <string name="label_longitude">Longitud</string>
+    <string name="label_latitude">Latitud</string>
+    <string name="label_description">Descripción</string>
+
+    <string name="spinner_province">Selecciona una provincia</string>
+    <string name="spinner_town">Selecciona un municipio</string>
+    <string name="spinner_dependence">Selecciona un tipo de dependencia</string>
+    <string name="spinner_sector">Selecciona un tipo de plaza</string>
+    <string name="spinner_room">Selecciona un tipo de habitación</string>
+
+    <!-- facebook -->
+
+    <!-- google maps key -->
+    <string name="google_maps_key">AIzaSyB65t2GWQXdRe-aK6qxCKHPnVhM8_pejHM</string>
+    <string name="logo_image">Logo image</string>
+    <string name="nav_label_search">Buscar Residencias</string>
+    <string name="nav_label_residence">Mi Residencia</string>
+
+    <string name="nav_label_map">Residencias en Mapa</string>
+    <string name="nav_label_photo">Mis Fotografías</string>
+    <string name="nav_label_profile">Mi Perfil</string>
+    <string name="nav_label_close">Cerrar Sesión</string>
+    <string name="spinner_price">Selecciona un rango de precio</string>
+
+    <string name="toast_update_my_residence">Se han actualizado correctamente los datos de la residencia</string>
+    <string name="toast_update_my_residence_error">Han ocurrido un error ai intentar actualizar los datos de la residencia</string>
+    <string name="toast_update_profile">Se han actualizado correctamente los datos de su perfil</string>
+    <string name="toast_update_profile_error">Han ocurrido un error ai intentar actualizar los datos su perfil</string>
+    <string name="btn_take_picture">Tomar foto</string>
+    <string name="label_title">Título</string>
+
+    <string name="btn_call">Llamar</string>
+    <string name="btn_whatsapp">WhatsApp</string>
+    <string name="btn_telegram">Telegram</string>
+
+
+    <string name="btn_delete">Eliminar</string>
+    <string name="label_distance">La distancia mínima a la residencia</string>
+    <string name="label_near">Más cercanas</string>
+    <string name="image_spinner">flecha</string>
+
+
+</resources>

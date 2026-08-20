@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    tools:context=".ui.residence.ResidencesSearchActivity" >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/border"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar"
+            android:layout_width="@dimen/progress_bar_size"
+            android:layout_height="@dimen/progress_bar_size"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/small_space"
+            android:visibility="gone" />
+
+
+        <LinearLayout
+            android:id="@+id/map_near"
+            android:layout_width="match_parent"
+            android:layout_height="27dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextViewSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/double_space"
+                android:text="@string/label_near" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/near_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="0dp"
+                android:checked="false"
+                android:padding="0dp" />
+
+        </LinearLayout>
+
+
+        <!-- buscar  -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_search_for"
+            style="@style/TextViewSmall" />
+
+        <EditText
+            android:id="@+id/search_for"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:autofillHints="@string/label_search_for"
+            tools:ignore="LabelFor" />
+
+        <!-- provincia -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_space"
+            android:text="@string/label_province"
+            style="@style/TextViewSmall" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/province"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spinner_size"
+                android:background="@drawable/bg_spinner"
+                android:padding="@dimen/spinner_padding"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_spinner_arrow"
+                android:contentDescription="@string/image_spinner" />
+        </RelativeLayout>
+
+        <!-- municipio -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_space"
+            android:text="@string/label_town"
+            style="@style/TextViewSmall" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+        <Spinner
+            android:id="@+id/town"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/spinner_size"
+            android:background="@drawable/bg_spinner"
+            android:padding="@dimen/spinner_padding"
+            android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_spinner_arrow"
+                android:contentDescription="@string/image_spinner" />
+        </RelativeLayout>
+
+        <!-- precios -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_space"
+            android:text="@string/label_price"
+            style="@style/TextViewSmall" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spinner_size"
+                android:background="@drawable/bg_spinner"
+                android:padding="@dimen/spinner_padding"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_spinner_arrow"
+                android:contentDescription="@string/image_spinner" />
+        </RelativeLayout>
+
+        <!-- dependencias -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_space"
+            android:text="@string/label_dependence"
+            style="@style/TextViewSmall" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/dependence"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spinner_size"
+                android:background="@drawable/bg_spinner"
+                android:padding="@dimen/spinner_padding"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_spinner_arrow"
+                android:contentDescription="@string/image_spinner" />
+        </RelativeLayout>
+
+        <!-- sector -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_space"
+            android:text="@string/label_sector"
+            style="@style/TextViewSmall" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/sectors"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spinner_size"
+                android:background="@drawable/bg_spinner"
+                android:padding="@dimen/spinner_padding"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_spinner_arrow"
+                android:contentDescription="@string/image_spinner" />
+        </RelativeLayout>
+
+        <!-- habitaciones -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_space"
+            android:text="@string/label_room"
+            style="@style/TextViewSmall" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Spinner
+                android:id="@+id/room"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spinner_size"
+                android:background="@drawable/bg_spinner"
+                android:padding="@dimen/spinner_padding"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_spinner_arrow"
+                android:contentDescription="@string/image_spinner" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/btn_margin"
+            android:layout_marginTop="@dimen/small_space"
+            android:layout_marginEnd="@dimen/btn_margin"
+            android:text="@string/btn_search"  />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
