@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Centros</string>
+
+    <string name="lbl_option_login">Ó accede con correo</string>
+    <string name="lbl_email">Correo</string>
+    <string name="lbl_password">Clave</string>
+    <string name="btn_login">Ingresar</string>
+    <string name="lbl_register">¿No estas registrado?</string>
+
 </resources>
