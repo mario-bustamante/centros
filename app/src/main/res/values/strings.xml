@@ -5,6 +5,7 @@
     <string name="lbl_email">Correo</string>
     <string name="lbl_password">Clave</string>
     <string name="btn_login">Ingresar</string>
+    <string name="btn_google_login">Continuar con Google</string>
     <string name="lbl_register">¿No estas registrado?</string>
 
 </resources>

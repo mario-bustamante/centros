@@ -14,7 +14,7 @@
     <dimen name="spinner_size">35dp</dimen>
     <dimen name="spinner_padding">4dp</dimen>
 
-    <dimen name="btn_margin">100dp</dimen>
+    <dimen name="btn_margin">60dp</dimen>
 
     <dimen name="login_image_size">100dp</dimen>
 
