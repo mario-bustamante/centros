@@ -14,11 +14,3 @@ fun LoginScreen (navController: NavHostController) {
         LoginContent(navController, paddingValues)
     }
 }
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun GreetingPreview() {
-    Scaffold() { paddingValues ->
-        LoginContent(rememberNavController(), paddingValues)
-    }
-}
