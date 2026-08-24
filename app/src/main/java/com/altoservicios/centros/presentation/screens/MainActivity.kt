@@ -44,7 +44,9 @@ import com.altoservicios.centros.presentation.navigation.graph.RootNavGraph
 import com.altoservicios.centros.presentation.screens.auth.login.LoginScreen
 import com.altoservicios.centros.ui.theme.CentrosTheme
 import com.google.android.gms.common.SignInButton
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController

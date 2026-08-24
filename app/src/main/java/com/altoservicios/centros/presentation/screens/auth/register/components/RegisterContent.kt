@@ -2,8 +2,6 @@ package com.altoservicios.centros.presentation.screens.auth.register.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -27,10 +24,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,22 +38,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
 import com.altoservicios.centros.presentation.components.DefaultTextField
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
+import com.altoservicios.centros.presentation.screens.auth.register.RegisterViewModel
 
 @Composable
 fun RegisterContent(
     navController: NavHostController,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    vm: RegisterViewModel = hiltViewModel()
 ) {
-    var name by rememberSaveable { mutableStateOf("") }
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
-    var passwordConfirmation by rememberSaveable { mutableStateOf("") }
+    val state = vm.state
 
     Box(modifier = Modifier
         .background(color = colorResource(id = R.color.colorBgSecondary))
@@ -109,16 +102,20 @@ fun RegisterContent(
 
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
-                        value = email,
-                        onValueChange = { email = it },
+                        value = state.name,
+                        onValueChange = { text ->
+                           vm.onNameInput(text)
+                        },
                         label = "Nombre",
                         icon = Icons.Default.Person
                     )
 
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
-                        value = email,
-                        onValueChange = { email = it },
+                        value = state.email,
+                        onValueChange = { text ->
+                            vm.onNameInput(text)
+                        },
                         label = "Correo Electronico",
                         icon = Icons.Default.Email,
                         keyboardType = KeyboardType.Email,
@@ -126,8 +123,10 @@ fun RegisterContent(
 
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
-                        value = email,
-                        onValueChange = { email = it },
+                        value = state.phone,
+                        onValueChange = { text ->
+                            vm.onPhoneInput(text)
+                        },
                         label = "Teléfono",
                         icon = Icons.Default.Phone,
                         keyboardType = KeyboardType.Number,
@@ -135,20 +134,26 @@ fun RegisterContent(
 
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = password,
-                        onValueChange = { password = it },
+                        value = state.password,
+                        onValueChange = { text ->
+                            vm.onPasswordInput(text)
+                        },
                         label = "Password",
                         icon = Icons.Default.Lock,
                         keyboardType = KeyboardType.Password,
+                        hideText = true
                     )
 
                     DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
-                        value = password,
-                        onValueChange = { password = it },
+                        value = state.confirmPassword,
+                        onValueChange = { text ->
+                            vm.onConfirmPasswordInput(text)
+                        },
                         label = "Confirmar Password",
                         icon = Icons.Default.Lock,
                         keyboardType = KeyboardType.Password,
+                        hideText = true
                     )
 
                     DefaultButton(
