@@ -49,6 +49,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.content.res.Configuration
+import android.widget.Toast
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -68,6 +71,7 @@ fun LoginContent(
 ) {
 
     val state = vm.state
+    val context = LocalContext.current
 
     val configuration = LocalConfiguration.current
     val orientation = configuration.orientation
@@ -77,6 +81,12 @@ fun LoginContent(
         R.drawable.ic_logo_v
     }
     val logoIsVertical = logoResource == R.drawable.ic_logo_h
+
+    LaunchedEffect(key1 = vm.errorMessage) {
+        if(vm.errorMessage != "") {
+            Toast.makeText(context, vm.errorMessage, Toast.LENGTH_LONG).show()
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -182,7 +192,9 @@ fun LoginContent(
                             .fillMaxWidth()
                             .height(60.dp)
                             .padding(top = 20.dp),
-                        onClick = { /*onLogin(email.trim(), password) */ },
+                        onClick = {
+                            onLogin(vm)
+                        },
                         text = stringResource(id = R.string.btn_login)
                     )
 
@@ -218,8 +230,8 @@ private fun signInGoogle() {
 
 }
 
-private fun login(email: String, password: String) {
-
+private fun onLogin(vm: LoginViewModel) {
+    vm.validateForm()
 }
 
 @Preview(showBackground = true, showSystemUi = true)

@@ -1,5 +1,6 @@
 package com.altoservicios.centros.presentation.screens.auth.register.components
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -24,10 +25,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -45,6 +48,7 @@ import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
 import com.altoservicios.centros.presentation.components.DefaultTextField
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
+import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
 import com.altoservicios.centros.presentation.screens.auth.register.RegisterViewModel
 
 @Composable
@@ -54,6 +58,13 @@ fun RegisterContent(
     vm: RegisterViewModel = hiltViewModel()
 ) {
     val state = vm.state
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = vm.errorMessage) {
+        if(vm.errorMessage != "") {
+            Toast.makeText(context, vm.errorMessage, Toast.LENGTH_LONG).show()
+        }
+    }
 
     Box(modifier = Modifier
         .background(color = colorResource(id = R.color.colorBgSecondary))
@@ -114,7 +125,7 @@ fun RegisterContent(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
                         value = state.email,
                         onValueChange = { text ->
-                            vm.onNameInput(text)
+                            vm.onEmailInput(text)
                         },
                         label = "Correo Electronico",
                         icon = Icons.Default.Email,
@@ -161,7 +172,9 @@ fun RegisterContent(
                             .fillMaxWidth()
                             .height(60.dp)
                             .padding(top = 20.dp),
-                        onClick = { /*onLogin(email.trim(), password) */ },
+                        onClick = {
+                            onRegister(vm)
+                        },
                         text = "Confirmar"
                     )
                 }
@@ -172,16 +185,8 @@ fun RegisterContent(
     }
 }
 
-private fun onRegister(navController: NavHostController) {
-    navController.navigate(route = AuthScreen.Register.route)
-}
-
-private fun signInGoogle() {
-
-}
-
-private fun login(email: String, password: String) {
-
+private fun onRegister(vm: RegisterViewModel) {
+    vm.validateForm()
 }
 
 @Preview(showBackground = true, showSystemUi = true)
