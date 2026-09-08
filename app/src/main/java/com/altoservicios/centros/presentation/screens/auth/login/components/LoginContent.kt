@@ -1,5 +1,6 @@
 package com.altoservicios.centros.presentation.screens.auth.login.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -63,6 +64,7 @@ import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
 import com.altoservicios.centros.presentation.screens.auth.register.RegisterScreen
 
+@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun LoginContent(
     navController: NavHostController,
@@ -231,7 +233,7 @@ private fun signInGoogle() {
 }
 
 private fun onLogin(vm: LoginViewModel) {
-    vm.validateForm()
+    vm.login()
 }
 
 @Preview(showBackground = true, showSystemUi = true)
