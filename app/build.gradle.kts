@@ -71,6 +71,10 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.gson)
 
+    // moshi
+    implementation(libs.moshi.kotlin)
+    ksp(libs.moshi.kotlin.codegen)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

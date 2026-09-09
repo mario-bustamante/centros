@@ -6,6 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.altoservicios.centros.presentation.screens.auth.login.components.Login
 import com.altoservicios.centros.presentation.screens.auth.login.components.LoginContent
 
 @Composable
@@ -13,4 +14,6 @@ fun LoginScreen (navController: NavHostController) {
     Scaffold() { paddingValues ->
         LoginContent(navController, paddingValues)
     }
+
+    Login(navController = navController)
 }

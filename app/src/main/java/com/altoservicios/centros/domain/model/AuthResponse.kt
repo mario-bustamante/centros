@@ -4,10 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 
 data class AuthResponse(
-    val username: String? = null,
-    val email: String? = null,
-    val role: String? = null,
-    val status: Int? = null,
+    val user: User,
     @SerializedName("token_type") val tokenType: String? = null,
     @SerializedName("expires_in") val expiresIn: Int? = null,
     @SerializedName("access_token") val token: String? = null,

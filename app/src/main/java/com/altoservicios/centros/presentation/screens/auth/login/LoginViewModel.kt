@@ -7,10 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.altoservicios.centros.core.Config
 import com.altoservicios.centros.domain.model.AuthResponse
 import com.altoservicios.centros.domain.useCase.auth.AuthUseCase
-import com.altoservicios.centros.domain.util.Response
+import com.altoservicios.centros.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,9 +21,8 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase): 
         private set
 
     var errorMessage by mutableStateOf("")
-        private set
 
-    var loginResponse by mutableStateOf<Response<AuthResponse>?>(null)
+    var loginResponse by mutableStateOf<Resource<AuthResponse>?>(null)
 
     fun onEmailInput(email: String) {
         state = state.copy(email = email)
@@ -36,9 +34,7 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase): 
 
     fun login() = viewModelScope.launch {
         if(isValidForm()) {
-            loginResponse = Response.Loading
-
-            Log.d("LoginViewModel", "Result: ${Config.BASE_URL}")
+            loginResponse = Resource.Loading
 
             val result = authUseCase.login(state.email, state.password)
             loginResponse = result
@@ -57,9 +53,6 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase): 
             errorMessage = "La contraseña debe tener al menos 6 caracteres"
             return false
         }
-
-        errorMessage = ""
         return true
-
     }
 }
