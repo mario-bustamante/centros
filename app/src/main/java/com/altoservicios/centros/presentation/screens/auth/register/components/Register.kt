@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.auth.login.components
+package com.altoservicios.centros.presentation.screens.auth.register.components
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
@@ -10,12 +10,11 @@ import com.altoservicios.centros.R
 import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.presentation.components.ProgressBar
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
-import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
-
+import com.altoservicios.centros.presentation.screens.auth.register.RegisterViewModel
 
 @Composable
-fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()) {
-    when(val response = vm.loginResponse) {
+fun Register(navController: NavHostController, vm: RegisterViewModel = hiltViewModel()) {
+    when(val response = vm.registerResponse) {
         Resource.Loading -> {
             ProgressBar()
         }
@@ -27,12 +26,12 @@ fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()
         }
 
         is Resource.Failure -> {
-            Toast.makeText(LocalContext.current, response.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(LocalContext.current, response.message, Toast.LENGTH_LONG).show()
         }
 
         else -> {
             if(response != null) {
-                Toast.makeText(LocalContext.current,  LocalContext.current.getString(R.string.msg_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(LocalContext.current, LocalContext.current.getString(R.string.msg_error), Toast.LENGTH_LONG).show()
             }
         }
     }

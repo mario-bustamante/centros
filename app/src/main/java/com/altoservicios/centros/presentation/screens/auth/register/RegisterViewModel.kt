@@ -6,22 +6,26 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.altoservicios.centros.domain.model.AuthResponse
+import com.altoservicios.centros.domain.model.User
+import com.altoservicios.centros.domain.useCase.auth.AuthUseCase
+import com.altoservicios.centros.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(): ViewModel() {
+class RegisterViewModel @Inject constructor(private val authUseCase: AuthUseCase): ViewModel() {
 
     var state by mutableStateOf(RegisterState())
         private set
 
-    var isValidform by mutableStateOf(false)
+    var errorMessage by mutableStateOf("")
+
+    var registerResponse by mutableStateOf<Resource<AuthResponse>?>(null)
         private set
 
-    var errorMessage by mutableStateOf("")
-        private set
 
     fun onNameInput(name: String) {
         state = state.copy(name = name)
@@ -43,22 +47,40 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
         state = state.copy(confirmPassword = confirmPassword)
     }
 
-    fun validateForm() = viewModelScope.launch {
+    fun register() = viewModelScope.launch {
+        if(isValidForm()) {
+            val user = User(
+                name = state.name,
+                email = state.email,
+                phone = state.phone,
+                password = state.password
+            )
+
+            registerResponse = Resource.Loading
+            val result = authUseCase.register(user)
+            registerResponse = result
+        }
+    }
+
+    fun isValidForm(): Boolean {
 
         if(state.name != "") {
-            errorMessage = "El email no es válido"
+            errorMessage = "El nombre no es válido"
+            return false
         } else if(!Patterns.EMAIL_ADDRESS.matcher(state.email).matches()) {
             errorMessage = "El email no es válido"
+            return false
         } else if(!Patterns.PHONE.matcher(state.phone).matches()) {
             errorMessage = "El email no es válido"
+            return false
         } else if(state.password.length < 6) {
             errorMessage = "La contraseña debe tener al menos 6 caracteres"
+            return false
         } else if(state.confirmPassword.length < 6) {
             errorMessage = "La contraseña debe tener al menos 6 caracteres"
+            return false
         }
 
-        delay(3000)
-
-        errorMessage = ""
+        return true
     }
 }

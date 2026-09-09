@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.altoservicios.centros.presentation.components.DefaultTopBar
+import com.altoservicios.centros.presentation.screens.auth.register.components.Register
 import com.altoservicios.centros.presentation.screens.auth.register.components.RegisterContent
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,6 +41,7 @@ fun RegisterScreen (navController: NavHostController) {
     ) { paddingValues ->
         RegisterContent(navController, paddingValues)
     }
+    Register(navController)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
