@@ -32,14 +32,29 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase): 
         state = state.copy(password = password)
     }
 
+    init {
+        getSessionData()
+    }
+
+    fun getSessionData() = viewModelScope.launch {
+        authUseCase.getSessionUseCase().collect() { data ->
+            if(data != null) {
+                Log.d("LoginViewModel", "data: ${data.toJson()}")
+            } else {
+                Log.d("LoginViewModel", "data: NULL")
+            }
+        }
+    }
+
+    fun saveSession(authResponse: AuthResponse) = viewModelScope.launch {
+        authUseCase.saveSession(authResponse)
+    }
+
     fun login() = viewModelScope.launch {
         if(isValidForm()) {
             loginResponse = Resource.Loading
-
             val result = authUseCase.login(state.email, state.password)
             loginResponse = result
-
-            Log.d("LoginViewModel", "Result: ${loginResponse}")
         }
     }
 

@@ -5,8 +5,10 @@ import com.altoservicios.centros.data.dataSource.remote.AuthRemoteDataSource
 import com.altoservicios.centros.data.repository.AuthRepositoryImpl
 import com.altoservicios.centros.domain.repository.AuthRepository
 import com.altoservicios.centros.domain.useCase.auth.AuthUseCase
+import com.altoservicios.centros.domain.useCase.auth.GetSessionDataUseCase
 import com.altoservicios.centros.domain.useCase.auth.LoginUseCase
 import com.altoservicios.centros.domain.useCase.auth.RegisterUseCase
+import com.altoservicios.centros.domain.useCase.auth.SaveSessionUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +21,9 @@ object UseCaseModule {
     @Provides
     fun provideAuthUseCase(authRepository: AuthRepository) = AuthUseCase(
         login = LoginUseCase(authRepository),
-        register = RegisterUseCase(authRepository)
+        register = RegisterUseCase(authRepository),
+        saveSession = SaveSessionUseCase(authRepository),
+        getSessionUseCase = GetSessionDataUseCase(authRepository)
     )
 
 }

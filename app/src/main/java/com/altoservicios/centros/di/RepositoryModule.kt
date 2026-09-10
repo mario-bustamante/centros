@@ -1,6 +1,7 @@
 package com.altoservicios.centros.di
 
 
+import com.altoservicios.centros.data.dataSource.local.AuthLocalDataSource
 import com.altoservicios.centros.data.dataSource.remote.AuthRemoteDataSource
 import com.altoservicios.centros.data.repository.AuthRepositoryImpl
 import com.altoservicios.centros.domain.repository.AuthRepository
@@ -14,6 +15,9 @@ import dagger.hilt.components.SingletonComponent
 object RepositoryModule {
 
     @Provides
-    fun provideAuthRepository(authRemoteDataSource: AuthRemoteDataSource): AuthRepository = AuthRepositoryImpl(authRemoteDataSource)
+    fun provideAuthRepository(
+        authRemoteDataSource: AuthRemoteDataSource,
+        authLocalDataSource: AuthLocalDataSource
+    ): AuthRepository = AuthRepositoryImpl(authRemoteDataSource, authLocalDataSource)
 
 }
