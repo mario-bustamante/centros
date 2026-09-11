@@ -21,6 +21,7 @@ fun Register(navController: NavHostController, vm: RegisterViewModel = hiltViewM
 
         is Resource.Success -> {
             LaunchedEffect(Unit) {
+                vm.saveSession(response.data)
                 navController.navigate(route = AuthScreen.Home.route)
             }
         }

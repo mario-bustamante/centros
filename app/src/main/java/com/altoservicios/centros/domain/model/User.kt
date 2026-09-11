@@ -9,6 +9,7 @@ data class User(
     @SerializedName("email") val email: String,
     @SerializedName("telefono") val phone: String,
     @SerializedName("password") val password: String,
+    @SerializedName("roles") val roles: ArrayList<Rol>? = null,
 ) {
     fun toJson(): String = Gson().toJson(this);
 

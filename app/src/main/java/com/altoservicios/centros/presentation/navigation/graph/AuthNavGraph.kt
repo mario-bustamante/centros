@@ -12,6 +12,7 @@ import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 import com.altoservicios.centros.presentation.screens.auth.login.LoginScreen
 import com.altoservicios.centros.presentation.screens.auth.register.RegisterScreen
 import com.altoservicios.centros.presentation.screens.home.HomeScreen
+import com.altoservicios.centros.presentation.screens.roles.RolesScreen
 
 fun NavGraphBuilder.AuthNavGraph(navController: NavHostController) {
     navigation(
@@ -28,6 +29,10 @@ fun NavGraphBuilder.AuthNavGraph(navController: NavHostController) {
 
         composable(route = AuthScreen.Home.route) {
             HomeScreen(navController)
+        }
+
+        composable(route = AuthScreen.Roles.route) {
+            RolesScreen(navController)
         }
     }
 }

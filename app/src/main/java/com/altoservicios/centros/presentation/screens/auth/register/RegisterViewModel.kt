@@ -47,6 +47,10 @@ class RegisterViewModel @Inject constructor(private val authUseCase: AuthUseCase
         state = state.copy(confirmPassword = confirmPassword)
     }
 
+    fun saveSession(authResponse: AuthResponse) = viewModelScope.launch {
+        authUseCase.saveSession(authResponse)
+    }
+
     fun register() = viewModelScope.launch {
         if(isValidForm()) {
             val user = User(
