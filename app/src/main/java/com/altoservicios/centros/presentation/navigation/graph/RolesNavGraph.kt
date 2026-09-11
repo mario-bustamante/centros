@@ -6,23 +6,29 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
+import com.altoservicios.centros.presentation.navigation.screen.RolesScreen
 import com.altoservicios.centros.presentation.screens.admin.home.AdminHomeScreen
 import com.altoservicios.centros.presentation.screens.auth.login.LoginScreen
 import com.altoservicios.centros.presentation.screens.auth.register.RegisterScreen
 import com.altoservicios.centros.presentation.screens.client.home.ClientHomeScreen
 import com.altoservicios.centros.presentation.screens.roles.RolesScreen
 
-fun NavGraphBuilder.AuthNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.RolesNavGraph(navController: NavHostController) {
     navigation(
-        route = Graph.AUTH,
-        startDestination = AuthScreen.Login.route
+        route = Graph.ROLES,
+        startDestination = RolesScreen.Roles.route
     ) {
-        composable(route = AuthScreen.Login.route) {
-            LoginScreen(navController)
+
+        composable(route = RolesScreen.Roles.route) {
+            RolesScreen(navController)
         }
 
-        composable(route = AuthScreen.Register.route) {
-            RegisterScreen(navController)
+        composable(route = Graph.ADMIN) {
+            AdminHomeScreen()
+        }
+
+        composable(route = Graph.CLIENT) {
+            ClientHomeScreen()
         }
     }
 }

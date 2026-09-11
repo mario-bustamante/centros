@@ -9,7 +9,9 @@ import androidx.navigation.NavHostController
 import com.altoservicios.centros.R
 import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.presentation.components.ProgressBar
+import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
+import com.altoservicios.centros.presentation.navigation.screen.RolesScreen
 import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
 
 
@@ -24,12 +26,12 @@ fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()
             LaunchedEffect(Unit) {
                 vm.saveSession(response.data)
                 if(response.data.user?.roles?.size!! > 1) { // mas de un rol
-                    navController.navigate(route = AuthScreen.Roles.route) {
-                        popUpTo(AuthScreen.Login.route) { inclusive = true }
+                    navController.navigate(route = Graph.ROLES) {
+                        popUpTo(Graph.AUTH) { inclusive = true }
                     }
                 } else { // un rol
-                    navController.navigate(route = AuthScreen.Home.route) {
-                        popUpTo(AuthScreen.Login.route) { inclusive = true }
+                    navController.navigate(route = Graph.CLIENT) {
+                        popUpTo(Graph.AUTH) { inclusive = true }
                     }
                 }
             }

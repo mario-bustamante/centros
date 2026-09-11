@@ -7,6 +7,7 @@ import com.altoservicios.centros.domain.repository.AuthRepository
 import com.altoservicios.centros.domain.useCase.auth.AuthUseCase
 import com.altoservicios.centros.domain.useCase.auth.GetSessionDataUseCase
 import com.altoservicios.centros.domain.useCase.auth.LoginUseCase
+import com.altoservicios.centros.domain.useCase.auth.LogoutUseCase
 import com.altoservicios.centros.domain.useCase.auth.RegisterUseCase
 import com.altoservicios.centros.domain.useCase.auth.SaveSessionUseCase
 import dagger.Module
@@ -23,7 +24,7 @@ object UseCaseModule {
         login = LoginUseCase(authRepository),
         register = RegisterUseCase(authRepository),
         saveSession = SaveSessionUseCase(authRepository),
-        getSessionUseCase = GetSessionDataUseCase(authRepository)
+        getSessionUseCase = GetSessionDataUseCase(authRepository),
+        logout = LogoutUseCase(authRepository)
     )
-
 }

@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import com.altoservicios.centros.R
 import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.presentation.components.ProgressBar
+import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 import com.altoservicios.centros.presentation.screens.auth.register.RegisterViewModel
 
@@ -22,7 +23,9 @@ fun Register(navController: NavHostController, vm: RegisterViewModel = hiltViewM
         is Resource.Success -> {
             LaunchedEffect(Unit) {
                 vm.saveSession(response.data)
-                navController.navigate(route = AuthScreen.Home.route)
+                navController.navigate(route = Graph.CLIENT) {
+                    popUpTo(Graph.AUTH) { inclusive = true }
+                }
             }
         }
 

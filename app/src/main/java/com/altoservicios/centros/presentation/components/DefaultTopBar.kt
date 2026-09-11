@@ -21,25 +21,25 @@ fun DefaultTopBar(
     navController: NavHostController? = null
 ) {
     TopAppBar(
-            title = {
-                Text(
-                    text = "Registro",
-                    fontSize = 19.sp
-                )
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.White.copy(alpha = 0.7f)
-            ),
-            navigationIcon = {
-                if(upAvailable) {
-                    IconButton(onClick = { navController?.popBackStack() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.Black
-                        )
-                    }
+        title = {
+            Text(
+                text = title,
+                fontSize = 19.sp
+            )
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.White.copy(alpha = 0.7f)
+        ),
+        navigationIcon = {
+            if(upAvailable) {
+                IconButton(onClick = { navController?.popBackStack() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = null,
+                        tint = Color.Black
+                    )
                 }
             }
-        )
+        }
+    )
 }
