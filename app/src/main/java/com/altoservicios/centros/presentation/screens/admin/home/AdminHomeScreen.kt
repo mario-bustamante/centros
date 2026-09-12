@@ -6,13 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.altoservicios.centros.presentation.navigation.graph.AdminNavGraph
-import com.altoservicios.centros.presentation.screens.client.home.components.ClientBottomBar
+import com.altoservicios.centros.presentation.screens.admin.home.components.AdminBottomBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AdminHomeScreen(navController: NavHostController = rememberNavController()) {
     Scaffold(
-        bottomBar = { ClientBottomBar(navController = navController) }
+        bottomBar = { AdminBottomBar(navController = navController) }
     ) { paddingValues ->
         AdminNavGraph(navController = navController)
     }

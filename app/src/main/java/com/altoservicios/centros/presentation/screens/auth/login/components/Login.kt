@@ -1,5 +1,6 @@
 package com.altoservicios.centros.presentation.screens.auth.login.components
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,6 +14,7 @@ import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 import com.altoservicios.centros.presentation.navigation.screen.RolesScreen
 import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
+import androidx.compose.ui.res.stringResource
 
 
 @Composable
@@ -25,11 +27,13 @@ fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()
         is Resource.Success -> {
             LaunchedEffect(Unit) {
                 vm.saveSession(response.data)
-                if(response.data.user?.roles?.size!! > 1) { // mas de un rol
+                Log.d("LoginUsuario", "LoginUsuario: ${response.data}")
+                val roles = response.data.user?.roles.orEmpty()
+                if (roles.size > 1) {
                     navController.navigate(route = Graph.ROLES) {
                         popUpTo(Graph.AUTH) { inclusive = true }
                     }
-                } else { // un rol
+                } else {
                     navController.navigate(route = Graph.CLIENT) {
                         popUpTo(Graph.AUTH) { inclusive = true }
                     }
@@ -43,7 +47,7 @@ fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()
 
         else -> {
             if(response != null) {
-                Toast.makeText(LocalContext.current,  LocalContext.current.getString(R.string.msg_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(LocalContext.current,  stringResource(R.string.msg_error), Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -9,7 +9,7 @@ plugins {
 android {
     namespace = "com.altoservicios.centros"
     compileSdk {
-        version = release(36) {
+        version = release(37) {
             minorApiLevel = 1
         }
     }
@@ -40,6 +40,10 @@ android {
     buildFeatures {
         compose = true
     }
+}
+
+configurations.configureEach {
+    resolutionStrategy.force("org.jetbrains.kotlin:kotlin-stdlib:2.2.10")
 }
 
 dependencies {
