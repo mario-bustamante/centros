@@ -8,7 +8,7 @@ import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.AdminScreen
 import com.altoservicios.centros.presentation.screens.admin.category.list.AdminCategoryListScreen
 import com.altoservicios.centros.presentation.screens.admin.product.list.AdminProductListScreen
-import com.altoservicios.centros.presentation.screens.profile.ProfileScreen
+import com.altoservicios.centros.presentation.screens.profile.info.ProfileScreen
 
 @Composable
 fun AdminNavGraph(navController: NavHostController) {

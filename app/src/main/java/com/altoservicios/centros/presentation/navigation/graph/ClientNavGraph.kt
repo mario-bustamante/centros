@@ -9,7 +9,7 @@ import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
 import com.altoservicios.centros.presentation.screens.client.category.list.ClientCategoryListScreen
 import com.altoservicios.centros.presentation.screens.client.product.list.ClientProductListScreen
-import com.altoservicios.centros.presentation.screens.profile.ProfileScreen
+import com.altoservicios.centros.presentation.screens.profile.info.ProfileScreen
 
 @Composable
 fun ClientNavGraph(navController: NavHostController) {

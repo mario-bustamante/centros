@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.play.services.auth)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -67,6 +68,7 @@ dependencies {
     // dagger hilt - inyeccion de dependencias
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.material3)
     ksp(libs.hilt.android.compiler)
 
     // Retrofit core library

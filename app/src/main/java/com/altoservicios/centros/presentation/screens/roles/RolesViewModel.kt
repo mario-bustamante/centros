@@ -23,7 +23,7 @@ class RolesViewModel @Inject constructor(private val authUseCase: AuthUseCase): 
     }
 
     fun getSessionData() = viewModelScope.launch {
-        authUseCase.getSessionUseCase().collect() { data ->
+        authUseCase.getSession().collect() { data ->
             if(!data.token.isNullOrBlank()) {
                 authResponse = data
             }

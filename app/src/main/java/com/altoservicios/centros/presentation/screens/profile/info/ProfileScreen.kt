@@ -1,8 +1,8 @@
-package com.altoservicios.centros.presentation.screens.profile
+package com.altoservicios.centros.presentation.screens.profile.info
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import com.altoservicios.centros.presentation.screens.profile.components.ProfileContent
+import com.altoservicios.centros.presentation.screens.profile.info.components.ProfileContent
 
 @Composable
 fun ProfileScreen() {

@@ -10,6 +10,7 @@ data class User(
     @SerializedName("phone") val phone: String? = null,
     @SerializedName("password") val password: String? = null,
     @SerializedName("roles") val roles: List<Rol>? = null,
+    @SerializedName("image") val image:String? = null,
 ) {
     fun toJson(): String = Gson().toJson(this);
 
