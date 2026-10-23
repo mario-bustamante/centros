@@ -84,6 +84,10 @@ dependencies {
     // data store
     implementation(libs.androidx.datastore.preferences)
 
+    // google maps y ubicacion
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.location)
+
     // async image
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)

@@ -12,8 +12,8 @@ import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
 fun ClientBottomBar(navController: NavHostController) {
 
     val screens = listOf(
-        ClientScreen.ProductList,
-        ClientScreen.CategoryList,
+        ClientScreen.Residences,
+        ClientScreen.Map,
         ClientScreen.Profile,
     )
 

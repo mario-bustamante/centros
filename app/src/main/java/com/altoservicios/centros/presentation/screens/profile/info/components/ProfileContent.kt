@@ -48,14 +48,17 @@ import com.altoservicios.centros.presentation.screens.MainActivity
 import com.altoservicios.centros.presentation.screens.profile.info.ProfileViewModel
 
 @Composable
-fun ProfileContent(paddingValues: PaddingValues, vm: ProfileViewModel = hiltViewModel()) {
+fun ProfileContent(
+    paddingValues: PaddingValues,
+    onEditProfile: () -> Unit,
+    vm: ProfileViewModel = hiltViewModel()
+) {
 
     val activity = LocalActivity.current
 
     Box(
         modifier = Modifier
             .padding(paddingValues = paddingValues)
-            .padding(bottom = 55.dp)
             .fillMaxSize()
             .background(colorResource(R.color.colorBgSecondary))
     ) {
@@ -197,7 +200,7 @@ fun ProfileContent(paddingValues: PaddingValues, vm: ProfileViewModel = hiltView
                     DefaultButton(
                         modifier = Modifier.fillMaxWidth(),
                         text = "Actualizar Informacion",
-                        onClick = {}
+                        onClick = onEditProfile
                     )
                 }
             }
@@ -209,6 +212,6 @@ fun ProfileContent(paddingValues: PaddingValues, vm: ProfileViewModel = hiltView
 @Composable
 fun ProfileContentPreview() {
     Scaffold() { paddingValues ->
-        ProfileContent(paddingValues)
+        ProfileContent(paddingValues, onEditProfile = {})
     }
 }

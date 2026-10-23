@@ -1,6 +1,7 @@
 package com.altoservicios.centros.presentation.components
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -18,7 +19,8 @@ import androidx.navigation.NavHostController
 fun DefaultTopBar(
     title: String,
     upAvailable: Boolean = false,
-    navController: NavHostController? = null
+    navController: NavHostController? = null,
+    actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
         title = {
@@ -30,6 +32,7 @@ fun DefaultTopBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.White.copy(alpha = 0.7f)
         ),
+        actions = actions,
         navigationIcon = {
             if(upAvailable) {
                 IconButton(onClick = { navController?.popBackStack() }) {

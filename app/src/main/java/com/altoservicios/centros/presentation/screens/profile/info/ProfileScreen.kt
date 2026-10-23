@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import com.altoservicios.centros.presentation.screens.profile.info.components.ProfileContent
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(onEditProfile: () -> Unit) {
     Scaffold() { paddingValues ->
-        ProfileContent(paddingValues)
+        ProfileContent(paddingValues, onEditProfile)
     }
 }

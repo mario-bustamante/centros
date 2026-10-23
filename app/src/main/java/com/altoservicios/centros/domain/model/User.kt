@@ -11,6 +11,8 @@ data class User(
     @SerializedName("password") val password: String? = null,
     @SerializedName("roles") val roles: List<Rol>? = null,
     @SerializedName("image") val image:String? = null,
+    @SerializedName("nombres") val fullName: String? = null,
+    @SerializedName("address") val address: String? = null,
 ) {
     fun toJson(): String = Gson().toJson(this);
 

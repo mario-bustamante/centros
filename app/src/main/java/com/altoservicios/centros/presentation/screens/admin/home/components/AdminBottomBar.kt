@@ -12,8 +12,8 @@ import com.altoservicios.centros.presentation.navigation.screen.AdminScreen
 fun AdminBottomBar(navController: NavHostController) {
 
     val screens = listOf(
-        AdminScreen.ProductList,
-        AdminScreen.CategoryList,
+        AdminScreen.Residence,
+        AdminScreen.Photos,
         AdminScreen.Profile,
     )
 

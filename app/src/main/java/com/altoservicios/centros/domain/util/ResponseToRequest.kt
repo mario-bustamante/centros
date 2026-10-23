@@ -7,6 +7,17 @@ import java.io.IOException
 
 object ResponseToRequest {
 
+    // Captura los errores de red lanzados al ejecutar la peticion
+    suspend fun <T> call(block: suspend () -> Response<T>): Resource<T> {
+        return try {
+            send(block())
+        } catch (e: IOException) {
+            Resource.Failure("Verifica la conexion a internet")
+        } catch (e: Exception) {
+            Resource.Failure(e.message ?: "Hubo un error")
+        }
+    }
+
     fun<T> send(result: Response<T>): Resource<T> {
         try {
 
