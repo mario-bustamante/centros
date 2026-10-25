@@ -6,15 +6,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.altoservicios.centros.presentation.navigation.Graph
-import com.altoservicios.centros.presentation.screens.client.home.ClientHomeScreen
+import com.altoservicios.centros.presentation.screens.home.HomeScreen
 
 @Composable
 fun RootNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         route = Graph.ROOT,
-        startDestination = Graph.AUTH
+        startDestination = Graph.HOME
     ) {
+        composable(route = Graph.HOME) {
+            HomeScreen(rootNavController = navController)
+        }
         AuthNavGraph(navController = navController)
         RolesNavGraph(navController = navController)
     }

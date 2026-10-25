@@ -31,6 +31,7 @@ sealed class ClientScreen(
         title = "Perfil",
         icon = Icons.Default.Person
     )
+
 }
 
 /** Pantallas del cliente que no aparecen en la barra inferior. */

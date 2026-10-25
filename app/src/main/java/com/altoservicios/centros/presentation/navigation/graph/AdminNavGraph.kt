@@ -46,7 +46,7 @@ fun AdminNavGraph(navController: NavHostController, modifier: Modifier = Modifie
         }
 
         composable(route = AdminScreen.Profile.route) {
-            ProfileScreen(onEditProfile = { navController.navigate(AdminRoute.PROFILE_UPDATE) })
+            ProfileScreen(navController = navController, onEditProfile = { navController.navigate(AdminRoute.PROFILE_UPDATE) })
         }
 
         composable(route = AdminRoute.PROFILE_UPDATE) {

@@ -30,8 +30,8 @@ import com.altoservicios.centros.presentation.components.DefaultTopBar
 import com.altoservicios.centros.presentation.components.dial
 import com.altoservicios.centros.presentation.components.imageUrl
 import com.altoservicios.centros.presentation.components.openWhatsApp
+import com.altoservicios.centros.presentation.components.priceLabel
 import com.altoservicios.centros.presentation.navigation.screen.ClientRoute
-import com.altoservicios.centros.presentation.screens.client.residences.list.components.priceLabel
 
 @Composable
 fun ClientResidenceDetailScreen(navController: NavHostController, residence: Residence) {

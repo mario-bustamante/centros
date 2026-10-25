@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.altoservicios.centros.domain.model.Residence
 import com.altoservicios.centros.presentation.components.imageUrl
+import com.altoservicios.centros.presentation.components.priceLabel
 
 @Composable
 fun ResidenceItem(residence: Residence, onClick: () -> Unit) {
@@ -65,6 +66,3 @@ fun ResidenceItem(residence: Residence, onClick: () -> Unit) {
         }
     }
 }
-
-fun priceLabel(price: String?): String =
-    if (!price.isNullOrEmpty() && price != "0") "Precios desde: $price €" else "Precios: No disponibles"

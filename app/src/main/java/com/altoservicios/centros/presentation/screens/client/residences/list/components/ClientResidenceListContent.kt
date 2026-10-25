@@ -25,19 +25,23 @@ import com.altoservicios.centros.presentation.screens.client.residences.ClientRe
 @Composable
 fun ClientResidenceListContent(
     paddingValues: PaddingValues,
-    vm: ClientResidencesViewModel,
+    residences: List<Residence>,
+    isLoading: Boolean,
+    errorMessage: String,
+    onErrorConsumed: () -> Unit,
+    onLoadNextPage: () -> Unit,
     onResidenceClick: (Residence) -> Unit
 ) {
     val listState = rememberLazyListState()
 
-    MessageEffect(message = vm.errorMessage, onConsumed = { vm.errorMessage = "" })
+    MessageEffect(message = errorMessage, onConsumed = onErrorConsumed)
 
     // Carga la siguiente pagina al llegar a los ultimos elementos
-    LaunchedEffect(listState, vm.residences.size) {
+    LaunchedEffect(listState, residences.size) {
         snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
             .collect { lastVisible ->
-                if (lastVisible != null && lastVisible >= vm.residences.size - 3) {
-                    vm.loadNextPage()
+                if (lastVisible != null && lastVisible >= residences.size - 3) {
+                    onLoadNextPage()
                 }
             }
     }
@@ -53,14 +57,14 @@ fun ClientResidenceListContent(
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {
-            items(items = vm.residences, key = { it.id }) { residence ->
+            items(items = residences, key = { it.id }) { residence ->
                 ResidenceItem(residence = residence, onClick = { onResidenceClick(residence) })
             }
         }
 
-        if (vm.isLoading) {
+        if (isLoading) {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.BottomCenter).padding(16.dp))
-        } else if (vm.residences.isEmpty()) {
+        } else if (residences.isEmpty()) {
             Text(modifier = Modifier.align(Alignment.Center), text = "No se encontraron residencias")
         }
     }

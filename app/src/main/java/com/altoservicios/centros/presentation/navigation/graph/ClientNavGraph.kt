@@ -42,7 +42,7 @@ fun ClientNavGraph(navController: NavHostController, modifier: Modifier = Modifi
         }
 
         composable(route = ClientScreen.Profile.route) {
-            ProfileScreen(onEditProfile = { navController.navigate(ClientRoute.PROFILE_UPDATE) })
+            ProfileScreen(navController = navController, onEditProfile = { navController.navigate(ClientRoute.PROFILE_UPDATE) })
         }
 
         composable(route = ClientRoute.PROFILE_UPDATE) {

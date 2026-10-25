@@ -28,7 +28,14 @@ fun NavGraphBuilder.RolesNavGraph(navController: NavHostController) {
         }
 
         composable(route = Graph.CLIENT) {
-            ClientHomeScreen()
+            ClientHomeScreen(
+                onLogout = {
+                    navController.navigate(Graph.AUTH) {
+                        popUpTo(Graph.ROOT) { inclusive = false }
+                        launchSingleTop = true
+                    }
+                }
+            )
         }
     }
 }
