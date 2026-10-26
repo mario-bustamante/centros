@@ -1,8 +1,10 @@
-package com.altoservicios.centros.presentation.screens.auth.register.components
+package com.altoservicios.centros.presentation.screens.home.auth.login.components
 
-import android.widget.Toast
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -14,23 +16,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -41,6 +41,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.content.res.Configuration
+import android.widget.Toast
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -48,17 +52,27 @@ import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
 import com.altoservicios.centros.presentation.components.DefaultTextField
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
-import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
-import com.altoservicios.centros.presentation.screens.auth.register.RegisterViewModel
+import com.altoservicios.centros.presentation.screens.home.auth.login.LoginViewModel
 
+@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
-fun RegisterContent(
+fun LoginContent(
     navController: NavHostController,
     paddingValues: PaddingValues,
-    vm: RegisterViewModel = hiltViewModel()
+    vm: LoginViewModel = hiltViewModel()
 ) {
+
     val state = vm.state
     val context = LocalContext.current
+
+    val configuration = LocalConfiguration.current
+    val orientation = configuration.orientation
+    val logoResource = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        R.drawable.ic_logo_h
+    } else {
+        R.drawable.ic_logo_v
+    }
+    val logoIsVertical = logoResource == R.drawable.ic_logo_h
 
     LaunchedEffect(key1 = vm.errorMessage) {
         if(vm.errorMessage != "") {
@@ -67,32 +81,34 @@ fun RegisterContent(
         }
     }
 
-    Box(modifier = Modifier
-        .background(color = colorResource(id = R.color.colorBgSecondary))
-        .fillMaxSize()
-        .padding(paddingValues)
+    Box(
+        modifier = Modifier.padding(paddingValues)
     ) {
-
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .background(color = colorResource(id = R.color.colorBgSecondary))
+                .fillMaxSize()
+                .padding(20.dp, 20.dp, 20.dp, 5.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = 20.dp),
-                painter = painterResource(id = R.drawable.ic_logo_h),
-                contentDescription = "Image",
-                contentScale = ContentScale.Crop
-            )
+            if (!logoIsVertical) {
+                Image(
+                    modifier = Modifier
+                        .height((configuration.screenHeightDp * 0.25f).dp)
+                        .padding(all = 20.dp),
+                    painter = painterResource(id = logoResource),
+                    contentDescription = "Image",
+                    contentScale = ContentScale.Crop
+                )
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(500.dp),
+                    .height(420.dp),
                 shape = RoundedCornerShape(
                     topEnd = 30.dp,
                     topStart = 30.dp,
@@ -103,23 +119,36 @@ fun RegisterContent(
             ) {
                 Column(
                     modifier = Modifier
-                        .padding(top = 20.dp, start = 20.dp, end = 20.dp)
+                        .padding(top = 20.dp, start = 20.dp, end = 20.dp, bottom = 0.dp)
+                        .verticalScroll(rememberScrollState())
                 ) {
                     Text(
                         modifier = Modifier.padding(bottom = 20.dp),
-                        text = "Registrarse",
+                        text = "Ingresar",
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
                     )
 
-                    DefaultTextField(
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
-                        value = state.name,
-                        onValueChange = { text ->
-                           vm.onNameInput(text)
-                        },
-                        label = "Nombre",
-                        icon = Icons.Default.Person
+
+                    Button(
+                        { /*onGoogleLogin()*/ },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = dimensionResource(id = R.dimen.btn_margin),
+                                end = dimensionResource(id = R.dimen.btn_margin)
+                            )
+                    ) {
+                        Text(text = stringResource(id = R.string.btn_google_login))
+                    }
+
+
+                    Text(
+                        text = stringResource(id = R.string.lbl_option_login),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 20.dp),
+                        textAlign = TextAlign.Center
                     )
 
                     DefaultTextField(
@@ -134,17 +163,6 @@ fun RegisterContent(
                     )
 
                     DefaultTextField(
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
-                        value = state.phone,
-                        onValueChange = { text ->
-                            vm.onPhoneInput(text)
-                        },
-                        label = "Teléfono",
-                        icon = Icons.Default.Phone,
-                        keyboardType = KeyboardType.Number,
-                    )
-
-                    DefaultTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = state.password,
                         onValueChange = { text ->
@@ -156,44 +174,57 @@ fun RegisterContent(
                         hideText = true
                     )
 
-                    DefaultTextField(
-                        modifier = Modifier.fillMaxWidth(),
-                        value = state.confirmPassword,
-                        onValueChange = { text ->
-                            vm.onConfirmPasswordInput(text)
-                        },
-                        label = "Confirmar Password",
-                        icon = Icons.Default.Lock,
-                        keyboardType = KeyboardType.Password,
-                        hideText = true
-                    )
-
                     DefaultButton(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(60.dp)
                             .padding(top = 20.dp),
                         onClick = {
-                            onRegister(vm)
+                            onLogin(vm)
                         },
-                        text = "Confirmar"
+                        text = stringResource(id = R.string.btn_login)
                     )
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 10.dp),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(end = 10.dp),
+                            text = stringResource(id = R.string.lbl_register)
+                        )
+
+                        Text(
+                            text = "Registrate",
+                            modifier = Modifier
+                                .clickable { onRegister(navController) },
+                            color = Color.Blue,
+                        )
+                    }
                 }
             }
-
         }
-
     }
 }
 
-private fun onRegister(vm: RegisterViewModel) {
-    vm.register()
+private fun onRegister(navController: NavHostController) {
+    navController.navigate(route = AuthScreen.Register.route)
+}
+
+private fun signInGoogle() {
+
+}
+
+private fun onLogin(vm: LoginViewModel) {
+    vm.login()
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview() {
     Scaffold() { paddingValues ->
-        RegisterContent(rememberNavController(), paddingValues)
+        LoginContent(rememberNavController(), paddingValues)
     }
 }

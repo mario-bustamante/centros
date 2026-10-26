@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.auth.register
+package com.altoservicios.centros.presentation.screens.home.auth.register
 
 data class RegisterState(
     val name: String = "",

@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.auth.register
+package com.altoservicios.centros.presentation.screens.home.auth.register
 
 import android.util.Patterns
 import androidx.compose.runtime.getValue
@@ -11,7 +11,6 @@ import com.altoservicios.centros.domain.model.User
 import com.altoservicios.centros.domain.useCase.auth.AuthUseCase
 import com.altoservicios.centros.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

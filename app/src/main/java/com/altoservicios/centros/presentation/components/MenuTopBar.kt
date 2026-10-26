@@ -42,7 +42,7 @@ import kotlinx.coroutines.launch
 fun MenuTopBar(
     title: String,
     drawerState: DrawerState,
-    screens: List<ClientScreen>,
+    screens: List<ClientScreen, >,
     navController: NavHostController,
     actions: @Composable RowScope.() -> Unit = {},
     onLogout: (() -> Unit)? = null,

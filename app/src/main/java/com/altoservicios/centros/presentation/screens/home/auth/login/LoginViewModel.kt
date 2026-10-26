@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.auth.login
+package com.altoservicios.centros.presentation.screens.home.auth.login
 
 import android.util.Log
 import android.util.Patterns
