@@ -21,7 +21,10 @@ import com.altoservicios.centros.presentation.screens.home.map.HomeResidencesMap
 import com.altoservicios.centros.presentation.screens.home.search.HomeResidenceSearchScreen
 
 @Composable
-fun HomeNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
+fun HomeNavGraph(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
     // Compartido por listado, buscador y mapa para mantener los mismos filtros
     val residencesViewModel: HomeResidencesViewModel = hiltViewModel()
     val residenceArgs = listOf(navArgument("residence") { type = NavType.StringType })

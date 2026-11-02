@@ -33,34 +33,24 @@ fun HomeResidenceListScreen(navController: NavHostController, vm: HomeResidences
 
     val profileViewModel: ProfileViewModel = hiltViewModel()
 
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-
-    val screens = listOf(
-        HomeScreen.Residences,
-        HomeScreen.Contact,
-        HomeScreen.Auth
-    )
-
     MenuHomeTopBar(
         title = "Residencias",
-        drawerState = drawerState,
-        screens = screens,
         navController = navController,
         actions = {},
         onLogout = null,
         content = { paddingValues ->
 
             Scaffold(
-                topBar = {
+              /*  topBar = {
                     DefaultTopBar(
                         title = "Residencias",
-                        /*  actions = {
+                          actions = {
                               IconButton(onClick = { navController.navigate(HomeRoute.SEARCH) }) {
                                   Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
                               }
-                          }*/
+                          }
                     )
-                },
+                },*/
                 floatingActionButton = {
                     FloatingActionButton(
                         onClick = {
@@ -81,15 +71,6 @@ fun HomeResidenceListScreen(navController: NavHostController, vm: HomeResidences
                     onResidenceClick = { navController.navigate(HomeRoute.detail(it)) }
                 )
             }
-
-
-
         }
     )
-
-
-
-
-
-
 }

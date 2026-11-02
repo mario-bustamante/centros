@@ -1,12 +1,18 @@
 package com.altoservicios.centros.presentation.components
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerState
@@ -26,14 +32,17 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
 import com.altoservicios.centros.presentation.navigation.screen.HomeScreen
 import kotlinx.coroutines.launch
@@ -42,17 +51,62 @@ import kotlinx.coroutines.launch
 @Composable
 fun MenuHomeTopBar(
     title: String,
-    drawerState: DrawerState,
-    screens: List<HomeScreen>,
     navController: NavHostController,
     actions: @Composable RowScope.() -> Unit = {},
     onLogout: (() -> Unit)? = null,
+    bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
     val scope = rememberCoroutineScope()
     val navBackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackEntry?.destination
 
+
+    Scaffold(
+        bottomBar = bottomBar,
+        topBar = {
+            TopAppBar(
+                title = {
+                  /*  Column(
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_logo_h), // Cambia por tu R.drawable.tu_imagen
+                            contentDescription = "Logo de la app",
+                            //
+                            modifier = Modifier.fillMaxWidth().padding(10.dp)
+                        )
+                    }*/
+                },
+
+                navigationIcon = {
+                    Column(
+                        modifier = Modifier.padding(start = 10.dp, end = 8.dp)
+                    ) {
+
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_logo_h), // Cambia por tu R.drawable.tu_imagen
+                            contentDescription = "Logo",
+                            modifier = Modifier
+
+                                //.padding(start = 12.dp, end = 8.dp) // Ajusta el espaciado con el borde y el texto
+                                // .fillMaxSize()
+                                //.padding(20.dp)
+                            .size(150.dp)
+                        )
+
+                    }
+
+                }
+            )
+        }
+    ) { paddingValues ->
+        content(paddingValues)
+    }
+
+
+
+    /*
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -135,4 +189,5 @@ fun MenuHomeTopBar(
             content(paddingValues)
         }
     }
+    */
 }

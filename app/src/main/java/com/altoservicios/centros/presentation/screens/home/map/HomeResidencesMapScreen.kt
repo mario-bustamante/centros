@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -31,7 +32,7 @@ import androidx.navigation.NavHostController
 import com.altoservicios.centros.R
 import com.altoservicios.centros.domain.model.Residence
 import com.altoservicios.centros.presentation.components.DefaultButton
-import com.altoservicios.centros.presentation.components.DefaultTopBar
+import com.altoservicios.centros.presentation.components.MenuHomeTopBar
 import com.altoservicios.centros.presentation.components.MessageEffect
 import com.altoservicios.centros.presentation.components.dial
 import com.altoservicios.centros.presentation.components.distanceLabel
@@ -89,17 +90,9 @@ fun HomeResidencesMapScreen(navController: NavHostController, vm: HomeResidences
         cameraState.animate(CameraUpdateFactory.newLatLngZoom(center, DEFAULT_ZOOM))
     }
 
-    Scaffold(
-        topBar = {
-            DefaultTopBar(
-                title = "Residencias en Mapa",
-                actions = {
-                    IconButton(onClick = { navController.navigate(HomeRoute.SEARCH) }) {
-                        Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
-                    }
-                }
-            )
-        }
+    MenuHomeTopBar(
+        title = "Residencias en Mapa",
+        navController = navController
     ) { paddingValues ->
         Box(modifier = Modifier
             .padding(paddingValues)
@@ -137,6 +130,13 @@ fun HomeResidencesMapScreen(navController: NavHostController, vm: HomeResidences
 
             if (vm.isLoadingMap) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.TopCenter).padding(16.dp))
+            }
+
+            FloatingActionButton(
+                onClick = { navController.navigate(HomeRoute.SEARCH) },
+                modifier = Modifier.align(Alignment.TopEnd).padding(16.dp)
+            ) {
+                Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
             }
 
             selected?.let { residence ->
