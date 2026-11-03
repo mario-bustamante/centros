@@ -57,8 +57,8 @@ class GetMyResidenceUseCase(private val repository: ResidencesRepository) {
 }
 
 class UpdateMyResidenceUseCase(private val repository: ResidencesRepository) {
-    suspend operator fun invoke(residence: Residence, dependence: String, sector: String, room: String) =
-        repository.updateMyResidence(residence, dependence, sector, room)
+    suspend operator fun invoke(residence: Residence, room: String) =
+        repository.updateMyResidence(residence, room)
 }
 
 class GetMyRoomsUseCase(private val repository: ResidencesRepository) {

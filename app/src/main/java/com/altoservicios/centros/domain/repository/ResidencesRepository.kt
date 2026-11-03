@@ -17,8 +17,6 @@ interface ResidencesRepository {
 
     suspend fun updateMyResidence(
         residence: Residence,
-        dependence: String,
-        sector: String,
         room: String
     ): Resource<Residence>
 

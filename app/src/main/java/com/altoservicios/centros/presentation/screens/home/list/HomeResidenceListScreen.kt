@@ -29,28 +29,17 @@ import com.altoservicios.centros.presentation.screens.profile.info.ProfileViewMo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeResidenceListScreen(navController: NavHostController, vm: HomeResidencesViewModel) {
-
-    val profileViewModel: ProfileViewModel = hiltViewModel()
-
+fun HomeResidenceListScreen(
+    navController: NavHostController,
+    vm: HomeResidencesViewModel
+) {
     MenuHomeTopBar(
         title = "Residencias",
         navController = navController,
         actions = {},
         onLogout = null,
         content = { paddingValues ->
-
             Scaffold(
-              /*  topBar = {
-                    DefaultTopBar(
-                        title = "Residencias",
-                          actions = {
-                              IconButton(onClick = { navController.navigate(HomeRoute.SEARCH) }) {
-                                  Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
-                              }
-                          }
-                    )
-                },*/
                 floatingActionButton = {
                     FloatingActionButton(
                         onClick = {

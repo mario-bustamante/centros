@@ -29,8 +29,8 @@ fun RolesItem(rol: Rol, navController: NavHostController) {
         Spacer(modifier = Modifier.height(25.dp))
         AsyncImage(
             modifier = Modifier
-                .height(150.dp)
-                .width(150.dp),
+                .height(100.dp)
+                .width(100.dp),
 
             model = rol.image,
             contentDescription = null,

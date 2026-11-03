@@ -9,10 +9,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.altoservicios.centros.domain.model.Residence
 
 sealed class ClientScreen(
-    var route: String,
-    val title: String,
-    val icon: ImageVector
-) {
+    override var route: String,
+    override val title: String,
+    override val icon: ImageVector
+) : MenuScreen {
 
     object Residences: ClientScreen(
         route = "client/residences",

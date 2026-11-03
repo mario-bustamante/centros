@@ -1,88 +1,79 @@
 package com.altoservicios.centros.presentation.screens.home.contact.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
-import com.altoservicios.centros.presentation.components.dial
-import com.altoservicios.centros.presentation.components.openWhatsApp
-
-// TODO: sustituir por el telefono real de contacto
-private const val CONTACT_PHONE = "000000000"
+import com.altoservicios.centros.presentation.screens.home.contact.ContactStep
+import com.altoservicios.centros.presentation.screens.home.contact.HomeContactViewModel
 
 @Composable
 fun HomeContactContent(
     paddingValues: PaddingValues,
+    vm: HomeContactViewModel
 ) {
-    val context = LocalContext.current
-
-
-
-    Box(
+    Column(
         modifier = Modifier
-            .padding(
-                top = paddingValues.calculateTopPadding(),
-                start = paddingValues.calculateStartPadding(LocalLayoutDirection.current),
-                end = paddingValues.calculateEndPadding(LocalLayoutDirection.current),
-                bottom = 0.dp
-            )
-            .fillMaxSize()
             .background(colorResource(R.color.colorBgSecondary))
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            /*  Column(
-        modifier = Modifier
             .padding(paddingValues)
             .fillMaxSize()
-            .padding(20.dp)
-    ) {*/
-            Text(
-                text = "¿Necesitas ayuda para encontrar una residencia?",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+
+        when (vm.step) {
+            ContactStep.DATA -> ContactDataStep(
+                contacto = vm.contacto,
+                valores = vm.valores,
+                onChange = { vm.contacto = it },
+                errorMessage = vm.errorMessage,
+                onBack = { },
+                onContinue = vm::onDataContinue
             )
-            Text(
-                modifier = Modifier.padding(top = 8.dp, bottom = 24.dp),
-                text = "Ponte en contacto con nosotros y te asesoraremos.",
-                fontSize = 16.sp
-            )
-            DefaultButton(
-                modifier = Modifier.fillMaxWidth(),
-                text = "Llamar",
-                onClick = { context.dial(CONTACT_PHONE) }
-            )
-            DefaultButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 12.dp),
-                text = "WhatsApp",
-                color = Color(0xFF25D366),
-                onClick = { context.openWhatsApp(CONTACT_PHONE) }
-            )
+
+            ContactStep.OWN_PERSON -> {
+                ContactDataPersonFields(vm.personas[0], vm.valores) { vm.personas[0] = it }
+                ContactErrorText(vm.errorMessage)
+                ContactNavButtons(
+                    onBack = { vm.goTo(ContactStep.DATA) },
+                    nextText = "Enviar",
+                    onNext = vm::send
+                )
+            }
+
+            ContactStep.OTHER_PERSONS -> {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    vm.personas.indices.forEach { index ->
+                        if (vm.person == index) {
+                            DefaultButton(modifier = Modifier, text = "Persona ${index + 1}", onClick = { vm.person = index })
+                        } else {
+                            OutlinedButton(onClick = { vm.person = index }) { Text(text = "Persona ${index + 1}") }
+                        }
+                    }
+                }
+                ContactDataPersonFields(vm.personas[vm.person], vm.valores) { vm.personas[vm.person] = it }
+                ContactErrorText(vm.errorMessage)
+                ContactNavButtons(
+                    onBack = { vm.goTo(ContactStep.DATA) },
+                    nextText = "Enviar",
+                    onNext = vm::send
+                )
+            }
         }
     }
 }

@@ -25,13 +25,9 @@ class ResidencesRepositoryImpl(
 
     override suspend fun updateMyResidence(
         residence: Residence,
-        dependence: String,
-        sector: String,
         room: String
     ): Resource<Residence> {
         val params = mutableMapOf(
-            "dependence" to dependence,
-            "sector" to sector,
             "room" to room,
         )
         residence.name?.let { params["name"] = it }

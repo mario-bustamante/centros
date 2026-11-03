@@ -4,6 +4,9 @@ package com.altoservicios.centros.di
 import com.altoservicios.centros.data.dataSource.local.AuthLocalDataSource
 import com.altoservicios.centros.data.dataSource.remote.AuthRemoteDataSource
 import com.altoservicios.centros.data.repository.AuthRepositoryImpl
+import com.altoservicios.centros.data.dataSource.remote.service.ContactService
+import com.altoservicios.centros.data.repository.ContactRepositoryImpl
+import com.altoservicios.centros.domain.repository.ContactRepository
 import com.altoservicios.centros.data.dataSource.remote.service.PhotoService
 import com.altoservicios.centros.data.dataSource.remote.service.ResidenceService
 import com.altoservicios.centros.data.dataSource.remote.service.UserService
@@ -31,6 +34,9 @@ object RepositoryModule {
 
     @Provides
     fun provideResidencesRepository(service: ResidenceService): ResidencesRepository = ResidencesRepositoryImpl(service)
+
+    @Provides
+    fun provideContactRepository(service: ContactService): ContactRepository = ContactRepositoryImpl(service)
 
     @Provides
     fun providePhotoRepository(service: PhotoService): PhotoRepository = PhotoRepositoryImpl(service)

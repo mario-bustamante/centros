@@ -1,5 +1,6 @@
 package com.altoservicios.centros.presentation.screens.admin.residence
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -41,11 +42,12 @@ class AdminResidenceViewModel @Inject constructor(
 
     var selectedRooms by mutableStateOf<Set<Int>>(emptySet())
         private set
+    /*
     var selectedSectors by mutableStateOf<Set<Int>>(emptySet())
         private set
     var selectedDependencies by mutableStateOf<Set<Int>>(emptySet())
         private set
-
+    */
     init {
         load()
     }
@@ -56,8 +58,6 @@ class AdminResidenceViewModel @Inject constructor(
             val residenceResult = residencesUseCase.getMyResidence()
             val provincesResult = residencesUseCase.getProvinces()
             val roomsResult = residencesUseCase.getMyRooms()
-            val sectorsResult = residencesUseCase.getMySectors()
-            val dependenciesResult = residencesUseCase.getMyDependencies()
 
             if (residenceResult is Resource.Success) {
                 residence = residenceResult.data
@@ -68,16 +68,8 @@ class AdminResidenceViewModel @Inject constructor(
                 rooms = roomsResult.data
                 selectedRooms = rooms.filter { it.residenceId != null }.map { it.id }.toSet()
             }
-            if (sectorsResult is Resource.Success) {
-                sectors = sectorsResult.data
-                selectedSectors = sectors.filter { it.residenceId != null }.map { it.id }.toSet()
-            }
-            if (dependenciesResult is Resource.Success) {
-                dependencies = dependenciesResult.data
-                selectedDependencies = dependencies.filter { it.residenceId != null }.map { it.id }.toSet()
-            }
 
-            listOf(residenceResult, provincesResult, roomsResult, sectorsResult, dependenciesResult)
+            listOf(residenceResult, provincesResult, roomsResult)
                 .filterIsInstance<Resource.Failure<*>>()
                 .firstOrNull()
                 ?.let { message = it.message }
@@ -103,21 +95,11 @@ class AdminResidenceViewModel @Inject constructor(
         selectedRooms = selectedRooms.toggle(id)
     }
 
-    fun toggleSector(id: Int) {
-        selectedSectors = selectedSectors.toggle(id)
-    }
-
-    fun toggleDependence(id: Int) {
-        selectedDependencies = selectedDependencies.toggle(id)
-    }
-
     fun save(successMessage: String) {
         isLoading = true
         viewModelScope.launch {
             val result = residencesUseCase.updateMyResidence(
                 residence = residence,
-                dependence = selectedDependencies.toIdString(),
-                sector = selectedSectors.toIdString(),
                 room = selectedRooms.toIdString()
             )
             when (result) {
@@ -131,6 +113,28 @@ class AdminResidenceViewModel @Inject constructor(
             isLoading = false
         }
     }
+
+
+    fun saveRooms(successMessage: String) {
+        isLoading = true
+        viewModelScope.launch {
+            val result = residencesUseCase.updateMyResidence(
+                residence = residence,
+                room = selectedRooms.toIdString()
+            )
+            when (result) {
+                is Resource.Success -> {
+                    residence = result.data
+                    message = successMessage
+                }
+                is Resource.Failure -> message = result.message
+                Resource.Loading -> Unit
+            }
+            isLoading = false
+        }
+    }
+
+
 
     private fun loadTowns(idProvince: Int) {
         viewModelScope.launch {

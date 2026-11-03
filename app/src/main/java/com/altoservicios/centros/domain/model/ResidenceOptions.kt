@@ -20,6 +20,13 @@ data class Room(
     @SerializedName("id") val id: Int,
     @SerializedName("habitacion") val room: String? = null,
     @SerializedName("residencias_id") val residenceId: Int? = null,
+    @SerializedName("habitacion_dependencias_id") val roomResidenceId: Int? = null,
+    @SerializedName("trato_id") val formOfAddress: Int? = 0,
+    @SerializedName("descripcion") val description: String? = null,
+    @SerializedName("precio") val price: Int? = 0,
+    @SerializedName("disponible") val numAvailable: Int? = 0,
+    @SerializedName("bo_bagno") val bathroom: Int? = 0,
+    @SerializedName("updated_at") val updated_at: String? = null,
 )
 
 data class RoomResponse(@SerializedName("data") val data: List<Room>? = null)
@@ -27,7 +34,7 @@ data class RoomResponse(@SerializedName("data") val data: List<Room>? = null)
 data class Sector(
     @SerializedName("id") val id: Int,
     @SerializedName("plaza") val sector: String? = null,
-    @SerializedName("residencias_id") val residenceId: Int? = null,
+    @SerializedName("residence_id") val residenceId: Int? = null,
 )
 
 data class SectorResponse(@SerializedName("data") val data: List<Sector>? = null)
@@ -35,7 +42,7 @@ data class SectorResponse(@SerializedName("data") val data: List<Sector>? = null
 data class Dependence(
     @SerializedName("id") val id: Int,
     @SerializedName("dependencia") val dependence: String? = null,
-    @SerializedName("residencias_id") val residenceId: Int? = null,
+    @SerializedName("residence_id") val residenceId: Int? = null,
 )
 
 data class DependenceResponse(@SerializedName("data") val data: List<Dependence>? = null)

@@ -2,6 +2,9 @@ package com.altoservicios.centros.presentation.navigation.screen
 
 import android.net.Uri
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
@@ -9,10 +12,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import com.altoservicios.centros.domain.model.Photo
 
 sealed class AdminScreen(
-    var route: String,
-    val title: String,
-    val icon: ImageVector
-) {
+    override var route: String,
+    override val title: String,
+    override val icon: ImageVector
+) : MenuScreen {
 
     object Residence: AdminScreen(
         route = "admin/residence",
@@ -24,6 +27,12 @@ sealed class AdminScreen(
         route = "admin/photos",
         title = "Fotografías",
         icon = Icons.Default.Star
+    )
+
+    object Rooms: AdminScreen(
+        route = "admin/rooms",
+        title = "Habitaciones",
+        icon = Icons.AutoMirrored.Filled.List
     )
 
     object Profile: AdminScreen(

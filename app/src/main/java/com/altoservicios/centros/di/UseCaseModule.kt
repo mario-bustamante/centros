@@ -10,6 +10,9 @@ import com.altoservicios.centros.domain.useCase.auth.LoginUseCase
 import com.altoservicios.centros.domain.useCase.auth.LogoutUseCase
 import com.altoservicios.centros.domain.useCase.auth.RegisterUseCase
 import com.altoservicios.centros.domain.useCase.auth.SaveSessionUseCase
+import com.altoservicios.centros.domain.repository.ContactRepository
+import com.altoservicios.centros.domain.useCase.contact.ContactUseCase
+import com.altoservicios.centros.domain.useCase.contact.GetContactValuesUseCase
 import com.altoservicios.centros.domain.repository.PhotoRepository
 import com.altoservicios.centros.domain.repository.ResidencesRepository
 import com.altoservicios.centros.domain.repository.UserRepository
@@ -49,6 +52,11 @@ object UseCaseModule {
         getMyRooms = GetMyRoomsUseCase(repository),
         getMySectors = GetMySectorsUseCase(repository),
         getMyDependencies = GetMyDependenciesUseCase(repository)
+    )
+
+    @Provides
+    fun provideContactUseCase(repository: ContactRepository) = ContactUseCase(
+        getValues = GetContactValuesUseCase(repository)
     )
 
     @Provides

@@ -13,8 +13,8 @@ fun AdminBottomBar(navController: NavHostController) {
 
     val screens = listOf(
         AdminScreen.Residence,
+        AdminScreen.Rooms,
         AdminScreen.Photos,
-        AdminScreen.Profile,
     )
 
     val navBackEntry by navController.currentBackStackEntryAsState()

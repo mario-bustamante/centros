@@ -2,6 +2,7 @@ package com.altoservicios.centros.di
 
 import com.altoservicios.centros.core.Config
 import com.altoservicios.centros.data.dataSource.remote.service.AuthService
+import com.altoservicios.centros.data.dataSource.remote.service.ContactService
 import com.altoservicios.centros.data.dataSource.remote.service.PhotoService
 import com.altoservicios.centros.data.dataSource.remote.service.ResidenceService
 import com.altoservicios.centros.data.dataSource.remote.service.UserService
@@ -55,6 +56,12 @@ object NetworkModule {
     @Singleton
     fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideContactService(retrofit: Retrofit): ContactService {
+        return retrofit.create(ContactService::class.java)
     }
 
     @Provides
