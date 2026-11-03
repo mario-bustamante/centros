@@ -8,11 +8,11 @@ import com.altoservicios.centros.data.dataSource.remote.service.ResidenceService
 import com.altoservicios.centros.data.dataSource.remote.service.UserService
 import com.altoservicios.centros.data.datastore.AuthDataStore
 import com.altoservicios.centros.data.network.AuthInterceptor
-import okhttp3.OkHttpClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton

@@ -2,9 +2,7 @@ package com.altoservicios.centros.presentation.navigation.screen
 
 import android.net.Uri
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
@@ -17,22 +15,10 @@ sealed class AdminScreen(
     override val icon: ImageVector
 ) : MenuScreen {
 
-    object Residence: AdminScreen(
+    object Home: AdminScreen(
         route = "admin/residence",
-        title = "Mi Residencia",
+        title = "Dashboard",
         icon = Icons.Default.Home
-    )
-
-    object Photos: AdminScreen(
-        route = "admin/photos",
-        title = "Fotografías",
-        icon = Icons.Default.Star
-    )
-
-    object Rooms: AdminScreen(
-        route = "admin/rooms",
-        title = "Habitaciones",
-        icon = Icons.AutoMirrored.Filled.List
     )
 
     object Profile: AdminScreen(
@@ -42,12 +28,7 @@ sealed class AdminScreen(
     )
 }
 
-/** Pantallas de la residencia que no aparecen en la barra inferior. */
+/** Pantallas que no aparecen en la barra inferior. */
 object AdminRoute {
-    const val PHOTO = "admin/photo?photo={photo}"
-    const val PROFILE_UPDATE = "admin/profile/update"
-
-    // Sin fotografia se abre la pantalla para crear una nueva
-    fun photo(photo: Photo?) =
-        if (photo == null) "admin/photo" else "admin/photo?photo=${Uri.encode(photo.toJson())}"
+    const val PROFILE_UPDATE = "customer/profile/update"
 }

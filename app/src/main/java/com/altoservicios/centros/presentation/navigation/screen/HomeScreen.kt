@@ -2,10 +2,8 @@ package com.altoservicios.centros.presentation.navigation.screen
 
 import android.net.Uri
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.altoservicios.centros.domain.model.Residence
@@ -28,12 +26,6 @@ sealed class HomeScreen(
         icon = Icons.Default.Search
     )
 
-    object Map: HomeScreen(
-        route = "map",
-        title = "Mapa",
-        icon = Icons.Default.Place
-    )
-
     object Auth: HomeScreen(
         route = "login",
         title = "Login",
@@ -44,11 +36,9 @@ sealed class HomeScreen(
 
 /** Pantallas del home que no aparecen en la barra inferior. */
 object HomeRoute {
-    const val SEARCH = "client/search"
-    const val DETAIL = "client/residence/{residence}"
-    const val RESIDENCE_MAP = "client/residence/map/{residence}"
+    const val SEARCH = "home/search"
+    const val DETAIL = "home/residence/{residence}"
 
-    fun detail(residence: Residence) = "client/residence/${Uri.encode(residence.toJson())}"
+    fun detail(residence: Residence) = "home/residence/${Uri.encode(residence.toJson())}"
 
-    fun residenceMap(residence: Residence) = "client/residence/map/${Uri.encode(residence.toJson())}"
 }

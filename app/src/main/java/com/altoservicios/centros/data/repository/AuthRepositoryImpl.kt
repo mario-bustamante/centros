@@ -3,15 +3,11 @@ package com.altoservicios.centros.data.repository
 import com.altoservicios.centros.data.dataSource.local.AuthLocalDataSource
 import com.altoservicios.centros.data.dataSource.remote.AuthRemoteDataSource
 import com.altoservicios.centros.domain.model.AuthResponse
-import com.altoservicios.centros.domain.model.ErrorResponse
 import com.altoservicios.centros.domain.model.User
 import com.altoservicios.centros.domain.repository.AuthRepository
-import com.altoservicios.centros.domain.util.ConvertErrorBody
 import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.domain.util.ResponseToRequest
 import kotlinx.coroutines.flow.Flow
-import retrofit2.HttpException
-import java.io.IOException
 
 class AuthRepositoryImpl(
     private val authRemoteDataSource: AuthRemoteDataSource,

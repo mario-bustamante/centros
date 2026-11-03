@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.altoservicios.centros.R
@@ -12,7 +13,6 @@ import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.presentation.components.ProgressBar
 import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.screens.home.auth.login.LoginViewModel
-import androidx.compose.ui.res.stringResource
 
 
 @Composable
@@ -32,7 +32,8 @@ fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()
                         popUpTo(Graph.AUTH) { inclusive = true }
                     }
                 } else {
-                    navController.navigate(route = Graph.CLIENT) {
+                    val routeUser = roles[0].route
+                    navController.navigate(route = routeUser) {
                         popUpTo(Graph.AUTH) { inclusive = true }
                     }
                 }

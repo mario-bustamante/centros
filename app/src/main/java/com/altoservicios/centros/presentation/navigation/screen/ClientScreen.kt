@@ -2,11 +2,12 @@ package com.altoservicios.centros.presentation.navigation.screen
 
 import android.net.Uri
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Place
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.altoservicios.centros.domain.model.Residence
+import com.altoservicios.centros.domain.model.Photo
 
 sealed class ClientScreen(
     override var route: String,
@@ -14,16 +15,22 @@ sealed class ClientScreen(
     override val icon: ImageVector
 ) : MenuScreen {
 
-    object Residences: ClientScreen(
-        route = "client/residences",
-        title = "Residencias",
-        icon = Icons.Default.Search
+    object Residence: ClientScreen(
+        route = "client/residence",
+        title = "Mi Residencia",
+        icon = Icons.Default.Home
     )
 
-    object Map: ClientScreen(
-        route = "client/map",
-        title = "Mapa",
-        icon = Icons.Default.Place
+    object Photos: ClientScreen(
+        route = "client/photos",
+        title = "Fotografías",
+        icon = Icons.Default.Star
+    )
+
+    object Rooms: ClientScreen(
+        route = "client/rooms",
+        title = "Habitaciones",
+        icon = Icons.AutoMirrored.Filled.List
     )
 
     object Profile: ClientScreen(
@@ -31,17 +38,14 @@ sealed class ClientScreen(
         title = "Perfil",
         icon = Icons.Default.Person
     )
-
 }
 
-/** Pantallas del cliente que no aparecen en la barra inferior. */
+/** Pantallas de la residencia que no aparecen en la barra inferior. */
 object ClientRoute {
-    const val SEARCH = "client/search"
-    const val DETAIL = "client/residence/{residence}"
-    const val RESIDENCE_MAP = "client/residence/map/{residence}"
+    const val PHOTO = "client/photo?photo={photo}"
     const val PROFILE_UPDATE = "client/profile/update"
 
-    fun detail(residence: Residence) = "client/residence/${Uri.encode(residence.toJson())}"
-
-    fun residenceMap(residence: Residence) = "client/residence/map/${Uri.encode(residence.toJson())}"
+    // Sin fotografia se abre la pantalla para crear una nueva
+    fun photo(photo: Photo?) =
+        if (photo == null) "client/photo" else "client/photo?photo=${Uri.encode(photo.toJson())}"
 }

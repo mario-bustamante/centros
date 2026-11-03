@@ -1,22 +1,24 @@
 package com.altoservicios.centros.presentation.screens.admin.home
 
-import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.altoservicios.centros.presentation.navigation.graph.AdminNavGraph
-import com.altoservicios.centros.presentation.screens.admin.home.components.AdminBottomBar
+import com.altoservicios.centros.presentation.navigation.graph.ClientNavGraph
+import com.altoservicios.centros.presentation.screens.client.home.components.ClientBottomBar
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
 @Composable
-fun AdminHomeScreen(navController: NavHostController = rememberNavController()) {
+fun AdminHomeScreen(
+    navController: NavHostController = rememberNavController(),
+    onLogout: () -> Unit = {}
+) {
     Scaffold(
-        bottomBar = { AdminBottomBar(navController = navController) }
+        bottomBar = { ClientBottomBar(navController = navController) }
     ) { paddingValues ->
-        AdminNavGraph(
+        ClientNavGraph(
             navController = navController,
             modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())
         )

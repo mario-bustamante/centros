@@ -1,20 +1,20 @@
 package com.altoservicios.centros.presentation.screens.client.home.components
 
+import androidx.compose.material3.NavigationBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.material3.NavigationBar
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.NavDestination.Companion.hierarchy
 import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
 
 @Composable
 fun ClientBottomBar(navController: NavHostController) {
 
     val screens = listOf(
-        ClientScreen.Residences,
-        ClientScreen.Map,
-        ClientScreen.Profile,
+        ClientScreen.Residence,
+        ClientScreen.Rooms,
+        ClientScreen.Photos,
     )
 
     val navBackEntry by navController.currentBackStackEntryAsState()

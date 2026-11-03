@@ -22,7 +22,7 @@ fun Register(navController: NavHostController, vm: RegisterViewModel = hiltViewM
         is Resource.Success -> {
             LaunchedEffect(Unit) {
                 vm.saveSession(response.data)
-                navController.navigate(route = Graph.CLIENT) {
+                navController.navigate(route = Graph.CUSTOMER) {
                     popUpTo(Graph.AUTH) { inclusive = true }
                 }
             }

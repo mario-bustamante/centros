@@ -15,7 +15,6 @@ import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.altoservicios.centros.domain.model.Rol
 import com.altoservicios.centros.presentation.navigation.Graph
-import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 
 @Composable
 fun RolesItem(rol: Rol, navController: NavHostController) {

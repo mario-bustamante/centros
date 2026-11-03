@@ -2,7 +2,6 @@ package com.altoservicios.centros.data.dataSource.remote
 
 import com.altoservicios.centros.data.dataSource.remote.service.AuthService
 import com.altoservicios.centros.domain.model.AuthResponse
-import com.altoservicios.centros.domain.model.LoginRequest
 import com.altoservicios.centros.domain.model.User
 import retrofit2.Response
 

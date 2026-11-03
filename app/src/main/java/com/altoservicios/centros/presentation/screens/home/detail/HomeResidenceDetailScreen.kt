@@ -31,7 +31,6 @@ import com.altoservicios.centros.presentation.components.dial
 import com.altoservicios.centros.presentation.components.imageUrl
 import com.altoservicios.centros.presentation.components.openWhatsApp
 import com.altoservicios.centros.presentation.components.priceLabel
-import com.altoservicios.centros.presentation.navigation.screen.HomeRoute
 
 @Composable
 fun HomeResidenceDetailScreen(navController: NavHostController, residence: Residence) {
@@ -85,7 +84,7 @@ fun HomeResidenceDetailScreen(navController: NavHostController, residence: Resid
                     .fillMaxWidth()
                     .padding(top = 20.dp),
                 text = stringResource(R.string.btn_map),
-                onClick = { navController.navigate(HomeRoute.residenceMap(residence)) }
+                onClick = { }
             )
 
             Row(modifier = Modifier.padding(top = 8.dp)) {

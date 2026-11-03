@@ -8,37 +8,51 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.altoservicios.centros.domain.model.Residence
 import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.ClientRoute
 import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
-import com.altoservicios.centros.presentation.screens.client.residences.ClientResidencesViewModel
-import com.altoservicios.centros.presentation.screens.client.residences.detail.ClientResidenceDetailScreen
-import com.altoservicios.centros.presentation.screens.client.residences.list.ClientResidenceListScreen
-import com.altoservicios.centros.presentation.screens.client.residences.map.ClientResidenceMapScreen
-import com.altoservicios.centros.presentation.screens.client.residences.map.ClientResidencesMapScreen
-import com.altoservicios.centros.presentation.screens.client.residences.search.ClientResidenceSearchScreen
+import com.altoservicios.centros.presentation.screens.client.photo.ClientPhotoScreen
+import com.altoservicios.centros.presentation.screens.client.photo.ClientPhotosScreen
+import com.altoservicios.centros.presentation.screens.client.residence.ClientResidenceScreen
+import com.altoservicios.centros.presentation.screens.client.residence.ClientResidenceViewModel
+import com.altoservicios.centros.presentation.screens.client.rooms.ClientRoomsScreen
 import com.altoservicios.centros.presentation.screens.profile.info.ProfileScreen
 import com.altoservicios.centros.presentation.screens.profile.update.ProfileUpdateScreen
 
 @Composable
 fun ClientNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
-    // Compartido por listado, buscador y mapa para mantener los mismos filtros
-    val residencesViewModel: ClientResidencesViewModel = hiltViewModel()
-    val residenceArgs = listOf(navArgument("residence") { type = NavType.StringType })
+    // Compartido por Mi Residencia y Habitaciones, que se guardan juntas
+    val residenceViewModel: ClientResidenceViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
         route = Graph.CLIENT,
-        startDestination = ClientScreen.Residences.route,
+        startDestination = ClientScreen.Residence.route,
         modifier = modifier
     ) {
-        composable(route = ClientScreen.Residences.route) {
-            ClientResidenceListScreen(navController, residencesViewModel)
+        composable(route = ClientScreen.Residence.route) {
+            ClientResidenceScreen(vm = residenceViewModel, navController = navController)
         }
 
-        composable(route = ClientScreen.Map.route) {
-            ClientResidencesMapScreen(navController, residencesViewModel)
+        composable(route = ClientScreen.Rooms.route) {
+            ClientRoomsScreen(vm = residenceViewModel, navController = navController)
+        }
+
+        composable(route = ClientScreen.Photos.route) {
+            ClientPhotosScreen(navController)
+        }
+
+        composable(
+            route = ClientRoute.PHOTO,
+            arguments = listOf(
+                navArgument("photo") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) {
+            ClientPhotoScreen(navController)
         }
 
         composable(route = ClientScreen.Profile.route) {
@@ -47,22 +61,6 @@ fun ClientNavGraph(navController: NavHostController, modifier: Modifier = Modifi
 
         composable(route = ClientRoute.PROFILE_UPDATE) {
             ProfileUpdateScreen(navController)
-        }
-
-        composable(route = ClientRoute.SEARCH) {
-            ClientResidenceSearchScreen(navController, residencesViewModel)
-        }
-
-        composable(route = ClientRoute.DETAIL, arguments = residenceArgs) { entry ->
-            entry.arguments?.getString("residence")?.let {
-                ClientResidenceDetailScreen(navController, Residence.fromJson(it))
-            }
-        }
-
-        composable(route = ClientRoute.RESIDENCE_MAP, arguments = residenceArgs) { entry ->
-            entry.arguments?.getString("residence")?.let {
-                ClientResidenceMapScreen(navController, Residence.fromJson(it))
-            }
         }
     }
 }

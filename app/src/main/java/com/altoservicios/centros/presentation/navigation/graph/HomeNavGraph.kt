@@ -16,8 +16,6 @@ import com.altoservicios.centros.presentation.screens.home.HomeResidencesViewMod
 import com.altoservicios.centros.presentation.screens.home.contact.HomeContactScreen
 import com.altoservicios.centros.presentation.screens.home.detail.HomeResidenceDetailScreen
 import com.altoservicios.centros.presentation.screens.home.list.HomeResidenceListScreen
-import com.altoservicios.centros.presentation.screens.home.map.HomeResidenceMapScreen
-import com.altoservicios.centros.presentation.screens.home.map.HomeResidencesMapScreen
 import com.altoservicios.centros.presentation.screens.home.search.HomeResidenceSearchScreen
 
 @Composable
@@ -38,10 +36,6 @@ fun HomeNavGraph(
             HomeResidenceListScreen(navController, residencesViewModel)
         }
 
-        composable(route = HomeScreen.Map.route) {
-            HomeResidencesMapScreen(navController, residencesViewModel)
-        }
-
         composable(route = HomeScreen.Contact.route) {
             HomeContactScreen(navController)
         }
@@ -53,12 +47,6 @@ fun HomeNavGraph(
         composable(route = HomeRoute.DETAIL, arguments = residenceArgs) { entry ->
             entry.arguments?.getString("residence")?.let {
                 HomeResidenceDetailScreen(navController, Residence.fromJson(it))
-            }
-        }
-
-        composable(route = HomeRoute.RESIDENCE_MAP, arguments = residenceArgs) { entry ->
-            entry.arguments?.getString("residence")?.let {
-                HomeResidenceMapScreen(navController, Residence.fromJson(it))
             }
         }
     }
