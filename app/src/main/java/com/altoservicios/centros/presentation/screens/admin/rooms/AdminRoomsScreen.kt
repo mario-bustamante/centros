@@ -3,8 +3,10 @@ package com.altoservicios.centros.presentation.screens.admin.rooms
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -68,6 +70,8 @@ fun AdminRoomsScreen(
                             .verticalScroll(rememberScrollState())
                             .padding(16.dp)
                     ) {
+                        Spacer(Modifier.height(20.dp))
+
                         CheckboxGroup(
                             title = stringResource(R.string.label_room),
                             items = vm.rooms.map { it.id to it.room.orEmpty()  },

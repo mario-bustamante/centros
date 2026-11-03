@@ -7,7 +7,7 @@ import android.net.Uri
 import com.altoservicios.centros.core.Config
 
 fun imageUrl(path: String?): String? =
-    path?.takeIf { it.isNotBlank() }?.let { "${Config.IMAGE_URL}/$it-240x160.webp" }
+    path?.takeIf { it.isNotBlank() }?.let { "${Config.IMAGE_URL}/$it-${Config.IMAGE_SIZE}.webp" }
 
 fun Context.dial(phone: String?) {
     if (phone.isNullOrBlank()) return

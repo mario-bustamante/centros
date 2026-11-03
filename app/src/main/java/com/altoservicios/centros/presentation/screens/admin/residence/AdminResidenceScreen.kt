@@ -122,12 +122,7 @@ fun AdminResidenceScreen(
                             onValueChange = { vm.onResidenceChange(residence.copy(web = it)) },
                             keyboardType = KeyboardType.Uri
                         )
-                        FormTextField(
-                            label = stringResource(R.string.label_price),
-                            value = residence.price.orEmpty(),
-                            onValueChange = { vm.onResidenceChange(residence.copy(price = it)) },
-                            keyboardType = KeyboardType.Number
-                        )
+
                         FormTextField(
                             label = stringResource(R.string.label_phone),
                             value = residence.phone.orEmpty(),
@@ -161,12 +156,6 @@ fun AdminResidenceScreen(
                             onSelected = vm::onTownSelected
                         )
 
-                        FormTextField(
-                            label = stringResource(R.string.label_description),
-                            value = residence.description.orEmpty(),
-                            onValueChange = { vm.onResidenceChange(residence.copy(description = it)) },
-                            singleLine = false
-                        )
                         FormTextField(
                             label = stringResource(R.string.label_latitude),
                             value = residence.latitude.orEmpty(),

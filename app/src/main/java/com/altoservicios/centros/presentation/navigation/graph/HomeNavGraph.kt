@@ -25,7 +25,6 @@ fun HomeNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    // Compartido por listado, buscador y mapa para mantener los mismos filtros
     val residencesViewModel: HomeResidencesViewModel = hiltViewModel()
     val residenceArgs = listOf(navArgument("residence") { type = NavType.StringType })
 
