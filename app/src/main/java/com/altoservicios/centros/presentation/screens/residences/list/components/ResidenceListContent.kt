@@ -50,17 +50,10 @@ fun ResidenceListContent(
 
     Box(
         modifier = Modifier
-            .padding(
-                top = paddingValues.calculateTopPadding(),
-                start = paddingValues.calculateStartPadding(LocalLayoutDirection.current),
-                end = paddingValues.calculateEndPadding(LocalLayoutDirection.current),
-                bottom = 0.dp
-            )
             .fillMaxSize()
             .background(colorResource(R.color.colorBgSecondary))
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
             state = listState,
             contentPadding = PaddingValues(vertical = 8.dp)
         ) {

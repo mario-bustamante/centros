@@ -22,16 +22,14 @@ import com.altoservicios.centros.presentation.screens.home.contact.HomeContactVi
 
 @Composable
 fun HomeContactContent(
-    paddingValues: PaddingValues,
     vm: HomeContactViewModel
 ) {
     Column(
         modifier = Modifier
             .background(colorResource(R.color.colorBgSecondary))
-            .padding(paddingValues)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .padding(16.dp),
+            .padding(10.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
 

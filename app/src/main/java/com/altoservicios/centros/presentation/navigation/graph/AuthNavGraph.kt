@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
-import com.altoservicios.centros.presentation.screens.home.auth.login.LoginScreen
-import com.altoservicios.centros.presentation.screens.home.auth.register.RegisterScreen
+import com.altoservicios.centros.presentation.screens.auth.login.LoginScreen
+import com.altoservicios.centros.presentation.screens.auth.register.RegisterScreen
 
 fun NavGraphBuilder.AuthNavGraph(
     navController: NavHostController,

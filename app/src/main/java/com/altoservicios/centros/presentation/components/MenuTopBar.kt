@@ -53,7 +53,6 @@ fun MenuTopBar(
     val currentTitle = currentScreen?.title ?: title
 
     if (currentScreen != null) {
-
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
@@ -113,32 +112,24 @@ fun MenuTopBar(
             }
         ) {
             Scaffold(
-                /*
-            contentWindowInsets = if (currentScreen == null) {
-                WindowInsets(0, 0, 0, 0)
-            } else {
-                ScaffoldDefaults.contentWindowInsets
-            },*/
                 topBar = {
-                    if (currentScreen != null) {
-                        TopAppBar(
-                            title = { Text(currentTitle) },
-                            navigationIcon = {
-                                IconButton(onClick = {
-                                    scope.launch {
-                                        if (drawerState.isClosed) drawerState.open()
-                                        else drawerState.close()
-                                    }
-                                }) {
-                                    Icon(
-                                        imageVector = Icons.Default.Menu,
-                                        contentDescription = "Abrir menú"
-                                    )
+                    TopAppBar(
+                        title = { Text(currentTitle) },
+                        navigationIcon = {
+                            IconButton(onClick = {
+                                scope.launch {
+                                    if (drawerState.isClosed) drawerState.open()
+                                    else drawerState.close()
                                 }
-                            },
-                            actions = actions
-                        )
-                    }
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Menu,
+                                    contentDescription = "Abrir menú"
+                                )
+                            }
+                        },
+                        actions = actions
+                    )
                 }
             ) { paddingValues ->
                 content(paddingValues)

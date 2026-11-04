@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.home.auth.login.components
+package com.altoservicios.centros.presentation.screens.auth.login.components
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -52,7 +52,7 @@ import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
 import com.altoservicios.centros.presentation.components.DefaultTextField
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
-import com.altoservicios.centros.presentation.screens.home.auth.login.LoginViewModel
+import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
 
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
@@ -81,25 +81,23 @@ fun LoginContent(
         }
     }
 
-    Box(
-        modifier = Modifier.padding(paddingValues)
-    ) {
+    Box {
         Column(
             modifier = Modifier
                 .background(color = colorResource(id = R.color.colorBgSecondary))
                 .fillMaxSize()
-                .padding(20.dp, 20.dp, 20.dp, 5.dp),
+                .padding(10.dp, 10.dp, 10.dp, 5.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             if (!logoIsVertical) {
                 Image(
                     modifier = Modifier
-                        .height((configuration.screenHeightDp * 0.25f).dp)
-                        .padding(all = 20.dp),
+                        .height((configuration.screenHeightDp * 0.30f).dp)
+                        .padding(all = 10.dp),
                     painter = painterResource(id = logoResource),
                     contentDescription = "Image",
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Fit
                 )
             }
 

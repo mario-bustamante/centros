@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.home.auth.register.components
+package com.altoservicios.centros.presentation.screens.auth.register.components
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.presentation.components.ProgressBar
 import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
-import com.altoservicios.centros.presentation.screens.home.auth.register.RegisterViewModel
+import com.altoservicios.centros.presentation.screens.auth.register.RegisterViewModel
 
 @Composable
 fun Register(

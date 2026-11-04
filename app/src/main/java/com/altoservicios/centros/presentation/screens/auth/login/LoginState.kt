@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.home.auth.login
+package com.altoservicios.centros.presentation.screens.auth.login
 
 data class LoginState(
     val email: String = "",

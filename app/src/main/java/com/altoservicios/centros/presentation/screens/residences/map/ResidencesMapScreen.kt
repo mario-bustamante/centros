@@ -1,6 +1,7 @@
 package com.altoservicios.centros.presentation.screens.residences.map
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -59,8 +61,8 @@ private fun Residence.position(): LatLng? {
     return if (lat > 0) LatLng(lat, lng) else null
 }
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun ResidencesMapScreen(navController: NavHostController, vm: ResidencesViewModel) {
     val context = LocalContext.current
     val user = rememberUserLocation()
@@ -89,21 +91,13 @@ fun ResidencesMapScreen(navController: NavHostController, vm: ResidencesViewMode
         cameraState.animate(CameraUpdateFactory.newLatLngZoom(center, DEFAULT_ZOOM))
     }
 
-    Scaffold(
-        topBar = {
-            DefaultTopBar(
-                title = "Residencias en Mapa",
-                actions = {
-                    IconButton(onClick = { navController.navigate(ResidencesRoute.SEARCH) }) {
-                        Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
-                    }
-                }
-            )
-        }
-    ) { paddingValues ->
+
+
+    Scaffold { paddingValues ->
         Box(modifier = Modifier
-            .padding(paddingValues)
-            .fillMaxSize()) {
+            .fillMaxSize()
+            .background(colorResource(R.color.colorBgSecondary))
+    ) {
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
                 cameraPositionState = cameraState,
@@ -114,7 +108,7 @@ fun ResidencesMapScreen(navController: NavHostController, vm: ResidencesViewMode
                 vm.mapResidences.forEach { residence ->
                     residence.position()?.let { position ->
                         Marker(
-                            state = MarkerState(position = position),
+                            state = remember(position) { MarkerState(position = position) },
                             title = residence.name,
                             snippet = residence.address,
                             icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN),

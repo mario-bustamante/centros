@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.altoservicios.centros.presentation.components.MenuTopBar
 import com.altoservicios.centros.presentation.navigation.graph.AdminNavGraph
+import com.altoservicios.centros.presentation.navigation.graph.ClientNavGraph
 import com.altoservicios.centros.presentation.navigation.screen.AdminScreen
 import com.altoservicios.centros.presentation.screens.client.home.components.ClientBottomBar
 import com.altoservicios.centros.presentation.screens.profile.info.ProfileViewModel
@@ -39,6 +40,7 @@ fun AdminHomeScreen(
         onLogout = { profileViewModel.logout(onLogout) },
         content = { paddingValues ->
             Scaffold(
+                Modifier.padding(paddingValues),
                 bottomBar = { ClientBottomBar(navController = navController) }
             ) { paddingValues ->
                 AdminNavGraph(

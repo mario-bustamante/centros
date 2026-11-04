@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.components
+package com.altoservicios.centros.presentation.screens.home.components
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar

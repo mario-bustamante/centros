@@ -19,26 +19,25 @@ fun ResidenceListScreen(
     vm: ResidencesViewModel
 ) {
 
-            Scaffold(
-                floatingActionButton = {
-                    FloatingActionButton(
-                        onClick = {
-                            navController.navigate(ResidencesRoute.SEARCH)
-                        }
-                    ) {
-                        Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
-                    }
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate(ResidencesRoute.SEARCH)
                 }
-            ) { paddingValues ->
-                ResidenceListContent(
-                    paddingValues = paddingValues,
-                    residences = vm.residences,
-                    isLoading = vm.isLoading,
-                    errorMessage = vm.errorMessage,
-                    onErrorConsumed = { vm.errorMessage = "" },
-                    onLoadNextPage = vm::loadNextPage,
-                    onResidenceClick = { navController.navigate(ResidencesRoute.detail(it)) }
-                )
+            ) {
+                Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
             }
-
+        }
+    ) { paddingValues ->
+        ResidenceListContent(
+            paddingValues = paddingValues,
+            residences = vm.residences,
+            isLoading = vm.isLoading,
+            errorMessage = vm.errorMessage,
+            onErrorConsumed = { vm.errorMessage = "" },
+            onLoadNextPage = vm::loadNextPage,
+            onResidenceClick = { navController.navigate(ResidencesRoute.detail(it)) }
+        )
+    }
 }

@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.home.auth.register
+package com.altoservicios.centros.presentation.screens.auth.register
 
 import android.util.Patterns
 import androidx.compose.runtime.getValue

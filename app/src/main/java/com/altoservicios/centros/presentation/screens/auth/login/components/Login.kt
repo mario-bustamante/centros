@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.home.auth.login.components
+package com.altoservicios.centros.presentation.screens.auth.login.components
 
 import android.util.Log
 import android.widget.Toast
@@ -12,7 +12,7 @@ import com.altoservicios.centros.R
 import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.presentation.components.ProgressBar
 import com.altoservicios.centros.presentation.navigation.Graph
-import com.altoservicios.centros.presentation.screens.home.auth.login.LoginViewModel
+import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
 
 
 @Composable
