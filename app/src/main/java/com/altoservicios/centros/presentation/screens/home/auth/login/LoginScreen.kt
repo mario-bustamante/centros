@@ -1,5 +1,6 @@
 package com.altoservicios.centros.presentation.screens.home.auth.login
 
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.altoservicios.centros.presentation.components.HomeBottomBar
@@ -10,8 +11,11 @@ import com.altoservicios.centros.presentation.screens.home.auth.login.components
 import com.altoservicios.centros.presentation.screens.home.auth.login.components.LoginContent
 
 @Composable
-fun LoginScreen (navController: NavHostController) {
-
+fun LoginScreen(
+    navController: NavHostController,
+    rootNavController: NavHostController
+) {
+/*
     MenuHomeTopBar(
         title = "Login",
         navController = navController,
@@ -33,18 +37,14 @@ fun LoginScreen (navController: NavHostController) {
             LoginContent(navController, paddingValues)
         }
     )
-/*
-    Scaffold(
-        topBar = {
-            DefaultTopBar(
-                title = "Login",
-                upAvailable = true,
-                navController = navController
-            )
-        }
-    ) { paddingValues ->
+*/
+    Scaffold { paddingValues ->
         LoginContent(navController, paddingValues)
     }
-*/
-    Login(navController = navController)
+
+
+
+
+
+    Login(navController = navController, rootNavController = rootNavController)
 }

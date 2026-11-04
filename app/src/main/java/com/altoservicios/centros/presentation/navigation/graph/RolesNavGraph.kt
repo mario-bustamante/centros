@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.altoservicios.centros.presentation.navigation.Graph
-import com.altoservicios.centros.presentation.navigation.screen.AdminScreen
 import com.altoservicios.centros.presentation.navigation.screen.RolesScreen
 import com.altoservicios.centros.presentation.screens.admin.home.AdminHomeScreen
 import com.altoservicios.centros.presentation.screens.client.home.ClientHomeScreen
@@ -23,33 +22,25 @@ fun NavGraphBuilder.RolesNavGraph(navController: NavHostController) {
         }
 
         composable(route = Graph.ADMIN) {
-            AdminHomeScreen(navController,
+            AdminHomeScreen(
                 onLogout = {
-                navController.navigate(Graph.AUTH) {
-                    popUpTo(Graph.ROOT) { inclusive = false }
-                    launchSingleTop = true
+                    navController.popBackStack()
                 }
-            })
+            )
 
         }
 
         composable(route = Graph.CLIENT) {
             ClientHomeScreen(
                 onLogout = {
-                navController.navigate(Graph.AUTH) {
-                    popUpTo(Graph.ROOT) { inclusive = false }
-                    launchSingleTop = true
-                }
+                    navController.popBackStack()
             })
         }
 
         composable(route = Graph.CUSTOMER) {
             CustomerHomeScreen(
                 onLogout = {
-                    navController.navigate(Graph.AUTH) {
-                        popUpTo(Graph.ROOT) { inclusive = false }
-                        launchSingleTop = true
-                    }
+                    navController.popBackStack()
                 }
             )
         }

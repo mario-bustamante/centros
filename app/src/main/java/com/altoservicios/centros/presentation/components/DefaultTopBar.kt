@@ -11,7 +11,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,10 +23,7 @@ fun DefaultTopBar(
 ) {
     TopAppBar(
         title = {
-            Text(
-                text = title,
-                fontSize = 19.sp
-            )
+            Text( text = title )
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.White.copy(alpha = 0.7f)

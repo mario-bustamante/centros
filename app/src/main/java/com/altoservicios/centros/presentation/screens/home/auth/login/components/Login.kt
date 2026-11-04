@@ -16,7 +16,11 @@ import com.altoservicios.centros.presentation.screens.home.auth.login.LoginViewM
 
 
 @Composable
-fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()) {
+fun Login(
+    navController: NavHostController,
+    rootNavController: NavHostController,
+    vm: LoginViewModel = hiltViewModel()
+) {
     when(val response = vm.loginResponse) {
         Resource.Loading -> {
             ProgressBar()
@@ -27,16 +31,23 @@ fun Login(navController: NavHostController, vm: LoginViewModel = hiltViewModel()
                 vm.saveSession(response.data)
                 Log.d("LoginUsuario", "LoginUsuario: ${response.data}")
                 val roles = response.data.user?.roles.orEmpty()
-                if (roles.size > 1) {
-                    navController.navigate(route = Graph.ROLES) {
-                        popUpTo(Graph.AUTH) { inclusive = true }
+
+                when {
+                    roles.size > 1 -> {
+                        rootNavController.navigate(Graph.ROLES) {
+                            popUpTo(Graph.HOME) { inclusive = false }
+                        }
                     }
-                } else {
-                    val routeUser = roles[0].route
-                    navController.navigate(route = routeUser) {
-                        popUpTo(Graph.AUTH) { inclusive = true }
+                    roles.size == 1 -> {
+                        rootNavController.navigate(roles.first().route) {
+                            popUpTo(Graph.HOME) { inclusive = false }
+                        }
+                    }
+                    else -> {
+                        // Mostrar un error: la respuesta no contiene roles
                     }
                 }
+
             }
         }
 

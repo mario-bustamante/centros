@@ -10,10 +10,15 @@ import com.altoservicios.centros.R
 import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.presentation.components.ProgressBar
 import com.altoservicios.centros.presentation.navigation.Graph
+import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 import com.altoservicios.centros.presentation.screens.home.auth.register.RegisterViewModel
 
 @Composable
-fun Register(navController: NavHostController, vm: RegisterViewModel = hiltViewModel()) {
+fun Register(
+    navController: NavHostController,
+    rootNavController: NavHostController,
+    vm: RegisterViewModel = hiltViewModel()
+) {
     when(val response = vm.registerResponse) {
         Resource.Loading -> {
             ProgressBar()
@@ -22,8 +27,12 @@ fun Register(navController: NavHostController, vm: RegisterViewModel = hiltViewM
         is Resource.Success -> {
             LaunchedEffect(Unit) {
                 vm.saveSession(response.data)
-                navController.navigate(route = Graph.CUSTOMER) {
-                    popUpTo(Graph.AUTH) { inclusive = true }
+                navController.navigate(AuthScreen.Login.route) {
+                    popUpTo(Graph.AUTH) { inclusive = false }
+                    launchSingleTop = true
+                }
+                rootNavController.navigate(route = Graph.CUSTOMER) {
+                    popUpTo(Graph.HOME) { inclusive = false }
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.home.search
+package com.altoservicios.centros.presentation.screens.residences.search
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -31,10 +31,10 @@ import com.altoservicios.centros.presentation.components.DefaultButton
 import com.altoservicios.centros.presentation.components.DefaultTopBar
 import com.altoservicios.centros.presentation.components.MessageEffect
 import com.altoservicios.centros.presentation.components.OptionDropdown
-import com.altoservicios.centros.presentation.screens.home.HomeResidencesViewModel
+import com.altoservicios.centros.presentation.screens.residences.ResidencesViewModel
 
 @Composable
-fun HomeResidenceSearchScreen(navController: NavHostController, vm: HomeResidencesViewModel) {
+fun ResidenceSearchScreen(navController: NavHostController, vm: ResidencesViewModel) {
     var search by remember { mutableStateOf(vm.search) }
 
     LaunchedEffect(Unit) {

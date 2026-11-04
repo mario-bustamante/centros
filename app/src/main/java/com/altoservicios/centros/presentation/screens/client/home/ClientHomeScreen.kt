@@ -2,13 +2,20 @@ package com.altoservicios.centros.presentation.screens.client.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.altoservicios.centros.presentation.components.MenuTopBar
 import com.altoservicios.centros.presentation.navigation.graph.ClientNavGraph
+import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
+import com.altoservicios.centros.presentation.navigation.screen.PhotosScreen
 import com.altoservicios.centros.presentation.screens.client.home.components.ClientBottomBar
+import com.altoservicios.centros.presentation.screens.profile.info.ProfileViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -16,12 +23,35 @@ fun ClientHomeScreen(
     navController: NavHostController = rememberNavController(),
     onLogout: () -> Unit = {}
 ) {
-    Scaffold(
-        bottomBar = { ClientBottomBar(navController = navController) }
-    ) { paddingValues ->
-        ClientNavGraph(
-            navController = navController,
-            modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())
-        )
-    }
+
+    val profileViewModel: ProfileViewModel = hiltViewModel()
+
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    val screens = listOf(
+        ClientScreen.Residence,
+        ClientScreen.Rooms,
+        PhotosScreen,
+        ClientScreen.Profile
+    )
+
+    MenuTopBar(
+        title = "Residencia",
+        drawerState = drawerState,
+        screens = screens,
+        navController = navController,
+        actions = {},
+        onLogout = { profileViewModel.logout(onLogout) },
+        content = { paddingValues ->
+            Scaffold(
+                Modifier.padding(paddingValues),
+                bottomBar = { ClientBottomBar(navController = navController) }
+            ) { paddingValues ->
+                ClientNavGraph(
+                    navController = navController,
+                    modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())
+                )
+            }
+        }
+    )
 }

@@ -13,7 +13,10 @@ import com.altoservicios.centros.presentation.screens.home.auth.register.compone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RegisterScreen (navController: NavHostController) {
+fun RegisterScreen(
+    navController: NavHostController,
+    rootNavController: NavHostController = navController
+) {
     Scaffold(
         topBar = {
             DefaultTopBar(
@@ -26,7 +29,7 @@ fun RegisterScreen (navController: NavHostController) {
     ) { paddingValues ->
         RegisterContent(navController, paddingValues)
     }
-    Register(navController)
+    Register(navController, rootNavController)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,5 +1,6 @@
 package com.altoservicios.centros.presentation.screens.client.photo
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -39,6 +40,7 @@ import com.altoservicios.centros.presentation.components.imageUrl
 import java.io.File
 
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun ClientPhotoScreen(navController: NavHostController, vm: ClientPhotoViewModel = hiltViewModel()) {
     val context = LocalContext.current
 
@@ -64,7 +66,6 @@ fun ClientPhotoScreen(navController: NavHostController, vm: ClientPhotoViewModel
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
                     .verticalScroll(rememberScrollState())
                     .padding(16.dp)
             ) {

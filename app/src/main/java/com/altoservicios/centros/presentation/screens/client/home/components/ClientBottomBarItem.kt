@@ -9,11 +9,11 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
+import com.altoservicios.centros.presentation.navigation.screen.MenuScreen
 
 @Composable
 fun RowScope.ClientBottomBarItem(
-    screen: ClientScreen,
+    screen: MenuScreen,
     currentDestination: NavDestination?,
     navController: NavHostController
 ) {

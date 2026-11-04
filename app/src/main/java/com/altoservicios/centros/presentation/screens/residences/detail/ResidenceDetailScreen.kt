@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.home.detail
+package com.altoservicios.centros.presentation.screens.residences.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -33,7 +33,7 @@ import com.altoservicios.centros.presentation.components.openWhatsApp
 import com.altoservicios.centros.presentation.components.priceLabel
 
 @Composable
-fun HomeResidenceDetailScreen(navController: NavHostController, residence: Residence) {
+fun ResidenceDetailScreen(navController: NavHostController, residence: Residence) {
     val context = LocalContext.current
 
     Scaffold(

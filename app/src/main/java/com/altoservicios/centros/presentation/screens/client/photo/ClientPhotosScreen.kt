@@ -1,5 +1,6 @@
 package com.altoservicios.centros.presentation.screens.client.photo
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -35,29 +36,30 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.altoservicios.centros.R
-import com.altoservicios.centros.presentation.components.DefaultTopBar
 import com.altoservicios.centros.presentation.components.MessageEffect
 import com.altoservicios.centros.presentation.components.imageUrl
-import com.altoservicios.centros.presentation.navigation.screen.ClientRoute
+import com.altoservicios.centros.presentation.navigation.screen.PhotosScreen
 
 @Composable
-fun ClientPhotosScreen(navController: NavHostController, vm: ClientPhotosViewModel = hiltViewModel()) {
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+fun ClientPhotosScreen(
+    navController: NavHostController,
+    vm: ClientPhotosViewModel = hiltViewModel()
+) {
     // Se recarga cada vez que se vuelve de editar una fotografia
     LaunchedEffect(Unit) { vm.load() }
 
     MessageEffect(message = vm.message, onConsumed = { vm.message = "" })
 
     Scaffold(
-        topBar = { DefaultTopBar(title = "Mis Fotografías") },
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate(ClientRoute.photo(null)) }) {
+            FloatingActionButton(onClick = { navController.navigate(PhotosScreen.photo(null)) }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Agregar fotografía")
             }
         }
     ) { paddingValues ->
         Box(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
                 .background(colorResource(R.color.colorBgSecondary))
         ) {
@@ -70,7 +72,7 @@ fun ClientPhotosScreen(navController: NavHostController, vm: ClientPhotosViewMod
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 12.dp, vertical = 6.dp)
-                            .clickable { navController.navigate(ClientRoute.photo(photo)) },
+                            .clickable { navController.navigate(PhotosScreen.photo(photo)) },
                         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.8f))
                     ) {
                         Row(modifier = Modifier.padding(10.dp)) {

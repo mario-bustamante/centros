@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.home.list
+package com.altoservicios.centros.presentation.screens.residences.list
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -8,44 +8,37 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import com.altoservicios.centros.presentation.components.MenuHomeTopBar
-import com.altoservicios.centros.presentation.navigation.screen.HomeRoute
-import com.altoservicios.centros.presentation.screens.home.HomeResidencesViewModel
-import com.altoservicios.centros.presentation.screens.home.list.components.HomeResidenceListContent
+import com.altoservicios.centros.presentation.navigation.screen.ResidencesRoute
+import com.altoservicios.centros.presentation.screens.residences.ResidencesViewModel
+import com.altoservicios.centros.presentation.screens.residences.list.components.ResidenceListContent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeResidenceListScreen(
+fun ResidenceListScreen(
     navController: NavHostController,
-    vm: HomeResidencesViewModel
+    vm: ResidencesViewModel
 ) {
-    MenuHomeTopBar(
-        title = "Residencias",
-        navController = navController,
-        actions = {},
-        onLogout = null,
-        content = { paddingValues ->
+
             Scaffold(
                 floatingActionButton = {
                     FloatingActionButton(
                         onClick = {
-                            navController.navigate(HomeRoute.SEARCH)
+                            navController.navigate(ResidencesRoute.SEARCH)
                         }
                     ) {
                         Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
                     }
                 }
             ) { paddingValues ->
-                HomeResidenceListContent(
+                ResidenceListContent(
                     paddingValues = paddingValues,
                     residences = vm.residences,
                     isLoading = vm.isLoading,
                     errorMessage = vm.errorMessage,
                     onErrorConsumed = { vm.errorMessage = "" },
                     onLoadNextPage = vm::loadNextPage,
-                    onResidenceClick = { navController.navigate(HomeRoute.detail(it)) }
+                    onResidenceClick = { navController.navigate(ResidencesRoute.detail(it)) }
                 )
             }
-        }
-    )
+
 }

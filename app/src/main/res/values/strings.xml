@@ -18,7 +18,7 @@
     <string name="label_price">Precios desde €</string>
     <string name="label_dependence">Tipo de dependencia</string>
     <string name="label_sector">Tipo de plaza</string>
-    <string name="label_room">Tipo de habitación</string>
+    <string name="label_room">Habitaciones de la residencia</string>
     <string name="label_near">Más cercanas</string>
     <string name="spinner_province">Selecciona una provincia</string>
     <string name="spinner_town">Selecciona un municipio</string>

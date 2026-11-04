@@ -9,17 +9,20 @@ import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 import com.altoservicios.centros.presentation.screens.home.auth.login.LoginScreen
 import com.altoservicios.centros.presentation.screens.home.auth.register.RegisterScreen
 
-fun NavGraphBuilder.AuthNavGraph(navController: NavHostController) {
+fun NavGraphBuilder.AuthNavGraph(
+    navController: NavHostController,
+    rootNavController: NavHostController
+) {
     navigation(
         route = Graph.AUTH,
         startDestination = AuthScreen.Login.route
     ) {
         composable(route = AuthScreen.Login.route) {
-            LoginScreen(navController)
+            LoginScreen(navController, rootNavController)
         }
 
         composable(route = AuthScreen.Register.route) {
-            RegisterScreen(navController)
+            RegisterScreen(navController, rootNavController)
         }
     }
 }

@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.altoservicios.centros.presentation.components.MenuTopBar
 import com.altoservicios.centros.presentation.navigation.graph.CustomerNavGraph
 import com.altoservicios.centros.presentation.navigation.screen.CustomerScreen
+import com.altoservicios.centros.presentation.screens.customer.home.components.CustomerBottomBar
 import com.altoservicios.centros.presentation.screens.profile.info.ProfileViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -32,15 +33,17 @@ fun CustomerHomeScreen(
     )
 
     MenuTopBar(
-        title = "Perfil",
+        title = "Buscador de Residencias",
         drawerState = drawerState,
         screens = screens,
         navController = navController,
         actions = {},
         onLogout = { profileViewModel.logout(onLogout) },
         content = { paddingValues ->
+
             Scaffold(
-                // bottomBar = { CustomerBottomBar(navController = navController) }
+                Modifier.padding(paddingValues),
+                bottomBar = { CustomerBottomBar(navController = navController) }
             ) { paddingValues ->
                 CustomerNavGraph(
                     navController = navController,

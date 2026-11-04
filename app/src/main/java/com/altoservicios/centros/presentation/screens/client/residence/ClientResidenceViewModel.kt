@@ -5,11 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.altoservicios.centros.domain.model.Dependence
 import com.altoservicios.centros.domain.model.Province
 import com.altoservicios.centros.domain.model.Residence
 import com.altoservicios.centros.domain.model.Room
-import com.altoservicios.centros.domain.model.Sector
 import com.altoservicios.centros.domain.model.Town
 import com.altoservicios.centros.domain.useCase.residences.ResidencesUseCase
 import com.altoservicios.centros.domain.util.Resource

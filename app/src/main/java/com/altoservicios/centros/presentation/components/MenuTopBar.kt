@@ -30,7 +30,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.altoservicios.centros.presentation.navigation.screen.CustomerScreen
+import com.altoservicios.centros.presentation.navigation.screen.MenuScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 fun MenuTopBar(
     title: String,
     drawerState: DrawerState,
-    screens: List<CustomerScreen, >,
+    screens: List<MenuScreen>,
     navController: NavHostController,
     actions: @Composable RowScope.() -> Unit = {},
     onLogout: (() -> Unit)? = null,
@@ -47,87 +47,104 @@ fun MenuTopBar(
     val scope = rememberCoroutineScope()
     val navBackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackEntry?.destination
+    val currentScreen = screens.firstOrNull { screen ->
+        currentDestination?.hierarchy?.any { it.route == screen.route } == true
+    }
+    val currentTitle = currentScreen?.title ?: title
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Spacer(Modifier.height(16.dp))
-                Text(
-                    text = "Mi Menú",
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.titleLarge
-                )
-                HorizontalDivider()
+    if (currentScreen != null) {
 
-                screens.forEach { screen ->
-                    NavigationDrawerItem(
-                        selected = currentDestination?.hierarchy?.any {
-                            it.route == screen.route
-                        } == true,
-                        onClick = {
-                            navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                            scope.launch { drawerState.close() }
-                        },
-                        label = {
-                            Text(text = screen.title)
-                        },
-                        icon = {
-                            Icon(imageVector = screen.icon, contentDescription = null)
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            drawerContent = {
+                ModalDrawerSheet {
+                    Spacer(Modifier.height(16.dp))
+                    Text(
+                        text = "Mi Menú",
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.titleLarge
                     )
-                }
-                if (onLogout != null) {
                     HorizontalDivider()
-                    NavigationDrawerItem(
-                        selected = false,
-                        onClick = {
-                            onLogout()
-                            scope.launch { drawerState.close() }
-                        },
-                        label = { Text("Salir") },
-                        icon = {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                                contentDescription = null
-                            )
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                    )
+
+                    screens.forEach { screen ->
+                        NavigationDrawerItem(
+                            selected = currentDestination?.hierarchy?.any {
+                                it.route == screen.route
+                            } == true,
+                            onClick = {
+                                navController.navigate(screen.route) {
+                                    popUpTo(navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
+                                scope.launch { drawerState.close() }
+                            },
+                            label = {
+                                Text(text = screen.title)
+                            },
+                            icon = {
+                                Icon(imageVector = screen.icon, contentDescription = null)
+                            },
+                            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        )
+                    }
+                    if (onLogout != null) {
+                        HorizontalDivider()
+                        NavigationDrawerItem(
+                            selected = false,
+                            onClick = {
+                                onLogout()
+                                scope.launch { drawerState.close() }
+                            },
+                            label = { Text("Salir") },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                                    contentDescription = null
+                                )
+                            },
+                            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        )
+                    }
+                    //  }
                 }
-                //  }
+            }
+        ) {
+            Scaffold(
+                /*
+            contentWindowInsets = if (currentScreen == null) {
+                WindowInsets(0, 0, 0, 0)
+            } else {
+                ScaffoldDefaults.contentWindowInsets
+            },*/
+                topBar = {
+                    if (currentScreen != null) {
+                        TopAppBar(
+                            title = { Text(currentTitle) },
+                            navigationIcon = {
+                                IconButton(onClick = {
+                                    scope.launch {
+                                        if (drawerState.isClosed) drawerState.open()
+                                        else drawerState.close()
+                                    }
+                                }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Menu,
+                                        contentDescription = "Abrir menú"
+                                    )
+                                }
+                            },
+                            actions = actions
+                        )
+                    }
+                }
+            ) { paddingValues ->
+                content(paddingValues)
             }
         }
-    ) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(title) },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch {
-                                if (drawerState.isClosed) drawerState.open()
-                                else drawerState.close()
-                            }
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Abrir menú"
-                            )
-                        }
-                    },
-                    actions = actions
-                )
-            }
-        ) { paddingValues ->
-            content(paddingValues)
-        }
+    } else {
+        content(PaddingValues())
     }
 }

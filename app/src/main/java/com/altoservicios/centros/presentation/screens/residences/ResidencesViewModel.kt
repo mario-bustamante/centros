@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.customer.residences
+package com.altoservicios.centros.presentation.screens.residences
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,9 +20,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/** Compartido por el listado, el buscador y el mapa de residencias del Customere. */
+/** Compartido por el listado, el buscador y el mapa de residencias */
 @HiltViewModel
-class CustomerResidencesViewModel @Inject constructor(
+class ResidencesViewModel @Inject constructor(
     private val residencesUseCase: ResidencesUseCase
 ) : ViewModel() {
 

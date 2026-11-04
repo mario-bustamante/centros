@@ -19,7 +19,6 @@ fun RootNavGraph(
         composable(route = Graph.HOME) {
             HomeScreen(rootNavController = navController)
         }
-        AuthNavGraph(navController = navController)
         RolesNavGraph(navController = navController)
     }
 }

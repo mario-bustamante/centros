@@ -1,13 +1,11 @@
 package com.altoservicios.centros.presentation.screens.profile.info.components
 
-import android.content.Intent
-import androidx.activity.compose.LocalActivity
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,14 +16,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,49 +39,22 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
-import com.altoservicios.centros.presentation.screens.MainActivity
 import com.altoservicios.centros.presentation.screens.profile.info.ProfileViewModel
 
 @Composable
 fun ProfileContent(
-    paddingValues: PaddingValues,
     onEditProfile: () -> Unit,
     vm: ProfileViewModel = hiltViewModel()
 ) {
 
-    val activity = LocalActivity.current
-
     Box(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .fillMaxSize()
             .background(colorResource(R.color.colorBgSecondary))
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
         ) {
-            IconButton(
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(end = 15.dp, top = 15.dp),
-                onClick = {
-                    vm.logout {
-                        activity?.let { currentActivity ->
-                            currentActivity.finish()
-                            currentActivity.startActivity(
-                                Intent(currentActivity, MainActivity::class.java)
-                            )
-                        }
-                    }
-                }
-            ) {
-                Icon(
-                    modifier = Modifier.size(35.dp),
-                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                    contentDescription = "",
-                    tint = Color.Black
-                )
-            }
 
             if(!vm.user?.image.isNullOrBlank()) {
                 AsyncImage(
@@ -209,8 +178,9 @@ fun ProfileContent(
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun ProfileContentPreview() {
     Scaffold() { paddingValues ->
-        ProfileContent(paddingValues, onEditProfile = {})
+        ProfileContent(onEditProfile = {})
     }
 }

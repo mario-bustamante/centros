@@ -1,5 +1,6 @@
-package com.altoservicios.centros.presentation.screens.customer.residences.map
+package com.altoservicios.centros.presentation.screens.residences.map
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,8 +37,8 @@ import com.altoservicios.centros.presentation.components.dial
 import com.altoservicios.centros.presentation.components.distanceLabel
 import com.altoservicios.centros.presentation.components.openWhatsApp
 import com.altoservicios.centros.presentation.components.rememberUserLocation
-import com.altoservicios.centros.presentation.navigation.screen.CustomerRoute
-import com.altoservicios.centros.presentation.screens.customer.residences.CustomerResidencesViewModel
+import com.altoservicios.centros.presentation.navigation.screen.ResidencesRoute
+import com.altoservicios.centros.presentation.screens.residences.ResidencesViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -58,8 +59,9 @@ private fun Residence.position(): LatLng? {
     return if (lat > 0) LatLng(lat, lng) else null
 }
 
+@SuppressLint("UnrememberedMutableState")
 @Composable
-fun CustomerResidencesMapScreen(navController: NavHostController, vm: CustomerResidencesViewModel) {
+fun ResidencesMapScreen(navController: NavHostController, vm: ResidencesViewModel) {
     val context = LocalContext.current
     val user = rememberUserLocation()
     val cameraState = rememberCameraPositionState()
@@ -92,7 +94,7 @@ fun CustomerResidencesMapScreen(navController: NavHostController, vm: CustomerRe
             DefaultTopBar(
                 title = "Residencias en Mapa",
                 actions = {
-                    IconButton(onClick = { navController.navigate(CustomerRoute.SEARCH) }) {
+                    IconButton(onClick = { navController.navigate(ResidencesRoute.SEARCH) }) {
                         Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
                     }
                 }
@@ -162,7 +164,7 @@ fun CustomerResidencesMapScreen(navController: NavHostController, vm: CustomerRe
                                     .weight(1f)
                                     .padding(end = 4.dp),
                                 text = "Ficha",
-                                onClick = { navController.navigate(CustomerRoute.detail(residence)) }
+                                onClick = { navController.navigate(ResidencesRoute.detail(residence)) }
                             )
                             DefaultButton(
                                 modifier = Modifier

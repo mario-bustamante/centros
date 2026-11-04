@@ -1,4 +1,4 @@
-package com.altoservicios.centros.presentation.screens.customer.residences.list.components
+package com.altoservicios.centros.presentation.screens.residences.list.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.altoservicios.centros.R
 import com.altoservicios.centros.domain.model.Residence
 import com.altoservicios.centros.presentation.components.imageUrl
 import com.altoservicios.centros.presentation.components.priceLabel
@@ -35,8 +36,9 @@ fun ResidenceItem(residence: Residence, onClick: () -> Unit) {
         Row(modifier = Modifier.padding(10.dp)) {
             AsyncImage(
                 modifier = Modifier
-                    .size(width = 110.dp, height = 80.dp),
-                model = imageUrl(residence.imageUrl),
+                    //.fillMaxHeight(),
+                    .size(width = 100.dp, height = 100.dp),
+                model = imageUrl(residence.imageUrl) ?: R.drawable.logo,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )

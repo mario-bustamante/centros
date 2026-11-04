@@ -7,6 +7,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
+import com.altoservicios.centros.presentation.navigation.screen.PhotosScreen
 
 @Composable
 fun ClientBottomBar(navController: NavHostController) {
@@ -14,7 +15,7 @@ fun ClientBottomBar(navController: NavHostController) {
     val screens = listOf(
         ClientScreen.Residence,
         ClientScreen.Rooms,
-        ClientScreen.Photos,
+        PhotosScreen,
     )
 
     val navBackEntry by navController.currentBackStackEntryAsState()

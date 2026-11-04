@@ -33,24 +33,11 @@ fun MenuHomeTopBar(
     val navBackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackEntry?.destination
 
-
     Scaffold(
         bottomBar = bottomBar,
         topBar = {
             TopAppBar(
-                title = {
-                  /*  Column(
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_logo_h), // Cambia por tu R.drawable.tu_imagen
-                            contentDescription = "Logo de la app",
-                            //
-                            modifier = Modifier.fillMaxWidth().padding(10.dp)
-                        )
-                    }*/
-                },
-
+                title = { },
                 navigationIcon = {
                     Column(
                         modifier = Modifier.padding(start = 10.dp, end = 8.dp)
@@ -66,100 +53,11 @@ fun MenuHomeTopBar(
                                 //.padding(20.dp)
                             .size(150.dp)
                         )
-
                     }
-
                 }
             )
         }
     ) { paddingValues ->
         content(paddingValues)
     }
-
-
-
-    /*
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Spacer(Modifier.height(16.dp))
-                Text(
-                    text = "Mi Menú",
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.titleLarge
-                )
-                HorizontalDivider()
-
-                screens.forEach { screen ->
-                    NavigationDrawerItem(
-                        selected = currentDestination?.hierarchy?.any {
-                            it.route == screen.route
-                        } == true,
-                        onClick = {
-                            navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                            scope.launch { drawerState.close() }
-                        },
-                        label = {
-                            Text(text = screen.title)
-                        },
-                        icon = {
-                            Icon(imageVector = screen.icon, contentDescription = null)
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                    )
-                }
-                if (onLogout != null) {
-                    HorizontalDivider()
-                    NavigationDrawerItem(
-                        selected = false,
-                        onClick = {
-                            onLogout()
-                            scope.launch { drawerState.close() }
-                        },
-                        label = { Text("Salir") },
-                        icon = {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                                contentDescription = null
-                            )
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                    )
-                }
-                //  }
-            }
-        }
-    ) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = { Text(title) },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch {
-                                if (drawerState.isClosed) drawerState.open()
-                                else drawerState.close()
-                            }
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.Menu,
-                                contentDescription = "Abrir menú"
-                            )
-                        }
-                    },
-                    actions = actions
-                )
-            }
-        ) { paddingValues ->
-            content(paddingValues)
-        }
-    }
-    */
 }
