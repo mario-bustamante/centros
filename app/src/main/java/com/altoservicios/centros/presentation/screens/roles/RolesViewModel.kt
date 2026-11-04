@@ -15,6 +15,9 @@ import javax.inject.Inject
 class RolesViewModel @Inject constructor(private val authUseCase: AuthUseCase): ViewModel() {
 
     var authResponse by mutableStateOf(AuthResponse())
+        private set
+    var isLoading by mutableStateOf(true)
+        private set
 
     init {
         getSessionData()
@@ -22,6 +25,7 @@ class RolesViewModel @Inject constructor(private val authUseCase: AuthUseCase): 
 
     fun getSessionData() = viewModelScope.launch {
         authUseCase.getSession().collect() { data ->
+            isLoading = false
             if(!data.token.isNullOrBlank()) {
                 authResponse = data
             }

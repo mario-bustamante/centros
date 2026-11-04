@@ -15,6 +15,8 @@ import com.altoservicios.centros.presentation.components.MenuHomeTopBar
 import com.altoservicios.centros.presentation.components.homeBottomBarScreens
 import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.graph.HomeNavGraph
+import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
+import com.altoservicios.centros.presentation.navigation.screen.ResidencesRoute
 import com.altoservicios.centros.presentation.navigation.screen.HomeScreen as HomeDestination
 
 @Composable
@@ -27,6 +29,13 @@ fun HomeScreen(
 
     val navBackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackEntry?.destination
+    val isRegisterDestination = currentDestination?.hierarchy?.any {
+        it.route == AuthScreen.Register.route
+    } == true
+    val isResidenceSearchDestination = currentDestination?.hierarchy?.any {
+        it.route == ResidencesRoute.SEARCH
+    } == true
+    val hideHomeBars = isRegisterDestination || isResidenceSearchDestination
     val selectedHomeRoute = when {
         currentDestination?.hierarchy?.any { it.route == Graph.AUTH } == true ->
             HomeDestination.Auth.route
@@ -41,8 +50,9 @@ fun HomeScreen(
         navController = navController,
         actions = {},
         onLogout = null,
+        showTopBar = !hideHomeBars,
         bottomBar = {
-            if (selectedHomeRoute != null) {
+            if (selectedHomeRoute != null && !hideHomeBars) {
                 HomeBottomBar(
                     selectedRoute = selectedHomeRoute,
                     onItemClick = { screen ->

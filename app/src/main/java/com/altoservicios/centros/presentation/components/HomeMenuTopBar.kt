@@ -26,6 +26,7 @@ fun MenuHomeTopBar(
     navController: NavHostController,
     actions: @Composable RowScope.() -> Unit = {},
     onLogout: (() -> Unit)? = null,
+    showTopBar: Boolean = true,
     bottomBar: @Composable () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit
 ) {
@@ -36,26 +37,22 @@ fun MenuHomeTopBar(
     Scaffold(
         bottomBar = bottomBar,
         topBar = {
-            TopAppBar(
-                title = { },
-                navigationIcon = {
-                    Column(
-                        modifier = Modifier.padding(start = 10.dp, end = 8.dp)
-                    ) {
-
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_logo_h), // Cambia por tu R.drawable.tu_imagen
-                            contentDescription = "Logo",
-                            modifier = Modifier
-
-                                //.padding(start = 12.dp, end = 8.dp) // Ajusta el espaciado con el borde y el texto
-                                // .fillMaxSize()
-                                //.padding(20.dp)
-                            .size(150.dp)
-                        )
+            if (showTopBar) {
+                TopAppBar(
+                    title = { },
+                    navigationIcon = {
+                        Column(
+                            modifier = Modifier.padding(start = 10.dp, end = 8.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_logo_h),
+                                contentDescription = "Logo",
+                                modifier = Modifier.size(150.dp)
+                            )
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     ) { paddingValues ->
         content(paddingValues)

@@ -15,36 +15,9 @@ fun LoginScreen(
     navController: NavHostController,
     rootNavController: NavHostController
 ) {
-/*
-    MenuHomeTopBar(
-        title = "Login",
-        navController = navController,
-        actions = {},
-        onLogout = null,
-        bottomBar = {
-            HomeBottomBar(
-                selectedRoute = HomeScreen.Auth.route,
-                onItemClick = { screen ->
-                    if (screen != HomeScreen.Auth) {
-                        navController.navigate(Graph.HOME) {
-                            popUpTo(Graph.AUTH) { inclusive = true }
-                        }
-                    }
-                }
-            )
-        },
-        content = { paddingValues ->
-            LoginContent(navController, paddingValues)
-        }
-    )
-*/
     Scaffold { paddingValues ->
         LoginContent(navController, paddingValues)
     }
-
-
-
-
 
     Login(navController = navController, rootNavController = rootNavController)
 }

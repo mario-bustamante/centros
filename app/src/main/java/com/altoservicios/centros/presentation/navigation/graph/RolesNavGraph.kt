@@ -12,6 +12,13 @@ import com.altoservicios.centros.presentation.screens.customer.home.CustomerHome
 import com.altoservicios.centros.presentation.screens.roles.RolesScreen
 
 fun NavGraphBuilder.RolesNavGraph(navController: NavHostController) {
+    fun navigateHomeAfterLogout() {
+        navController.navigate(Graph.HOME) {
+            popUpTo(Graph.HOME) { inclusive = true }
+            launchSingleTop = true
+        }
+    }
+
     navigation(
         route = Graph.ROLES,
         startDestination = RolesScreen.Roles.route
@@ -24,7 +31,7 @@ fun NavGraphBuilder.RolesNavGraph(navController: NavHostController) {
         composable(route = Graph.ADMIN) {
             AdminHomeScreen(
                 onLogout = {
-                    navController.popBackStack()
+                    navigateHomeAfterLogout()
                 }
             )
 
@@ -33,14 +40,14 @@ fun NavGraphBuilder.RolesNavGraph(navController: NavHostController) {
         composable(route = Graph.CLIENT) {
             ClientHomeScreen(
                 onLogout = {
-                    navController.popBackStack()
+                    navigateHomeAfterLogout()
             })
         }
 
         composable(route = Graph.CUSTOMER) {
             CustomerHomeScreen(
                 onLogout = {
-                    navController.popBackStack()
+                    navigateHomeAfterLogout()
                 }
             )
         }
