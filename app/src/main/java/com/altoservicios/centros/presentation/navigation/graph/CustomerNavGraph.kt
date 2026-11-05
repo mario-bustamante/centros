@@ -6,7 +6,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.altoservicios.centros.presentation.navigation.Graph
-import com.altoservicios.centros.presentation.navigation.screen.CustomerScreen
 import com.altoservicios.centros.presentation.screens.residences.ResidencesViewModel
 
 @Composable

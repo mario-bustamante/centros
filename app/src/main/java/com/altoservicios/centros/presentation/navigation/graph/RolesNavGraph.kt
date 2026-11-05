@@ -25,7 +25,12 @@ fun NavGraphBuilder.RolesNavGraph(navController: NavHostController) {
     ) {
 
         composable(route = RolesScreen.Roles.route) {
-            RolesScreen(navController)
+            RolesScreen(
+                navController,
+                onLogout = {
+                    navigateHomeAfterLogout()
+                }
+            )
         }
 
         composable(route = Graph.ADMIN) {
@@ -34,7 +39,6 @@ fun NavGraphBuilder.RolesNavGraph(navController: NavHostController) {
                     navigateHomeAfterLogout()
                 }
             )
-
         }
 
         composable(route = Graph.CLIENT) {

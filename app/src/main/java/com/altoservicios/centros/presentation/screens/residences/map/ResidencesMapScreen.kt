@@ -8,12 +8,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +29,6 @@ import androidx.navigation.NavHostController
 import com.altoservicios.centros.R
 import com.altoservicios.centros.domain.model.Residence
 import com.altoservicios.centros.presentation.components.DefaultButton
-import com.altoservicios.centros.presentation.components.DefaultTopBar
 import com.altoservicios.centros.presentation.components.MessageEffect
 import com.altoservicios.centros.presentation.components.dial
 import com.altoservicios.centros.presentation.components.distanceLabel
