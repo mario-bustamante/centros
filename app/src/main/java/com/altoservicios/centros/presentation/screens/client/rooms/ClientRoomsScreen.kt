@@ -29,7 +29,7 @@ import com.altoservicios.centros.presentation.screens.client.rooms.components.Li
 fun ClientRoomsScreen(
     vm: ClientResidenceViewModel = hiltViewModel()
 ) {
-    val successMessage = stringResource(R.string.toast_update_my_residence)
+    val successMessage = stringResource(R.string.toast_update_my_rooms)
     MessageEffect(message = vm.message, onConsumed = { vm.message = "" })
 
     Scaffold { paddingValues ->
@@ -48,7 +48,8 @@ fun ClientRoomsScreen(
                 ListRooms(
                     title = stringResource(R.string.label_room),
                     items = vm.rooms.map { it.id to it.room.orEmpty()  },
-                    quantities = vm.rooms.associate { it.id to (it.numAvailable ?: 0).toString() }
+                    quantities = vm.availability,
+                    onQuantityChange = vm::onAvailabilityChange
                 )
 
                 DefaultButton(

@@ -6,6 +6,7 @@ import com.altoservicios.centros.data.dataSource.remote.AuthRemoteDataSource
 import com.altoservicios.centros.data.dataSource.remote.service.ContactService
 import com.altoservicios.centros.data.dataSource.remote.service.PhotoService
 import com.altoservicios.centros.data.dataSource.remote.service.ResidenceService
+import com.altoservicios.centros.data.dataSource.remote.service.ResidencesService
 import com.altoservicios.centros.data.dataSource.remote.service.UserService
 import com.altoservicios.centros.data.repository.AuthRepositoryImpl
 import com.altoservicios.centros.data.repository.ContactRepositoryImpl
@@ -33,7 +34,10 @@ object RepositoryModule {
     ): AuthRepository = AuthRepositoryImpl(authRemoteDataSource, authLocalDataSource)
 
     @Provides
-    fun provideResidencesRepository(service: ResidenceService): ResidencesRepository = ResidencesRepositoryImpl(service)
+    fun provideResidencesRepository(
+        residenceService: ResidenceService,
+        residencesService: ResidencesService
+    ): ResidencesRepository = ResidencesRepositoryImpl(residenceService, residencesService)
 
     @Provides
     fun provideContactRepository(service: ContactService): ContactRepository = ContactRepositoryImpl(service)

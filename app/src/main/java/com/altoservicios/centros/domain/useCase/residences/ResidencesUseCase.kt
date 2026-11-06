@@ -1,6 +1,7 @@
 package com.altoservicios.centros.domain.useCase.residences
 
 import com.altoservicios.centros.domain.model.Residence
+import com.altoservicios.centros.domain.model.RoomAvailability
 import com.altoservicios.centros.domain.model.Search
 import com.altoservicios.centros.domain.repository.ResidencesRepository
 
@@ -10,14 +11,11 @@ data class ResidencesUseCase(
     val getProvinces: GetProvincesUseCase,
     val getTowns: GetTownsUseCase,
     val getRooms: GetRoomsUseCase,
-    val getSectors: GetSectorsUseCase,
-    val getDependencies: GetDependenciesUseCase,
     val getPrices: GetPricesUseCase,
     val getMyResidence: GetMyResidenceUseCase,
     val updateMyResidence: UpdateMyResidenceUseCase,
     val getMyRooms: GetMyRoomsUseCase,
-    val getMySectors: GetMySectorsUseCase,
-    val getMyDependencies: GetMyDependenciesUseCase,
+    val updateMyRooms: UpdateMyRoomsUseCase,
 )
 
 class GetResidencesUseCase(private val repository: ResidencesRepository) {
@@ -40,14 +38,6 @@ class GetRoomsUseCase(private val repository: ResidencesRepository) {
     suspend operator fun invoke() = repository.getRooms()
 }
 
-class GetSectorsUseCase(private val repository: ResidencesRepository) {
-    suspend operator fun invoke() = repository.getSectors()
-}
-
-class GetDependenciesUseCase(private val repository: ResidencesRepository) {
-    suspend operator fun invoke() = repository.getDependencies()
-}
-
 class GetPricesUseCase(private val repository: ResidencesRepository) {
     suspend operator fun invoke() = repository.getPrices()
 }
@@ -65,10 +55,6 @@ class GetMyRoomsUseCase(private val repository: ResidencesRepository) {
     suspend operator fun invoke() = repository.getMyResidenceRooms()
 }
 
-class GetMySectorsUseCase(private val repository: ResidencesRepository) {
-    suspend operator fun invoke() = repository.getMyResidenceSectors()
-}
-
-class GetMyDependenciesUseCase(private val repository: ResidencesRepository) {
-    suspend operator fun invoke() = repository.getMyResidenceDependencies()
+class UpdateMyRoomsUseCase(private val repository: ResidencesRepository) {
+    suspend operator fun invoke(rooms: List<RoomAvailability>) = repository.updateMyResidenceRooms(rooms)
 }

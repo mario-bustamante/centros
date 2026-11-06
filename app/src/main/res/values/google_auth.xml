@@ -1,0 +1,4 @@
+<resources>
+    <!-- Reemplazar con el ID de cliente OAuth tipo "Web" de Google (debe ser el mismo que services.google.client_id en Laravel) -->
+    <string name="google_web_client_id" templateMergeStrategy="preserve" translatable="false">YOUR_WEB_CLIENT_ID</string>
+</resources>

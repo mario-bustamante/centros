@@ -31,21 +31,14 @@ data class Room(
 
 data class RoomResponse(@SerializedName("data") val data: List<Room>? = null)
 
-data class Sector(
+data class RoomAvailability(
     @SerializedName("id") val id: Int,
-    @SerializedName("plaza") val sector: String? = null,
-    @SerializedName("residence_id") val residenceId: Int? = null,
+    @SerializedName("disponible") val available: Int,
 )
 
-data class SectorResponse(@SerializedName("data") val data: List<Sector>? = null)
+data class UpdateRoomsRequest(@SerializedName("habitaciones") val rooms: List<RoomAvailability>)
 
-data class Dependence(
-    @SerializedName("id") val id: Int,
-    @SerializedName("dependencia") val dependence: String? = null,
-    @SerializedName("residence_id") val residenceId: Int? = null,
-)
-
-data class DependenceResponse(@SerializedName("data") val data: List<Dependence>? = null)
+data class UpdateRoomsResponse(@SerializedName("updated") val updated: Int? = null)
 
 data class Price(
     @SerializedName("id") val id: Int,

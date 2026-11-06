@@ -57,6 +57,19 @@ class LoginViewModel @Inject constructor(private val authUseCase: AuthUseCase): 
         }
     }
 
+    fun loginWithGoogle(idToken: String?) = viewModelScope.launch {
+        if (idToken.isNullOrBlank()) {
+            loginResponse = Resource.Failure("No se pudo obtener la cuenta de Google")
+            return@launch
+        }
+        loginResponse = Resource.Loading
+        loginResponse = authUseCase.loginGoogle(idToken)
+    }
+
+    fun onGoogleError(message: String) {
+        loginResponse = Resource.Failure(message)
+    }
+
     fun isValidForm(): Boolean {
 
         if(!Patterns.EMAIL_ADDRESS.matcher(state.email).matches()) {

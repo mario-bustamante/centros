@@ -9,6 +9,7 @@
     <string name="lbl_register">¿No estas registrado?</string>
 
     <string name="msg_error">Hubo un error</string>
+    <string name="msg_google_error">No se pudo iniciar sesión con Google</string>
 
     <!-- buscador -->
     <string name="label_search_for">Buscar por</string>
@@ -16,15 +17,11 @@
     <string name="label_town">Municipio</string>
     <string name="btn_search">Buscar</string>
     <string name="label_price">Precios desde €</string>
-    <string name="label_dependence">Tipo de dependencia</string>
-    <string name="label_sector">Tipo de plaza</string>
     <string name="label_room">Habitaciones de la residencia</string>
     <string name="label_near">Más cercanas</string>
     <string name="spinner_province">Selecciona una provincia</string>
     <string name="spinner_town">Selecciona un municipio</string>
     <string name="spinner_price">Selecciona un rango de precio</string>
-    <string name="spinner_dependence">Selecciona un tipo de dependencia</string>
-    <string name="spinner_sector">Selecciona un tipo de plaza</string>
     <string name="spinner_room">Selecciona un tipo de habitación</string>
 
     <!-- residencia -->
@@ -43,6 +40,7 @@
     <string name="btn_save">Guardar</string>
     <string name="toast_update_my_residence">Se han actualizado correctamente los datos de la residencia</string>
     <string name="toast_update_my_residence_error">Han ocurrido un error al intentar actualizar los datos de la residencia</string>
+    <string name="toast_update_my_rooms">Se ha actualizado correctamente la disponibilidad de habitaciones</string>
     <string name="toast_update_profile">Se han actualizado correctamente los datos de su perfil</string>
 
     <!-- fotografias -->

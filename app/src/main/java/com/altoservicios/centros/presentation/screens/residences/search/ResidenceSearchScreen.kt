@@ -106,24 +106,6 @@ fun ResidenceSearchScreen(navController: NavHostController, vm: ResidencesViewMo
                 onSelected = { search = search.copy(room = it) }
             )
 
-            OptionDropdown(
-                modifier = fieldModifier,
-                label = stringResource(R.string.label_sector),
-                emptyLabel = stringResource(R.string.spinner_sector),
-                options = vm.sectors.map { it.id to it.sector.orEmpty() },
-                selectedId = search.sector,
-                onSelected = { search = search.copy(sector = it) }
-            )
-
-            OptionDropdown(
-                modifier = fieldModifier,
-                label = stringResource(R.string.label_dependence),
-                emptyLabel = stringResource(R.string.spinner_dependence),
-                options = vm.dependencies.map { it.id to it.dependence.orEmpty() },
-                selectedId = search.dependence,
-                onSelected = { search = search.copy(dependence = it) }
-            )
-
             Row(
                 modifier = fieldModifier,
                 verticalAlignment = Alignment.CenterVertically

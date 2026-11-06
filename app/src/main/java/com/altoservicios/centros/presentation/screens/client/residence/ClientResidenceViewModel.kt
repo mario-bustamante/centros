@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.altoservicios.centros.domain.model.Province
 import com.altoservicios.centros.domain.model.Residence
 import com.altoservicios.centros.domain.model.Room
+import com.altoservicios.centros.domain.model.RoomAvailability
 import com.altoservicios.centros.domain.model.Town
 import com.altoservicios.centros.domain.useCase.residences.ResidencesUseCase
 import com.altoservicios.centros.domain.util.Resource
@@ -34,6 +35,8 @@ class ClientResidenceViewModel @Inject constructor(
         private set
     var selectedRooms by mutableStateOf<Set<Int>>(emptySet())
         private set
+    var availability by mutableStateOf<Map<Int, String>>(emptyMap())
+        private set
 
     init {
         load()
@@ -54,6 +57,7 @@ class ClientResidenceViewModel @Inject constructor(
             if (roomsResult is Resource.Success) {
                 rooms = roomsResult.data
                 selectedRooms = rooms.filter { it.residenceId != null }.map { it.id }.toSet()
+                availability = rooms.associate { it.id to (it.numAvailable ?: 0).toString() }
             }
 
             listOf(residenceResult, provincesResult, roomsResult)
@@ -101,9 +105,31 @@ class ClientResidenceViewModel @Inject constructor(
         }
     }
 
-    fun saveRooms(successMessage: String) {
-
+    fun onAvailabilityChange(id: Int, value: String) {
+        availability = availability + (id to value.filter { it.isDigit() }.take(5))
     }
+
+    fun saveRooms(successMessage: String) {
+        val rooms = availability.map { (id, value) -> RoomAvailability(id, value.toIntOrNull() ?: 0) }
+        if (rooms.isEmpty()) return
+
+        isLoading = true
+        viewModelScope.launch {
+            when (val result = residencesUseCase.updateMyRooms(rooms)) {
+                is Resource.Success -> {
+                    this@ClientResidenceViewModel.rooms = this@ClientResidenceViewModel.rooms.map { room ->
+                        room.copy(numAvailable = availability[room.id]?.toIntOrNull() ?: 0)
+                    }
+                    availability = this@ClientResidenceViewModel.rooms.associate { it.id to (it.numAvailable ?: 0).toString() }
+                    message = successMessage
+                }
+                is Resource.Failure -> message = result.message
+                Resource.Loading -> Unit
+            }
+            isLoading = false
+        }
+    }
+
     private fun loadTowns(idProvince: Int) {
         viewModelScope.launch {
             val result = residencesUseCase.getTowns(idProvince)

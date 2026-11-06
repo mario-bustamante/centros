@@ -8,6 +8,7 @@ import com.altoservicios.centros.domain.repository.AuthRepository
 import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.domain.util.ResponseToRequest
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 
 class AuthRepositoryImpl(
     private val authRemoteDataSource: AuthRemoteDataSource,
@@ -24,6 +25,18 @@ class AuthRepositoryImpl(
     override suspend fun register(user: User): Resource<AuthResponse> = ResponseToRequest.send(
         authRemoteDataSource.register(user)
     )
+
+    override suspend fun loginGoogle(idToken: String): Resource<AuthResponse> =
+        ResponseToRequest.call { authRemoteDataSource.loginGoogle(idToken) }
+
+    override suspend fun refreshToken(): Resource<AuthResponse> {
+        val result = ResponseToRequest.call { authRemoteDataSource.refresh() }
+        if (result !is Resource.Success || result.data.token.isNullOrBlank()) return result
+
+        val session = authLocalDataSource.getSessionData().first().withRefreshedToken(result.data)
+        authLocalDataSource.saveSession(session)
+        return Resource.Success(session)
+    }
 
     override suspend fun saveSession(authResponse: AuthResponse) = authLocalDataSource.saveSession(authResponse)
 

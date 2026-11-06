@@ -11,6 +11,10 @@ interface AuthRepository {
 
     suspend fun register(user: User): Resource<AuthResponse>
 
+    suspend fun loginGoogle(idToken: String): Resource<AuthResponse>
+
+    suspend fun refreshToken(): Resource<AuthResponse>
+
     suspend fun saveSession(authResponse: AuthResponse)
 
     suspend fun logout()

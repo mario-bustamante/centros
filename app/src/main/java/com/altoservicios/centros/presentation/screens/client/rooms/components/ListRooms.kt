@@ -26,7 +26,8 @@ import com.altoservicios.centros.R
 fun ListRooms(
     title: String,
     items: List<Pair<Int, String>>,
-    quantities: Map<Int, String> = emptyMap()
+    quantities: Map<Int, String> = emptyMap(),
+    onQuantityChange: (Int, String) -> Unit = { _, _ -> }
 ) {
     if (items.isEmpty()) return
 
@@ -65,8 +66,7 @@ fun ListRooms(
                             .padding(start = 12.dp)
                             .width(110.dp),
                         value = quantity,
-                        onValueChange = { },
-                        readOnly = true,
+                        onValueChange = { onQuantityChange(id, it) },
                         singleLine = true,
                         label = { Text(text = "Disponibles") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),

@@ -1,8 +1,11 @@
 package com.altoservicios.centros.presentation.screens.auth.login.components
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.res.Configuration
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,6 +57,9 @@ import com.altoservicios.centros.presentation.components.DefaultButton
 import com.altoservicios.centros.presentation.components.DefaultTextField
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 
 @SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
@@ -64,6 +71,29 @@ fun LoginContent(
 
     val state = vm.state
     val context = LocalContext.current
+    val googleError = stringResource(R.string.msg_google_error)
+
+    val googleClient = remember {
+        val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(context.getString(R.string.google_web_client_id))
+            .requestEmail()
+            .build()
+        GoogleSignIn.getClient(context, options)
+    }
+
+    val googleLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        // Si el usuario cancela, no se muestra ningun error
+        if (result.resultCode != Activity.RESULT_OK) return@rememberLauncherForActivityResult
+        try {
+            val account = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                .getResult(ApiException::class.java)
+            vm.loginWithGoogle(account.idToken)
+        } catch (e: ApiException) {
+            vm.onGoogleError(googleError)
+        }
+    }
 
     val configuration = LocalConfiguration.current
     val orientation = configuration.orientation
@@ -129,7 +159,7 @@ fun LoginContent(
 
 
                     Button(
-                        { /*onGoogleLogin()*/ },
+                        { googleClient.signOut().addOnCompleteListener { googleLauncher.launch(googleClient.signInIntent) } },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
@@ -209,10 +239,6 @@ fun LoginContent(
 
 private fun onRegister(navController: NavHostController) {
     navController.navigate(route = AuthScreen.Register.route)
-}
-
-private fun signInGoogle() {
-
 }
 
 private fun onLogin(vm: LoginViewModel) {

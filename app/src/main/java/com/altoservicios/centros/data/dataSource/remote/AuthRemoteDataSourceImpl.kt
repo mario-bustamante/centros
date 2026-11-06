@@ -15,4 +15,8 @@ class AuthRemoteDataSourceImpl(private val authService: AuthService): AuthRemote
     override suspend fun register(
         user: User
     ): Response<AuthResponse> = authService.register(user = user)
+
+    override suspend fun loginGoogle(idToken: String): Response<AuthResponse> = authService.loginGoogle(idToken)
+
+    override suspend fun refresh(): Response<AuthResponse> = authService.refresh()
 }

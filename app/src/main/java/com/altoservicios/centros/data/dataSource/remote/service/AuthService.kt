@@ -21,4 +21,13 @@ interface AuthService {
     suspend fun register(
         @Body() user: User,
     ): Response<AuthResponse>
+
+    @FormUrlEncoded
+    @POST("auth/login/google")
+    suspend fun loginGoogle(
+        @Field("id_token") idToken: String,
+    ): Response<AuthResponse>
+
+    @POST("auth/refresh")
+    suspend fun refresh(): Response<AuthResponse>
 }

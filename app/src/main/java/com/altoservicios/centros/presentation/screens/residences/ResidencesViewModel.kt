@@ -5,13 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.altoservicios.centros.domain.model.Dependence
 import com.altoservicios.centros.domain.model.Price
 import com.altoservicios.centros.domain.model.Province
 import com.altoservicios.centros.domain.model.Residence
 import com.altoservicios.centros.domain.model.Room
 import com.altoservicios.centros.domain.model.Search
-import com.altoservicios.centros.domain.model.Sector
 import com.altoservicios.centros.domain.model.Town
 import com.altoservicios.centros.domain.useCase.residences.ResidencesUseCase
 import com.altoservicios.centros.domain.util.Resource
@@ -51,10 +49,6 @@ class ResidencesViewModel @Inject constructor(
     var towns by mutableStateOf<List<Town>>(emptyList())
         private set
     var rooms by mutableStateOf<List<Room>>(emptyList())
-        private set
-    var sectors by mutableStateOf<List<Sector>>(emptyList())
-        private set
-    var dependencies by mutableStateOf<List<Dependence>>(emptyList())
         private set
     var prices by mutableStateOf<List<Price>>(emptyList())
         private set
@@ -121,17 +115,13 @@ class ResidencesViewModel @Inject constructor(
         viewModelScope.launch {
             val provincesResult = residencesUseCase.getProvinces()
             val roomsResult = residencesUseCase.getRooms()
-            val sectorsResult = residencesUseCase.getSectors()
-            val dependenciesResult = residencesUseCase.getDependencies()
             val pricesResult = residencesUseCase.getPrices()
 
             if (provincesResult is Resource.Success) provinces = provincesResult.data
             if (roomsResult is Resource.Success) rooms = roomsResult.data
-            if (sectorsResult is Resource.Success) sectors = sectorsResult.data
-            if (dependenciesResult is Resource.Success) dependencies = dependenciesResult.data
             if (pricesResult is Resource.Success) prices = pricesResult.data
 
-            val failure = listOf(provincesResult, roomsResult, sectorsResult, dependenciesResult, pricesResult)
+            val failure = listOf(provincesResult, roomsResult, pricesResult)
                 .filterIsInstance<Resource.Failure<*>>()
                 .firstOrNull()
             if (failure != null) {

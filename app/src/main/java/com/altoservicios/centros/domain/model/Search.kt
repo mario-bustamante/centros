@@ -6,8 +6,6 @@ data class Search(
     val town: Int? = null,
     val price: Int? = null,
     val room: Int? = null,
-    val sector: Int? = null,
-    val dependence: Int? = null,
     val near: Boolean = false,
     val latitude: Double? = null,
     val longitude: Double? = null,
