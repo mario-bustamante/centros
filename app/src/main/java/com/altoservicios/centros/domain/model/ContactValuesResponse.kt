@@ -9,6 +9,10 @@ data class CountryCode(
 )
 
 data class ContactValuesResponse(
+    @SerializedName("data") val data: ContactValuesData? = null
+)
+
+data class ContactValuesData(
     @SerializedName("fecha") val date: String? = null,
     @SerializedName("urgencia") val urgency: Map<String, String>? = null,
     @SerializedName("parentesco") val relationship: Map<String, String>? = null,

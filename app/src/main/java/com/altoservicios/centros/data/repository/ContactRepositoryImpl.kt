@@ -1,21 +1,26 @@
 package com.altoservicios.centros.data.repository
 
 import com.altoservicios.centros.data.dataSource.remote.service.ContactService
-import com.altoservicios.centros.domain.model.ContactValuesResponse
+import com.altoservicios.centros.domain.model.ContactValuesData
 import com.altoservicios.centros.domain.model.ValoresFormulario
 import com.altoservicios.centros.domain.repository.ContactRepository
 import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.domain.util.ResponseToRequest
-import com.altoservicios.centros.domain.util.map
 
 class ContactRepositoryImpl(
     private val service: ContactService
 ) : ContactRepository {
 
     override suspend fun getValues(): Resource<ValoresFormulario> =
-        ResponseToRequest.call { service.getValues() }.map { it.toValues() }
+        when (val response = ResponseToRequest.call { service.getValues() }) {
+            is Resource.Success -> response.data.data?.let {
+                Resource.Success(it.toValues())
+            } ?: Resource.Failure("La respuesta de contacto no contiene datos")
+            is Resource.Failure -> Resource.Failure(response.message)
+            Resource.Loading -> Resource.Loading
+        }
 
-    private fun ContactValuesResponse.toValues() = ValoresFormulario(
+    private fun ContactValuesData.toValues() = ValoresFormulario(
         urgencia = urgency.orEmpty().toList(),
         parentesco = relationship.orEmpty().toList(),
         trato = title.orEmpty().toList(),

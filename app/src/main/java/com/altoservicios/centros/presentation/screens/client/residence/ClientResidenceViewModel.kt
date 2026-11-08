@@ -38,8 +38,6 @@ class ClientResidenceViewModel @Inject constructor(
         private set
     var rooms by mutableStateOf<List<Room>>(emptyList())
         private set
-    var selectedRooms by mutableStateOf<Set<Int>>(emptySet())
-        private set
     var availability by mutableStateOf<Map<Int, String>>(emptyMap())
         private set
 
@@ -77,7 +75,6 @@ class ClientResidenceViewModel @Inject constructor(
             if (provincesResult is Resource.Success) provinces = provincesResult.data
             if (roomsResult is Resource.Success) {
                 rooms = roomsResult.data
-                selectedRooms = rooms.filter { it.residenceId != null }.map { it.id }.toSet()
                 availability = rooms.associate { it.id to (it.numAvailable ?: 0).toString() }
             }
 
@@ -106,17 +103,14 @@ class ClientResidenceViewModel @Inject constructor(
         residence = residence.copy(townId = idTown?.toString())
     }
 
-    fun toggleRoom(id: Int) {
-        selectedRooms = selectedRooms.toggle(id)
-    }
-
     fun save(successMessage: String) {
+        if (residenceId.isBlank()) {
+            message = "No residence ID provided"
+            return
+        }
         isLoading = true
         viewModelScope.launch {
-            val result = residencesUseCase.updateMyResidence(
-                residence = residence,
-                room = selectedRooms.toIdString()
-            )
+            val result = residencesUseCase.updateMyResidence(residence)
             when (result) {
                 is Resource.Success -> {
                     residence = result.data
@@ -136,10 +130,14 @@ class ClientResidenceViewModel @Inject constructor(
     fun saveRooms(successMessage: String) {
         val rooms = availability.map { (id, value) -> RoomAvailability(id, value.toIntOrNull() ?: 0) }
         if (rooms.isEmpty()) return
+        if (residenceId.isBlank()) {
+            message = "No residence ID provided"
+            return
+        }
 
         isLoading = true
         viewModelScope.launch {
-            when (val result = residencesUseCase.updateMyRooms(rooms)) {
+            when (val result = residencesUseCase.updateMyRooms(residenceId, rooms)) {
                 is Resource.Success -> {
                     this@ClientResidenceViewModel.rooms = this@ClientResidenceViewModel.rooms.map { room ->
                         room.copy(numAvailable = availability[room.id]?.toIntOrNull() ?: 0)
@@ -162,8 +160,4 @@ class ClientResidenceViewModel @Inject constructor(
         }
     }
 
-    private fun Set<Int>.toggle(id: Int): Set<Int> = if (id in this) this - id else this + id
-
-    // El servidor espera los ids separados por "_" (ej: "1_4_")
-    private fun Set<Int>.toIdString(): String = joinToString(separator = "") { "${it}_" }
 }

@@ -23,46 +23,83 @@ class ResidencesRepositoryImpl(
 ) : ResidencesRepository {
 
     override suspend fun getMyResidences(): Resource<List<Residence>> =
-        ResponseToRequest.call { residenceService.getMyResidences() }.map { it.orEmpty() }
+        when (val response = ResponseToRequest.call { residenceService.getMyResidences() }) {
+            is Resource.Success -> response.data.data?.let { Resource.Success(it) }
+                ?: Resource.Failure("La respuesta de residencias no contiene datos")
+            is Resource.Failure -> Resource.Failure(response.message)
+            Resource.Loading -> Resource.Loading
+        }
 
     override suspend fun getResidenceById(idResidence: String): Resource<Residence> =
-        ResponseToRequest.call { residenceService.getResidenceById(idResidence) }.map { it.data ?: Residence() }
+        when (val response = ResponseToRequest.call { residenceService.getResidenceById(idResidence) }) {
+            is Resource.Success -> response.data.data?.let { Resource.Success(it) }
+                ?: Resource.Failure("La respuesta no contiene la residencia")
+            is Resource.Failure -> Resource.Failure(response.message)
+            Resource.Loading -> Resource.Loading
+        }
 
-    override suspend fun updateMyResidence(
-        residence: Residence,
-        room: String
-    ): Resource<Residence> {
-        val params = mutableMapOf(
-            "room" to room,
-            "id" to residence.id,
-        )
+    override suspend fun updateMyResidence(residence: Residence): Resource<Residence> {
+        val params = mutableMapOf("residence_id" to residence.id)
         residence.name?.let { params["name"] = it }
         residence.email?.let { params["email"] = it }
         residence.web?.let { params["web"] = it }
         residence.address?.let { params["address"] = it }
         residence.phone?.let { params["phone"] = it }
-        residence.price?.let { params["price"] = it }
         residence.description?.let { params["description"] = it }
         residence.latitude?.let { params["latitude"] = it }
         residence.longitude?.let { params["longitude"] = it }
         residence.townId?.let { params["idtown"] = it }
 
-        return ResponseToRequest.call { residenceService.updateMyResidence(params) }.map { it.data ?: residence }
+        return when (val response = ResponseToRequest.call {
+            residenceService.updateMyResidence(params)
+        }) {
+            is Resource.Success -> response.data.data?.let { Resource.Success(it) }
+                ?: Resource.Failure("La respuesta no contiene la residencia actualizada")
+            is Resource.Failure -> Resource.Failure(response.message)
+            Resource.Loading -> Resource.Loading
+        }
     }
 
     override suspend fun getMyResidenceRooms(idResidence: String): Resource<List<Room>> =
-        ResponseToRequest.call { residenceService.getMyResidenceRooms(idResidence) }.map { it.data.orEmpty() }
+        when (val response = ResponseToRequest.call { residenceService.getMyResidenceRooms(idResidence) }) {
+            is Resource.Success -> response.data.data?.let { Resource.Success(it) }
+                ?: Resource.Failure("La respuesta no contiene las habitaciones")
+            is Resource.Failure -> Resource.Failure(response.message)
+            Resource.Loading -> Resource.Loading
+        }
 
-    override suspend fun updateMyResidenceRooms(rooms: List<RoomAvailability>): Resource<Int> =
-        ResponseToRequest.call { residenceService.updateMyResidenceRooms(UpdateRoomsRequest(rooms)) }
-            .map { it.updated ?: rooms.size }
+    override suspend fun updateMyResidenceRooms(
+        residenceId: String,
+        rooms: List<RoomAvailability>
+    ): Resource<Int> =
+        when (val response = ResponseToRequest.call {
+            residenceService.updateMyResidenceRooms(UpdateRoomsRequest(residenceId, rooms))
+        }) {
+            is Resource.Success -> response.data.data?.updated?.let { Resource.Success(it) }
+                ?: Resource.Failure("La respuesta no contiene el total de habitaciones actualizadas")
+            is Resource.Failure -> Resource.Failure(response.message)
+            Resource.Loading -> Resource.Loading
+        }
 
     override suspend fun getResidences(page: Int?, search: Search?): Resource<ResidencesPage> =
-        ResponseToRequest.call { residencesService.getResidences(page, search.toFilters()) }.map { it.toPage() }
+        when (val response = ResponseToRequest.call {
+            residencesService.getResidences(page, search.toFilters())
+        }) {
+            is Resource.Success -> response.data.toPage()
+            is Resource.Failure -> Resource.Failure(response.message)
+            Resource.Loading -> Resource.Loading
+        }
 
     override suspend fun getResidencesMap(page: Int?, search: Search?): Resource<ResidencesPage> {
-        val filters = search.toFilters() + ("mapa" to "true")
-        return ResponseToRequest.call { residencesService.getResidencesMap(page, filters) }.map { it.toPage() }
+        val hasCoordinates = search?.latitude != null && search.longitude != null
+        val filters = search.toFilters() + ("mapa" to hasCoordinates.toString())
+        return when (val response = ResponseToRequest.call {
+            residencesService.getResidencesMap(page, filters)
+        }) {
+            is Resource.Success -> response.data.toPage()
+            is Resource.Failure -> Resource.Failure(response.message)
+            Resource.Loading -> Resource.Loading
+        }
     }
 
     override suspend fun getProvinces(all: Boolean?): Resource<List<Province>> =
@@ -77,10 +114,24 @@ class ResidencesRepositoryImpl(
     override suspend fun getPrices(): Resource<List<Price>> =
         ResponseToRequest.call { residencesService.getPrices() }.map { it.data.orEmpty() }
 
-    private fun ResidencesResponse.toPage() = ResidencesPage(
-        nextPage = currentPage?.plus(1),
-        residences = data.orEmpty()
-    )
+    private fun ResidencesResponse.toPage(): Resource<ResidencesPage> {
+        val residences = data
+            ?: return Resource.Failure("La respuesta no contiene el listado de residencias")
+        val pagination = meta
+            ?: return Resource.Failure("La respuesta no contiene los metadatos de paginación")
+
+        val currentPage = pagination.currentPage
+            ?: return Resource.Failure("La respuesta no indica la página actual")
+        val lastPage = pagination.lastPage
+            ?: return Resource.Failure("La respuesta no indica la última página")
+
+        return Resource.Success(
+            ResidencesPage(
+                nextPage = (currentPage + 1).takeIf { currentPage < lastPage },
+                residences = residences
+            )
+        )
+    }
 
     private fun Search?.toFilters(): Map<String, String> {
         val filters = mutableMapOf<String, String>()

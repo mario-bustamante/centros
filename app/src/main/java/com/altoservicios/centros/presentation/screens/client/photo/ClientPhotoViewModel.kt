@@ -22,6 +22,7 @@ class ClientPhotoViewModel @Inject constructor(
 
     // Fotografia existente (null cuando se crea una nueva)
     val photo: Photo? = savedStateHandle.get<String>(PHOTO_ARG)?.let { Photo.fromJson(it) }
+    private val residenceId: String = savedStateHandle.get<String>("residenceId") ?: ""
 
     var title by mutableStateOf(photo?.title.orEmpty())
     var description by mutableStateOf(photo?.description.orEmpty())
@@ -55,19 +56,27 @@ class ClientPhotoViewModel @Inject constructor(
             message = "Toma una fotografía primero"
             return
         }
+        if (residenceId.isBlank()) {
+            message = "No se proporcionó el ID de la residencia"
+            return
+        }
 
         execute {
             if (file != null) {
-                photoUseCase.uploadPhoto(file, newPhoto)
+                photoUseCase.uploadPhoto(residenceId, file, newPhoto)
             } else {
-                photoUseCase.updatePhoto(newPhoto)
+                photoUseCase.updatePhoto(residenceId, newPhoto)
             }
         }
     }
 
     fun delete() {
         val current = photo ?: return
-        execute { photoUseCase.deletePhoto(current) }
+        if (residenceId.isBlank()) {
+            message = "No se proporcionó el ID de la residencia"
+            return
+        }
+        execute { photoUseCase.deletePhoto(residenceId, current) }
     }
 
     private fun execute(block: suspend () -> Resource<*>) {

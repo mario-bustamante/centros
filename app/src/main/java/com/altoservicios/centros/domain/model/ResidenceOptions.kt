@@ -36,9 +36,16 @@ data class RoomAvailability(
     @SerializedName("disponible") val available: Int,
 )
 
-data class UpdateRoomsRequest(@SerializedName("habitaciones") val rooms: List<RoomAvailability>)
+data class UpdateRoomsRequest(
+    @SerializedName("residence_id") val residenceId: String,
+    @SerializedName("habitaciones") val rooms: List<RoomAvailability>,
+)
 
-data class UpdateRoomsResponse(@SerializedName("updated") val updated: Int? = null)
+data class UpdateRoomsResponse(
+    @SerializedName("data") val data: UpdateRoomsResult? = null,
+)
+
+data class UpdateRoomsResult(@SerializedName("updated") val updated: Int? = null)
 
 data class Price(
     @SerializedName("id") val id: Int,

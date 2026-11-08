@@ -32,6 +32,10 @@ fun NavGraphBuilder.PhotosNavGraph(navController: NavHostController) {
         composable(
             route = PhotosScreen.PHOTO,
             arguments = listOf(
+                navArgument("residenceId") {
+                    type = NavType.StringType
+                    nullable = false
+                },
                 navArgument("photo") {
                     type = NavType.StringType
                     nullable = true

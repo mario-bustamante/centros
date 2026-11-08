@@ -8,9 +8,9 @@ interface PhotoRepository {
 
     suspend fun getImages(idResidence: String): Resource<List<Photo>>
 
-    suspend fun uploadImage(file: File, photo: Photo): Resource<Unit>
+    suspend fun uploadImage(residenceId: String, file: File, photo: Photo): Resource<Unit>
 
-    suspend fun updateImage(photo: Photo): Resource<Photo>
+    suspend fun updateImage(residenceId: String, photo: Photo): Resource<Photo>
 
-    suspend fun deleteImage(photo: Photo): Resource<Photo>
+    suspend fun deleteImage(residenceId: String, photo: Photo): Resource<Unit>
 }

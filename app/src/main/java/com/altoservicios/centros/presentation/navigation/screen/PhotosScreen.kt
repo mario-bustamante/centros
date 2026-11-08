@@ -11,10 +11,14 @@ object PhotosScreen : MenuScreen {
     override val title = "Fotografías"
     override val icon: ImageVector = Icons.Default.Star
 
-    const val PHOTO = "client/photo?photo={photo}"
+    const val PHOTO = "client/photo?residenceId={residenceId}&photo={photo}"
 
     fun createRoute(residenceId: String) = "client/photos/$residenceId"
 
-    fun photo(photo: Photo?) =
-        if (photo == null) "client/photo" else "client/photo?photo=${Uri.encode(photo.toJson())}"
+    fun photo(residenceId: String, photo: Photo?) =
+        if (photo == null) {
+            "client/photo?residenceId=$residenceId"
+        } else {
+            "client/photo?residenceId=$residenceId&photo=${Uri.encode(photo.toJson())}"
+        }
 }

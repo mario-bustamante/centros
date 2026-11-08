@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 data class User(
     @SerializedName("id") val id: String? = null,
-    @SerializedName("username") val name: String,
+    @SerializedName(value = "username", alternate = ["name"]) val name: String,
     @SerializedName("email") val email: String? = null,
-    @SerializedName("phone") val phone: String? = null,
+    @SerializedName(value = "phone", alternate = ["telefono"]) val phone: String? = null,
     @SerializedName("password") val password: String? = null,
     @SerializedName("roles") val roles: List<Rol>? = null,
     @SerializedName("image") val image:String? = null,

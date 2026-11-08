@@ -53,7 +53,9 @@ fun ClientPhotosScreen(
 
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = { navController.navigate(PhotosScreen.photo(null)) }) {
+            FloatingActionButton(onClick = {
+                navController.navigate(PhotosScreen.photo(vm.residenceId, null))
+            }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Agregar fotografía")
             }
         }
@@ -72,7 +74,9 @@ fun ClientPhotosScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 12.dp, vertical = 6.dp)
-                            .clickable { navController.navigate(PhotosScreen.photo(photo)) },
+                            .clickable {
+                                navController.navigate(PhotosScreen.photo(vm.residenceId, photo))
+                            },
                         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.8f))
                     ) {
                         Row(modifier = Modifier.padding(10.dp)) {

@@ -19,7 +19,7 @@ class ClientPhotosViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val residenceId: String = savedStateHandle.get<String>("residenceId") ?: ""
+    val residenceId: String = savedStateHandle.get<String>("residenceId") ?: ""
 
     var photos by mutableStateOf<List<Photo>>(emptyList())
         private set

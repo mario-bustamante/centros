@@ -16,13 +16,16 @@ class GetPhotosUseCase(private val repository: PhotoRepository) {
 }
 
 class UploadPhotoUseCase(private val repository: PhotoRepository) {
-    suspend operator fun invoke(file: File, photo: Photo) = repository.uploadImage(file, photo)
+    suspend operator fun invoke(residenceId: String, file: File, photo: Photo) =
+        repository.uploadImage(residenceId, file, photo)
 }
 
 class UpdatePhotoUseCase(private val repository: PhotoRepository) {
-    suspend operator fun invoke(photo: Photo) = repository.updateImage(photo)
+    suspend operator fun invoke(residenceId: String, photo: Photo) =
+        repository.updateImage(residenceId, photo)
 }
 
 class DeletePhotoUseCase(private val repository: PhotoRepository) {
-    suspend operator fun invoke(photo: Photo) = repository.deleteImage(photo)
+    suspend operator fun invoke(residenceId: String, photo: Photo) =
+        repository.deleteImage(residenceId, photo)
 }

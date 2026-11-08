@@ -16,14 +16,14 @@ interface ResidencesRepository {
 
     suspend fun getResidenceById(idResidence: String): Resource<Residence>
 
-    suspend fun updateMyResidence(
-        residence: Residence,
-        room: String
-    ): Resource<Residence>
+    suspend fun updateMyResidence(residence: Residence): Resource<Residence>
 
     suspend fun getMyResidenceRooms(idResidence: String): Resource<List<Room>>
 
-    suspend fun updateMyResidenceRooms(rooms: List<RoomAvailability>): Resource<Int>
+    suspend fun updateMyResidenceRooms(
+        residenceId: String,
+        rooms: List<RoomAvailability>
+    ): Resource<Int>
 
     suspend fun getResidences(page: Int?, search: Search?): Resource<ResidencesPage>
 

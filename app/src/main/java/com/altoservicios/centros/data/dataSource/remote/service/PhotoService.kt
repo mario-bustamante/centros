@@ -1,7 +1,9 @@
 package com.altoservicios.centros.data.dataSource.remote.service
 
-import com.altoservicios.centros.domain.model.Photo
+import com.altoservicios.centros.domain.model.PhotoDeleteResponse
 import com.altoservicios.centros.domain.model.PhotoResponse
+import com.altoservicios.centros.domain.model.PhotoUpdateResponse
+import com.altoservicios.centros.domain.model.PhotoUploadResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -16,28 +18,33 @@ import retrofit2.http.Query
 
 interface PhotoService {
 
-    @GET("residence/images/{idResidence}")
+    @GET("user/residence/images/{idResidence}")
     suspend fun getImages(
         @Path("idResidence") idResidence: String,
     ): Response<PhotoResponse>
 
-    @PUT("residence/image")
+    @PUT("user/residence/image")
     suspend fun updateImage(
+        @Query("residence_id") residenceId: String,
         @Query("id") id: Int?,
         @Query("title") title: String?,
         @Query("description") description: String?,
         @Query("principal") principal: Int?
-    ): Response<Photo>
+    ): Response<PhotoUpdateResponse>
 
-    @DELETE("residence/image/delete")
-    suspend fun deleteImage(@Query("id") id: Int?): Response<Photo>
+    @DELETE("user/residence/image/delete")
+    suspend fun deleteImage(
+        @Query("residence_id") residenceId: String,
+        @Query("id") id: Int?
+    ): Response<PhotoDeleteResponse>
 
     @Multipart
-    @POST("residence/image/upload")
+    @POST("user/residence/image/upload")
     suspend fun uploadImage(
         @Part image: MultipartBody.Part,
+        @Part("residence_id") residenceId: RequestBody,
         @Part("title") title: RequestBody,
         @Part("description") description: RequestBody,
         @Part("principal") principal: RequestBody
-    ): Response<Unit>
+    ): Response<PhotoUploadResponse>
 }

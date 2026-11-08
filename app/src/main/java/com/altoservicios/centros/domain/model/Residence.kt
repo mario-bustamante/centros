@@ -29,22 +29,23 @@ data class Residence(
 }
 
 data class ResidenceResponse(
-    @SerializedName("residencia") val data: Residence? = null,
+    @SerializedName("data") val data: Residence? = null,
 )
 
 data class ResidencesResponse(
     @SerializedName("data") val data: List<Residence>? = null,
-    @SerializedName("current_page") val currentPage: Int? = null,
+    @SerializedName("meta") val meta: ResidencesPaginationMeta? = null,
 )
 
-/** Response from /user/residences endpoint - returns direct array of residences */
+data class ResidencesPaginationMeta(
+    @SerializedName("current_page") val currentPage: Int? = null,
+    @SerializedName("last_page") val lastPage: Int? = null,
+)
+
+/** Response from /user/residences endpoint. */
 data class MyResidencesResponse(
-    val residences: List<Residence>,
-) {
-    companion object {
-        fun fromList(list: List<Residence>): MyResidencesResponse = MyResidencesResponse(list)
-    }
-}
+    @SerializedName("data") val data: List<Residence>? = null,
+)
 
 /** Residencias de una pagina y numero de la siguiente pagina (null si es la ultima). */
 data class ResidencesPage(

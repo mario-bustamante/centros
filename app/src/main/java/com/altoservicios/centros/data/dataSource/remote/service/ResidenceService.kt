@@ -1,6 +1,6 @@
 package com.altoservicios.centros.data.dataSource.remote.service
 
-import com.altoservicios.centros.domain.model.Residence
+import com.altoservicios.centros.domain.model.MyResidencesResponse
 import com.altoservicios.centros.domain.model.ResidenceResponse
 import com.altoservicios.centros.domain.model.RoomResponse
 import com.altoservicios.centros.domain.model.UpdateRoomsRequest
@@ -15,21 +15,21 @@ import retrofit2.http.QueryMap
 interface ResidenceService {
 
     @GET("user/residences")
-    suspend fun getMyResidences(): Response<List<Residence>>
+    suspend fun getMyResidences(): Response<MyResidencesResponse>
 
-    @GET("residence/{idResidence}")
+    @GET("user/residence/{residence_id}")
     suspend fun getResidenceById(
-        @Path("idResidence") idResidence: String,
+        @Path("residence_id") residenceId: String,
     ): Response<ResidenceResponse>
 
-    @PUT("residence")
+    @PUT("user/residence")
     suspend fun updateMyResidence(@QueryMap params: Map<String, String>): Response<ResidenceResponse>
 
-    @GET("residence/rooms/{idResidence}")
+    @GET("user/residence/rooms/{residence_id}")
     suspend fun getMyResidenceRooms(
-        @Path("idResidence") idResidence: String,
+        @Path("residence_id") residenceId: String,
     ): Response<RoomResponse>
 
-    @PUT("residence/rooms")
+    @PUT("user/residence/rooms")
     suspend fun updateMyResidenceRooms(@Body request: UpdateRoomsRequest): Response<UpdateRoomsResponse>
 }
