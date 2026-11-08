@@ -12,10 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.altoservicios.centros.R
 
 @Composable
 fun DefaultButton(
@@ -24,6 +27,7 @@ fun DefaultButton(
     onClick: () -> Unit,
     color: Color = Color.Blue,
     icon: ImageVector? = null,
+    painter: Painter? = null,
     enabled: Boolean = true
 ) {
     Button(
@@ -42,6 +46,10 @@ fun DefaultButton(
     ) {
         if (icon != null) {
             Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(20.dp))
+            Spacer(modifier = Modifier.width(8.dp))
+        }
+        if (painter != null) {
+            Icon(painter = painter, contentDescription = null, tint = Color.White, modifier = Modifier.size(20.dp))
             Spacer(modifier = Modifier.width(8.dp))
         }
         Text(text = text, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)

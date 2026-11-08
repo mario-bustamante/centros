@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.altoservicios.centros.R
+import com.altoservicios.centros.presentation.components.GenericTopBar
 import com.altoservicios.centros.presentation.screens.home.components.HomeTopBar
 import com.altoservicios.centros.presentation.screens.roles.components.RolesContent
 
@@ -28,20 +29,7 @@ fun RolesScreen(
         content = { paddingValues ->
             Scaffold (
                 topBar = {
-                    TopAppBar(
-                        title = { },
-                        navigationIcon = {
-                            Column(
-                                modifier = Modifier.padding(start = 10.dp, end = 8.dp)
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_logo_h),
-                                    contentDescription = "Logo",
-                                    modifier = Modifier.size(150.dp)
-                                )
-                            }
-                        }
-                    )
+                    GenericTopBar()
                 }
             ) { paddingValues ->
                 RolesContent(paddingValues, navController, onLogout = onLogout)

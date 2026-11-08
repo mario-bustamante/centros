@@ -18,6 +18,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.altoservicios.centros.R
+import com.altoservicios.centros.presentation.components.GenericTopBar
 import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 import com.altoservicios.centros.presentation.navigation.screen.ResidencesRoute
@@ -85,20 +86,7 @@ fun HomeTopBar(
             },
             topBar = {
                 if (showTopBar) {
-                    TopAppBar(
-                        title = { },
-                        navigationIcon = {
-                            Column(
-                                modifier = Modifier.padding(start = 10.dp, end = 8.dp)
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_logo_h),
-                                    contentDescription = "Logo",
-                                    modifier = Modifier.size(150.dp)
-                                )
-                            }
-                        }
-                    )
+                    GenericTopBar()
                 }
             }
         ) { paddingValues ->

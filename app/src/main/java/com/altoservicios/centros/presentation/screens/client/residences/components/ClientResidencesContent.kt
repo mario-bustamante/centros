@@ -66,6 +66,7 @@ fun ClientResidencesContent(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(R.color.colorBgSecondary))
+            .padding(paddingValues)
     ) {
         LazyColumn(
             state = listState,
