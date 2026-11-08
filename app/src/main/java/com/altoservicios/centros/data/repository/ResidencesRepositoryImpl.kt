@@ -22,8 +22,11 @@ class ResidencesRepositoryImpl(
     private val residencesService: ResidencesService
 ) : ResidencesRepository {
 
-    override suspend fun getMyResidence(): Resource<Residence> =
-        ResponseToRequest.call { residenceService.getMyResidence() }.map { it.data ?: Residence() }
+    override suspend fun getMyResidences(): Resource<List<Residence>> =
+        ResponseToRequest.call { residenceService.getMyResidences() }.map { it.orEmpty() }
+
+    override suspend fun getResidenceById(idResidence: String): Resource<Residence> =
+        ResponseToRequest.call { residenceService.getResidenceById(idResidence) }.map { it.data ?: Residence() }
 
     override suspend fun updateMyResidence(
         residence: Residence,
@@ -31,6 +34,7 @@ class ResidencesRepositoryImpl(
     ): Resource<Residence> {
         val params = mutableMapOf(
             "room" to room,
+            "id" to residence.id,
         )
         residence.name?.let { params["name"] = it }
         residence.email?.let { params["email"] = it }
@@ -46,8 +50,8 @@ class ResidencesRepositoryImpl(
         return ResponseToRequest.call { residenceService.updateMyResidence(params) }.map { it.data ?: residence }
     }
 
-    override suspend fun getMyResidenceRooms(): Resource<List<Room>> =
-        ResponseToRequest.call { residenceService.getMyResidenceRooms() }.map { it.data.orEmpty() }
+    override suspend fun getMyResidenceRooms(idResidence: String): Resource<List<Room>> =
+        ResponseToRequest.call { residenceService.getMyResidenceRooms(idResidence) }.map { it.data.orEmpty() }
 
     override suspend fun updateMyResidenceRooms(rooms: List<RoomAvailability>): Resource<Int> =
         ResponseToRequest.call { residenceService.updateMyResidenceRooms(UpdateRoomsRequest(rooms)) }

@@ -20,8 +20,14 @@ fun ClientBottomBar(navController: NavHostController) {
 
     val navBackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackEntry?.destination
+    val currentResidenceId = navBackEntry?.arguments?.getString("residenceId")
+    
     val bottomBarDestination = screens.any { screen ->
-        currentDestination?.hierarchy?.any { it.route == screen.route } == true
+        if (screen is PhotosScreen) {
+            currentDestination?.hierarchy?.any { it.route?.startsWith("client/photos") == true } == true
+        } else {
+            currentDestination?.hierarchy?.any { it.route == screen.route } == true
+        }
     }
 
     if(bottomBarDestination) {
@@ -30,7 +36,8 @@ fun ClientBottomBar(navController: NavHostController) {
                 ClientBottomBarItem(
                     screen = screen,
                     currentDestination = currentDestination,
-                    navController = navController
+                    navController = navController,
+                    currentResidenceId = currentResidenceId
                 )
             }
         }

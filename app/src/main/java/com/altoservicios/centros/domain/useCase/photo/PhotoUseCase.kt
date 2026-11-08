@@ -12,7 +12,7 @@ data class PhotoUseCase(
 )
 
 class GetPhotosUseCase(private val repository: PhotoRepository) {
-    suspend operator fun invoke() = repository.getImages()
+    suspend operator fun invoke(idResidence: String) = repository.getImages(idResidence)
 }
 
 class UploadPhotoUseCase(private val repository: PhotoRepository) {

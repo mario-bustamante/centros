@@ -6,7 +6,7 @@ import java.io.File
 
 interface PhotoRepository {
 
-    suspend fun getImages(): Resource<List<Photo>>
+    suspend fun getImages(idResidence: String): Resource<List<Photo>>
 
     suspend fun uploadImage(file: File, photo: Photo): Resource<Unit>
 

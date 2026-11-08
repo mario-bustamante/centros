@@ -1,8 +1,10 @@
 package com.altoservicios.centros.presentation.screens.client.residence
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altoservicios.centros.domain.model.Province
@@ -18,8 +20,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClientResidenceViewModel @Inject constructor(
-    private val residencesUseCase: ResidencesUseCase
+    private val residencesUseCase: ResidencesUseCase,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val residenceId: String = savedStateHandle.get<String>("residenceId") ?: ""
 
     var residence by mutableStateOf(Residence())
         private set
@@ -39,18 +44,34 @@ class ClientResidenceViewModel @Inject constructor(
         private set
 
     init {
+        Log.d("ClientResidenceViewModel", "Init - SavedStateHandle keys: ${savedStateHandle.keys()}")
+        Log.d("ClientResidenceViewModel", "Init - Residence ID from SavedStateHandle: '$residenceId'")
         load()
     }
 
     fun load() {
         isLoading = true
         viewModelScope.launch {
-            val residenceResult = residencesUseCase.getMyResidence()
+            Log.d("ClientResidenceViewModel", "Loading residence with ID: '$residenceId'")
+
+            val residenceResult = if (residenceId.isNotBlank()) {
+                residencesUseCase.getResidenceById(residenceId)
+            } else {
+                Resource.Failure("No residence ID provided")
+            }
+            
             val provincesResult = residencesUseCase.getProvinces()
-            val roomsResult = residencesUseCase.getMyRooms()
+            val roomsResult = if (residenceId.isNotBlank()) {
+                Log.d("ClientResidenceViewModel", "Fetching rooms by ID: $residenceId")
+                residencesUseCase.getMyRooms(residenceId)
+            } else {
+                Log.w("ClientResidenceViewModel", "rooms ID is empty or blank!")
+                Resource.Failure("No residence ID provided")
+            }
 
             if (residenceResult is Resource.Success) {
                 residence = residenceResult.data
+                Log.d("ClientResidenceViewModel", "Residence loaded successfully: ${residence.name}")
                 residence.provinceId?.toIntOrNull()?.takeIf { it > 0 }?.let { loadTowns(it) }
             }
             if (provincesResult is Resource.Success) provinces = provincesResult.data
@@ -63,7 +84,10 @@ class ClientResidenceViewModel @Inject constructor(
             listOf(residenceResult, provincesResult, roomsResult)
                 .filterIsInstance<Resource.Failure<*>>()
                 .firstOrNull()
-                ?.let { message = it.message }
+                ?.let { 
+                    message = it.message
+                    Log.e("ClientResidenceViewModel", "Error: ${it.message}")
+                }
             isLoading = false
         }
     }

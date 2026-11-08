@@ -21,12 +21,13 @@ import com.altoservicios.centros.domain.useCase.photo.GetPhotosUseCase
 import com.altoservicios.centros.domain.useCase.photo.PhotoUseCase
 import com.altoservicios.centros.domain.useCase.photo.UpdatePhotoUseCase
 import com.altoservicios.centros.domain.useCase.photo.UploadPhotoUseCase
-import com.altoservicios.centros.domain.useCase.residences.GetMyResidenceUseCase
+import com.altoservicios.centros.domain.useCase.residences.GetMyResidencesUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetMyRoomsUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetPricesUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetProvincesUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetResidencesMapUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetResidencesUseCase
+import com.altoservicios.centros.domain.useCase.residences.GetResidenceByIdUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetRoomsUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetTownsUseCase
 import com.altoservicios.centros.domain.useCase.residences.ResidencesUseCase
@@ -63,7 +64,8 @@ object UseCaseModule {
         getTowns = GetTownsUseCase(repository),
         getRooms = GetRoomsUseCase(repository),
         getPrices = GetPricesUseCase(repository),
-        getMyResidence = GetMyResidenceUseCase(repository),
+        getMyResidences = GetMyResidencesUseCase(repository),
+        getResidenceById = GetResidenceByIdUseCase(repository),
         updateMyResidence = UpdateMyResidenceUseCase(repository),
         getMyRooms = GetMyRoomsUseCase(repository),
         updateMyRooms = UpdateMyRoomsUseCase(repository),

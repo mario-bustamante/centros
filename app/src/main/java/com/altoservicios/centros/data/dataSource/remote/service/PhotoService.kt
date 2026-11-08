@@ -11,14 +11,17 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface PhotoService {
 
-    @GET("images")
-    suspend fun getImages(): Response<PhotoResponse>
+    @GET("residence/images/{idResidence}")
+    suspend fun getImages(
+        @Path("idResidence") idResidence: String,
+    ): Response<PhotoResponse>
 
-    @PUT("image")
+    @PUT("residence/image")
     suspend fun updateImage(
         @Query("id") id: Int?,
         @Query("title") title: String?,
@@ -26,11 +29,11 @@ interface PhotoService {
         @Query("principal") principal: Int?
     ): Response<Photo>
 
-    @DELETE("image/delete")
+    @DELETE("residence/image/delete")
     suspend fun deleteImage(@Query("id") id: Int?): Response<Photo>
 
     @Multipart
-    @POST("image/upload")
+    @POST("residence/image/upload")
     suspend fun uploadImage(
         @Part image: MultipartBody.Part,
         @Part("title") title: RequestBody,

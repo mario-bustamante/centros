@@ -6,10 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altoservicios.centros.domain.model.AuthResponse
+import com.altoservicios.centros.domain.model.Rol
 import com.altoservicios.centros.domain.model.User
 import com.altoservicios.centros.domain.useCase.auth.AuthUseCase
 import com.altoservicios.centros.domain.useCase.user.UserUseCase
 import com.altoservicios.centros.domain.util.Resource
+import com.google.gson.annotations.SerializedName
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -50,11 +52,12 @@ class ProfileUpdateViewModel @Inject constructor(
                 is Resource.Success -> {
                     // Se actualiza la sesion guardada para que el perfil muestre los nuevos datos
                     session?.let { authUseCase.saveSession(it.copy(user = current.copy(
-                        name = result.data.name.ifBlank { current.name },
+                        name = result.data.name?.ifBlank { null } ?: current.name,
                         fullName = result.data.fullName ?: current.fullName,
                         address = result.data.address ?: current.address,
                         phone = result.data.phone ?: current.phone
                     ))) }
+
                     message = successMessage
                     finished = true
                 }

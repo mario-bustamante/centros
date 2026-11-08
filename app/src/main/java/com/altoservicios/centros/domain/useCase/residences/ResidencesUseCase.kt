@@ -12,7 +12,8 @@ data class ResidencesUseCase(
     val getTowns: GetTownsUseCase,
     val getRooms: GetRoomsUseCase,
     val getPrices: GetPricesUseCase,
-    val getMyResidence: GetMyResidenceUseCase,
+    val getMyResidences: GetMyResidencesUseCase,
+    val getResidenceById: GetResidenceByIdUseCase,
     val updateMyResidence: UpdateMyResidenceUseCase,
     val getMyRooms: GetMyRoomsUseCase,
     val updateMyRooms: UpdateMyRoomsUseCase,
@@ -42,8 +43,12 @@ class GetPricesUseCase(private val repository: ResidencesRepository) {
     suspend operator fun invoke() = repository.getPrices()
 }
 
-class GetMyResidenceUseCase(private val repository: ResidencesRepository) {
-    suspend operator fun invoke() = repository.getMyResidence()
+class GetMyResidencesUseCase(private val repository: ResidencesRepository) {
+    suspend operator fun invoke() = repository.getMyResidences()
+}
+
+class GetResidenceByIdUseCase(private val repository: ResidencesRepository) {
+    suspend operator fun invoke(idResidence: String) = repository.getResidenceById(idResidence)
 }
 
 class UpdateMyResidenceUseCase(private val repository: ResidencesRepository) {
@@ -52,7 +57,7 @@ class UpdateMyResidenceUseCase(private val repository: ResidencesRepository) {
 }
 
 class GetMyRoomsUseCase(private val repository: ResidencesRepository) {
-    suspend operator fun invoke() = repository.getMyResidenceRooms()
+    suspend operator fun invoke(idResidence: String) = repository.getMyResidenceRooms(idResidence)
 }
 
 class UpdateMyRoomsUseCase(private val repository: ResidencesRepository) {

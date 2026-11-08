@@ -6,10 +6,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
 import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
 import com.altoservicios.centros.presentation.screens.client.residence.ClientResidenceScreen
 import com.altoservicios.centros.presentation.screens.client.residence.ClientResidenceViewModel
+import com.altoservicios.centros.presentation.screens.client.residences.ClientResidencesScreen
+import com.altoservicios.centros.presentation.screens.client.residences.ClientResidencesViewModel
 import com.altoservicios.centros.presentation.screens.client.rooms.ClientRoomsScreen
 
 @Composable
@@ -17,19 +21,42 @@ fun ClientNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-   val clientViewModel: ClientResidenceViewModel = hiltViewModel()
+    val clientResidencesViewModel: ClientResidencesViewModel = hiltViewModel()
 
     NavHost(
         navController = navController,
         route = Graph.CLIENT,
-        startDestination = ClientScreen.Residence.route,
+        startDestination = ClientScreen.Residences.route,
         modifier = modifier
     ) {
-        composable(route = ClientScreen.Residence.route) {
+
+        composable(route = ClientScreen.Residences.route) {
+            ClientResidencesScreen(navController,clientResidencesViewModel)
+        }
+
+        composable(
+            route = ClientScreen.Residence.route,
+            arguments = listOf(
+                navArgument("residenceId") {
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )
+        ) {
+            val clientViewModel: ClientResidenceViewModel = hiltViewModel()
             ClientResidenceScreen(vm = clientViewModel)
         }
 
-        composable(route = ClientScreen.Rooms.route) {
+        composable(
+            route = ClientScreen.Rooms.route,
+            arguments = listOf(
+                navArgument("residenceId") {
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )
+        ) {
+            val clientViewModel: ClientResidenceViewModel = hiltViewModel()
             ClientRoomsScreen(vm = clientViewModel)
         }
 

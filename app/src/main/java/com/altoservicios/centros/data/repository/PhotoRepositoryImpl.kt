@@ -16,8 +16,8 @@ class PhotoRepositoryImpl(
     private val service: PhotoService
 ) : PhotoRepository {
 
-    override suspend fun getImages(): Resource<List<Photo>> =
-        ResponseToRequest.call { service.getImages() }.map { it.data.orEmpty() }
+    override suspend fun getImages(idResidence: String): Resource<List<Photo>> =
+        ResponseToRequest.call { service.getImages(idResidence) }.map { it.data.orEmpty() }
 
     override suspend fun uploadImage(file: File, photo: Photo): Resource<Unit> {
         val textType = "text/plain".toMediaTypeOrNull()

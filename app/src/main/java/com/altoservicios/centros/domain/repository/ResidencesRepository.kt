@@ -12,14 +12,16 @@ import com.altoservicios.centros.domain.util.Resource
 
 interface ResidencesRepository {
 
-    suspend fun getMyResidence(): Resource<Residence>
+    suspend fun getMyResidences(): Resource<List<Residence>>
+
+    suspend fun getResidenceById(idResidence: String): Resource<Residence>
 
     suspend fun updateMyResidence(
         residence: Residence,
         room: String
     ): Resource<Residence>
 
-    suspend fun getMyResidenceRooms(): Resource<List<Room>>
+    suspend fun getMyResidenceRooms(idResidence: String): Resource<List<Room>>
 
     suspend fun updateMyResidenceRooms(rooms: List<RoomAvailability>): Resource<Int>
 

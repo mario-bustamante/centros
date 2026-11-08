@@ -37,6 +37,15 @@ data class ResidencesResponse(
     @SerializedName("current_page") val currentPage: Int? = null,
 )
 
+/** Response from /user/residences endpoint - returns direct array of residences */
+data class MyResidencesResponse(
+    val residences: List<Residence>,
+) {
+    companion object {
+        fun fromList(list: List<Residence>): MyResidencesResponse = MyResidencesResponse(list)
+    }
+}
+
 /** Residencias de una pagina y numero de la siguiente pagina (null si es la ultima). */
 data class ResidencesPage(
     val nextPage: Int?,

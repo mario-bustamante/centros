@@ -3,6 +3,7 @@ package com.altoservicios.centros.presentation.screens.client.photo
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altoservicios.centros.domain.model.Photo
@@ -14,8 +15,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClientPhotosViewModel @Inject constructor(
-    private val photoUseCase: PhotoUseCase
+    private val photoUseCase: PhotoUseCase,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val residenceId: String = savedStateHandle.get<String>("residenceId") ?: ""
 
     var photos by mutableStateOf<List<Photo>>(emptyList())
         private set
@@ -24,9 +28,13 @@ class ClientPhotosViewModel @Inject constructor(
     var message by mutableStateOf("")
 
     fun load() {
+        if (residenceId.isBlank()) {
+            message = "No residence ID provided"
+            return
+        }
         isLoading = true
         viewModelScope.launch {
-            when (val result = photoUseCase.getPhotos()) {
+            when (val result = photoUseCase.getPhotos(residenceId)) {
                 is Resource.Success -> photos = result.data
                 is Resource.Failure -> message = result.message
                 Resource.Loading -> Unit

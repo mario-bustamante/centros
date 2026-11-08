@@ -17,7 +17,15 @@ fun NavGraphBuilder.PhotosNavGraph(navController: NavHostController) {
         startDestination = PhotosScreen.route
     ) {
 
-        composable(route = PhotosScreen.route) {
+        composable(
+            route = PhotosScreen.route,
+            arguments = listOf(
+                navArgument("residenceId") {
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )
+        ) {
             ClientPhotosScreen(navController)
         }
 
