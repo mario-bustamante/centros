@@ -48,8 +48,10 @@ data class UpdateRoomsResponse(
 data class UpdateRoomsResult(@SerializedName("updated") val updated: Int? = null)
 
 data class Price(
-    @SerializedName("id") val id: Int,
-    @SerializedName("precio") val price: String? = null,
+    @SerializedName("min") val min: Int? = 1000,
+    @SerializedName("max") val max: Int? = 10000,
+    @SerializedName("initial") val initial: Int? = 1000,
+    @SerializedName("step") val step: Int? = 10,
 )
 
 data class PriceResponse(@SerializedName("data") val data: List<Price>? = null)

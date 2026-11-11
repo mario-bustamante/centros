@@ -35,5 +35,5 @@ interface ResidencesRepository {
 
     suspend fun getRooms(): Resource<List<Room>>
 
-    suspend fun getPrices(): Resource<List<Price>>
+    suspend fun getPrices(): Resource<Price>
 }

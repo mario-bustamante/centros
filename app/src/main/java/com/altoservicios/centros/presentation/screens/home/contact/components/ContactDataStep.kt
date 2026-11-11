@@ -3,10 +3,13 @@ package com.altoservicios.centros.presentation.screens.home.contact.components
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import com.altoservicios.centros.domain.model.Contacto
 import com.altoservicios.centros.domain.model.ValoresFormulario
+import com.altoservicios.centros.presentation.components.DefaultSlider
 import com.altoservicios.centros.presentation.components.FormTextField
+import com.altoservicios.centros.presentation.screens.home.contact.HomeContactViewModel
 
 @Composable
 fun ContactDataStep(
@@ -15,47 +18,45 @@ fun ContactDataStep(
     onChange: (Contacto) -> Unit,
     errorMessage: String,
     onBack: () -> Unit,
-    onContinue: () -> Unit
+    onContinue: () -> Unit,
+    vm: HomeContactViewModel
 ) {
-    val textos = valores.textos
+    val lbText = valores.textos
 
     FormTextField(
-        label = textos["nombre"] ?: "Nombre",
+        label = lbText["nombre"] ?: "Nombre",
         value = contacto.nombre.orEmpty(),
         onValueChange = { onChange(contacto.copy(nombre = it)) }
     )
     FormTextField(
-        label = textos["correo"] ?: "Email",
+        label = lbText["correo"] ?: "Email",
         value = contacto.email.orEmpty(),
         onValueChange = { onChange(contacto.copy(email = it)) },
         keyboardType = KeyboardType.Email
     )
     FormTextField(
-        label = textos["telefono"] ?: "Teléfono",
+        label = lbText["telefono"] ?: "Teléfono",
         value = contacto.telefono.orEmpty(),
         onValueChange = { onChange(contacto.copy(telefono = it)) },
         keyboardType = KeyboardType.Phone
     )
     FormTextField(
-        label = textos["preferencia"] ?: "Preferencia",
+        label = lbText["preferencia"] ?: "Preferencia",
         value = contacto.preferencia.orEmpty(),
         onValueChange = { onChange(contacto.copy(preferencia = it)) }
     )
     ContactDropdown(
-        label = textos["urgencia"] ?: "Urgencia",
+        label = lbText["urgencia"] ?: "Urgencia",
         options = valores.urgencia,
         selected = contacto.urgencia,
         onSelected = { onChange(contacto.copy(urgencia = it)) }
     )
+
     Text(text = "Presupuesto: ${contacto.presupuesto}€")
-    Slider(
-        value = contacto.presupuesto.toFloat(),
-        onValueChange = { onChange(contacto.copy(presupuesto = it.toInt())) },
-        valueRange = 1000f..5000f,
-        steps = 399
-    )
+    DefaultSlider(modifier = Modifier, price = vm.prices, vm = vm)
+
     ContactDropdown(
-        label = textos["parentesco"] ?: "Parentesco",
+        label = lbText["parentesco"] ?: "Parentesco",
         options = valores.parentesco,
         selected = contacto.parentesco,
         onSelected = { onChange(contacto.copy(parentesco = it)) }

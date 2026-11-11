@@ -18,5 +18,6 @@ data class ContactValuesData(
     @SerializedName("parentesco") val relationship: Map<String, String>? = null,
     @SerializedName("trato") val title: Map<String, String>? = null,
     @SerializedName("textos") val texts: Map<String, String>? = null,
-    @SerializedName("codigos") val codes: List<CountryCode>? = null
+    @SerializedName("codigos") val codes: List<CountryCode>? = null,
+    @SerializedName("precios") val prices: Map<String, String>? = null,
 )

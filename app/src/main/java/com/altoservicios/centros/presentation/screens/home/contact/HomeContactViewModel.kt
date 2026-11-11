@@ -9,9 +9,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altoservicios.centros.domain.model.Contacto
 import com.altoservicios.centros.domain.model.Persona
+import com.altoservicios.centros.domain.model.Price
 import com.altoservicios.centros.domain.model.ValoresFormulario
 import com.altoservicios.centros.domain.useCase.contact.ContactUseCase
 import com.altoservicios.centros.domain.util.Resource
+import com.altoservicios.centros.presentation.components.PriceUpdater
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +27,7 @@ object ContactStep {
 @HiltViewModel
 class HomeContactViewModel @Inject constructor(
     private val contactUseCase: ContactUseCase
-) : ViewModel() {
+) : ViewModel(), PriceUpdater {
 
     var valores by mutableStateOf(ValoresFormulario())
         private set
@@ -36,6 +38,10 @@ class HomeContactViewModel @Inject constructor(
     var person by mutableIntStateOf(0)
     var contacto by mutableStateOf(Contacto())
     val personas = mutableStateListOf(Persona(), Persona())
+    var prices by mutableStateOf<Price>(
+        value = Price()
+    )
+        private set
     var errorMessage by mutableStateOf("")
 
     private var activeStep = ContactStep.OWN_PERSON
@@ -57,6 +63,7 @@ class HomeContactViewModel @Inject constructor(
 
     fun applyValores(newValores: ValoresFormulario) {
         valores = newValores
+        prices = newValores.prices
         if (contacto.codigo == null) {
             contacto = contacto.copy(codigo = newValores.codigos.firstOrNull()?.first)
         }
@@ -104,5 +111,10 @@ class HomeContactViewModel @Inject constructor(
     fun send() {
         // TODO: enviar al backend con el token de reCAPTCHA cuando exista la API
         errorMessage = "Integra reCAPTCHA para poder enviar el formulario."
+    }
+
+    override fun updatePriceInitial(value: Int) {
+        contacto.presupuesto = value
+        prices = prices.copy(initial = value)
     }
 }

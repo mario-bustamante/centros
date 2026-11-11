@@ -2,6 +2,7 @@ package com.altoservicios.centros.data.repository
 
 import com.altoservicios.centros.data.dataSource.remote.service.ContactService
 import com.altoservicios.centros.domain.model.ContactValuesData
+import com.altoservicios.centros.domain.model.Price
 import com.altoservicios.centros.domain.model.ValoresFormulario
 import com.altoservicios.centros.domain.repository.ContactRepository
 import com.altoservicios.centros.domain.util.Resource
@@ -26,6 +27,14 @@ class ContactRepositoryImpl(
         trato = title.orEmpty().toList(),
         textos = texts.orEmpty(),
         codigos = codes.orEmpty().map { it.code.orEmpty() to "${it.flag.orEmpty()} ${it.country.orEmpty()}".trim() },
+        prices = prices?.let {
+            Price(
+                min = it["min"]?.toIntOrNull(),
+                max = it["max"]?.toIntOrNull(),
+                initial = it["initial"]?.toIntOrNull(),
+                step = it["step"]?.toIntOrNull()
+            )
+        } ?: Price(),
         fecha = date
     )
 }

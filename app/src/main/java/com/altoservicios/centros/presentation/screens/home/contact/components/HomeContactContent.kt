@@ -39,7 +39,8 @@ fun HomeContactContent(
                 onChange = { vm.contacto = it },
                 errorMessage = vm.errorMessage,
                 onBack = { },
-                onContinue = vm::onDataContinue
+                onContinue = vm::onDataContinue,
+                vm = vm
             )
 
             ContactStep.OWN_PERSON -> {

@@ -1,5 +1,6 @@
 package com.altoservicios.centros.presentation.screens.client.residences
 
+import androidx.annotation.Nullable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -50,7 +51,9 @@ class ClientResidencesViewModel @Inject constructor(
         private set
     var rooms by mutableStateOf<List<Room>>(emptyList())
         private set
-    var prices by mutableStateOf<List<Price>>(emptyList())
+    var prices by mutableStateOf<Price>(
+        value = Price()
+    )
         private set
     private var optionsLoaded = false
 

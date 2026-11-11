@@ -111,8 +111,10 @@ class ResidencesRepositoryImpl(
     override suspend fun getRooms(): Resource<List<Room>> =
         ResponseToRequest.call { residencesService.getRooms() }.map { it.data.orEmpty() }
 
-    override suspend fun getPrices(): Resource<List<Price>> =
-        ResponseToRequest.call { residencesService.getPrices() }.map { it.data.orEmpty() }
+    override suspend fun getPrices(): Resource<Price> =
+        ResponseToRequest.call { residencesService.getPrices() }.map { 
+            it.data?.firstOrNull() ?: Price()
+        }
 
     private fun ResidencesResponse.toPage(): Resource<ResidencesPage> {
         val residences = data

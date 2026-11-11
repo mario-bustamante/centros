@@ -7,6 +7,8 @@ data class ValoresFormulario(
     val trato: List<Pair<String, String>> = emptyList(),
     val textos: Map<String, String> = emptyMap(),
     val codigos: List<Pair<String, String>> = emptyList(),
+    val precios: List<Pair<String, String>> = emptyList(),
+    val prices: Price = Price(),
     val fecha: String? = null
 )
 
@@ -16,7 +18,7 @@ data class Contacto(
     val codigo: String? = null,
     val telefono: String? = null,
     val urgencia: String? = null,
-    val presupuesto: Int = 1500,
+    var presupuesto: Int = 1500,
     val parentesco: String? = null,
     val preferencia: String? = null,
     val observaciones: String? = null

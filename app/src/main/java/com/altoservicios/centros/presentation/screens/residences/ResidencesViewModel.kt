@@ -13,6 +13,7 @@ import com.altoservicios.centros.domain.model.Search
 import com.altoservicios.centros.domain.model.Town
 import com.altoservicios.centros.domain.useCase.residences.ResidencesUseCase
 import com.altoservicios.centros.domain.util.Resource
+import com.altoservicios.centros.presentation.components.PriceUpdater
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ResidencesViewModel @Inject constructor(
     private val residencesUseCase: ResidencesUseCase
-) : ViewModel() {
+) : ViewModel(), PriceUpdater {
 
     var search by mutableStateOf(Search())
         private set
@@ -50,7 +51,9 @@ class ResidencesViewModel @Inject constructor(
         private set
     var rooms by mutableStateOf<List<Room>>(emptyList())
         private set
-    var prices by mutableStateOf<List<Price>>(emptyList())
+    var prices by mutableStateOf<Price>(
+        value = Price()
+    )
         private set
     private var optionsLoaded = false
 
@@ -139,5 +142,9 @@ class ResidencesViewModel @Inject constructor(
             if (result is Resource.Success) towns = result.data
             if (result is Resource.Failure) errorMessage = result.message
         }
+    }
+
+    override fun updatePriceInitial(value: Int) {
+        prices = prices.copy(initial = value)
     }
 }

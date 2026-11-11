@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,14 +28,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.altoservicios.centros.R
+import com.altoservicios.centros.domain.model.Price
 import com.altoservicios.centros.presentation.components.DefaultButton
+import com.altoservicios.centros.presentation.components.DefaultSlider
 import com.altoservicios.centros.presentation.components.DefaultTopBar
 import com.altoservicios.centros.presentation.components.MessageEffect
 import com.altoservicios.centros.presentation.components.OptionDropdown
 import com.altoservicios.centros.presentation.screens.residences.ResidencesViewModel
+import kotlin.math.roundToInt
 
 @Composable
-fun ResidenceSearchScreen(navController: NavHostController, vm: ResidencesViewModel) {
+fun ResidenceSearchScreen(
+    navController: NavHostController, 
+    vm: ResidencesViewModel
+) {
     var search by remember { mutableStateOf(vm.search) }
 
     LaunchedEffect(Unit) {
@@ -88,14 +95,8 @@ fun ResidenceSearchScreen(navController: NavHostController, vm: ResidencesViewMo
                 onSelected = { search = search.copy(town = it) }
             )
 
-            OptionDropdown(
-                modifier = fieldModifier,
-                label = stringResource(R.string.label_price),
-                emptyLabel = stringResource(R.string.spinner_price),
-                options = vm.prices.map { it.id to it.price.orEmpty() },
-                selectedId = search.price,
-                onSelected = { search = search.copy(price = it) }
-            )
+            Text(text = "Presupuesto: ${vm.prices.initial}€")
+            DefaultSlider(modifier = Modifier, price = vm.prices, vm = vm)
 
             OptionDropdown(
                 modifier = fieldModifier,
