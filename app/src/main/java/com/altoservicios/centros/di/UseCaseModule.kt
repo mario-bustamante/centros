@@ -25,14 +25,14 @@ import com.altoservicios.centros.domain.useCase.residences.GetMyResidencesUseCas
 import com.altoservicios.centros.domain.useCase.residences.GetMyRoomsUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetPricesUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetProvincesUseCase
+import com.altoservicios.centros.domain.useCase.residences.GetResidenceByIdUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetResidencesMapUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetResidencesUseCase
-import com.altoservicios.centros.domain.useCase.residences.GetResidenceByIdUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetRoomsUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetTownsUseCase
 import com.altoservicios.centros.domain.useCase.residences.ResidencesUseCase
-import com.altoservicios.centros.domain.useCase.residences.UpdateMyRoomsUseCase
 import com.altoservicios.centros.domain.useCase.residences.UpdateMyResidenceUseCase
+import com.altoservicios.centros.domain.useCase.residences.UpdateMyRoomsUseCase
 import com.altoservicios.centros.domain.useCase.user.GetUserUseCase
 import com.altoservicios.centros.domain.useCase.user.UpdateUserUseCase
 import com.altoservicios.centros.domain.useCase.user.UserUseCase

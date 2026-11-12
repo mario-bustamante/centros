@@ -1,6 +1,5 @@
 package com.altoservicios.centros.presentation.screens.home.contact.components
 
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

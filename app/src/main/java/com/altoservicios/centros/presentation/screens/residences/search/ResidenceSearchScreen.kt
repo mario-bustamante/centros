@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,17 +23,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.altoservicios.centros.R
-import com.altoservicios.centros.domain.model.Price
 import com.altoservicios.centros.presentation.components.DefaultButton
 import com.altoservicios.centros.presentation.components.DefaultSlider
 import com.altoservicios.centros.presentation.components.DefaultTopBar
+import com.altoservicios.centros.presentation.components.FormTextField
 import com.altoservicios.centros.presentation.components.MessageEffect
 import com.altoservicios.centros.presentation.components.OptionDropdown
 import com.altoservicios.centros.presentation.screens.residences.ResidencesViewModel
-import kotlin.math.roundToInt
 
 @Composable
 fun ResidenceSearchScreen(
@@ -66,12 +64,13 @@ fun ResidenceSearchScreen(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            OutlinedTextField(
-                modifier = fieldModifier,
+            FormTextField(
+                label = stringResource(R.string.label_search_for),
                 value = search.searchFor,
                 onValueChange = { search = search.copy(searchFor = it) },
-                label = { Text(text = stringResource(R.string.label_search_for)) },
-                singleLine = true
+                keyboardType = KeyboardType.Text,
+                singleLine = true,
+                enabled = true
             )
 
             OptionDropdown(
@@ -95,9 +94,13 @@ fun ResidenceSearchScreen(
                 onSelected = { search = search.copy(town = it) }
             )
 
+            Spacer(modifier = Modifier.height(8.dp))
+
             Text(text = "Presupuesto: ${vm.prices.initial}€")
             DefaultSlider(modifier = Modifier, price = vm.prices, vm = vm)
 
+            Spacer(modifier = Modifier.height(8.dp))
+            /*
             OptionDropdown(
                 modifier = fieldModifier,
                 label = stringResource(R.string.label_room),
@@ -106,6 +109,7 @@ fun ResidenceSearchScreen(
                 selectedId = search.room,
                 onSelected = { search = search.copy(room = it) }
             )
+            */
 
             Row(
                 modifier = fieldModifier,

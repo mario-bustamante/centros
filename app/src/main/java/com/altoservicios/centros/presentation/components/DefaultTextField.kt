@@ -21,7 +21,7 @@ fun DefaultTextField(
     value: String,
     onValueChange: (value: String) -> Unit,
     label: String,
-    icon: ImageVector,
+    icon: ImageVector? = null,
     keyboardType: KeyboardType = KeyboardType.Text,
     hideText: Boolean = false
 ) {
@@ -35,11 +35,13 @@ fun DefaultTextField(
             Text(text = label)
         },
         trailingIcon = {
-            Icon(
-                imageVector = icon,
-                "",
-                tint = colorResource(id = R.color.colorLink)
-            )
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    "",
+                    tint = colorResource(id = R.color.colorLink)
+                )
+            }
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),

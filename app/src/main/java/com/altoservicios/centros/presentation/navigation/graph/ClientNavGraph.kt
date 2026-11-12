@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.NavType
 import com.altoservicios.centros.presentation.navigation.Graph
 import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
 import com.altoservicios.centros.presentation.screens.client.residence.ClientResidenceScreen

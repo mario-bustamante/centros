@@ -23,7 +23,6 @@ import com.altoservicios.centros.R
 import com.altoservicios.centros.domain.model.Residence
 import com.altoservicios.centros.presentation.components.imageUrl
 import com.altoservicios.centros.presentation.components.priceLabel
-import com.google.android.gms.common.api.Api
 
 @Composable
 fun ClientResidenceItem(residence: Residence, onClick: () -> Unit) {
