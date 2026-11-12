@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -22,6 +23,7 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -62,30 +64,34 @@ fun ResidenceDetailScreen(
     Scaffold(
         topBar = {
             DefaultTopBar(
-                title = "Residencia",
+                title = "Detalles de la Residencia",
                 upAvailable = true,
                 navController = navController)
         },
         bottomBar = {
-            Row(modifier = Modifier
-                    .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = 25.dp)
-            ) {
-                DefaultButton(
+            if (!residence.phone.isNullOrBlank()) {
+                Row(
                     modifier = Modifier
-                        .weight(1f),
-                    text = stringResource(R.string.btn_call),
-                    icon = Icons.Default.Phone,
-                    onClick = { context.dial(residence.phone) }
-                )
-                Spacer(modifier = Modifier.padding(start = 10.dp))
-                DefaultButton(
-                    modifier = Modifier
-                        .weight(1f),
-                    text = stringResource(R.string.btn_whatsapp),
-                    painter = painterResource(id = R.drawable.ic_whatsapp),
-                    onClick = { context.openWhatsApp(residence.phone) },
-                )
+                        .fillMaxWidth()
+                        .background(Color.White)
+                        .padding(16.dp, 16.dp, 16.dp, 20.dp)
+                ) {
+                    DefaultButton(
+                        modifier = Modifier.weight(1f),
+                        text = stringResource(R.string.btn_call),
+                        icon = Icons.Default.Phone,
+                        onClick = { context.dial(residence.phone) }
+                    )
 
+                    Spacer(modifier = Modifier.width(12.dp))
+
+                    DefaultButton(
+                        modifier = Modifier.weight(1f),
+                        text = stringResource(R.string.btn_whatsapp),
+                        painter = painterResource(id = R.drawable.ic_whatsapp),
+                        onClick = { context.openWhatsApp(residence.phone) },
+                    )
+                }
             }
         }
     ) { paddingValues ->
@@ -96,111 +102,122 @@ fun ResidenceDetailScreen(
                 .fillMaxSize()
                 .background(colorResource(R.color.colorBgSecondary))
                 .verticalScroll(rememberScrollState())
-                .padding(10.dp)
         ) {
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.8f))
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(10.dp)
+            Column(modifier = Modifier.padding(16.dp)) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
-                    Text(
-                        modifier = Modifier.padding(top = 10.dp),
-                        text = residence.name.orEmpty(),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 25.sp
-                    )
-
-                    Text(
-                        modifier = Modifier.padding(top = 5.dp),
-                        text = listOfNotNull(
-                            residence.address,
-                            residence.town,
-                            residence.province
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(
+                            text = residence.name.orEmpty(),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 26.sp,
+                            color = colorResource(R.color.colorPrimary)
                         )
-                            .filter { it.isNotBlank() }
-                            .joinToString(", ")
-                    )
-                }
-            }
 
-            Spacer(modifier = Modifier.padding(10.dp))
-            imageUrl(residence.imageUrl)?.let { url ->
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(350.dp)
-                        .clip(RoundedCornerShape(10.dp)),
-                    model = imageUrl(residence.imageUrl) ?: R.drawable.logo,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.padding(10.dp))
-            }
+                        Spacer(modifier = Modifier.height(8.dp))
 
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.8f))
-            ) {
-                Column(
-                    modifier = Modifier
-                        .padding(10.dp)
-                ) {
-                    Text(
-                        modifier = Modifier.padding(top = 4.dp),
-                        text = priceLabel(residence.price)
-                    )
-
-                    Spacer(modifier = Modifier.padding(10.dp))
-
-                    Text(
-                        modifier = Modifier.padding(bottom = 10.dp),
-                        text = HtmlCompat.fromHtml(
-                            residence.description.orEmpty(),
-                            HtmlCompat.FROM_HTML_MODE_LEGACY
-                        ).toString().trim()
-                    )
-                }
-            }
-
-            DefaultButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp),
-                text = stringResource(R.string.btn_map),
-                icon = Icons.Default.Place,
-                onClick = {
-                    // 1. Create the geo URI string with coordinates and a label query
-                    val latitude = residence.latitude
-                    val longitude = residence.longitude
-                    val label =
-                        Uri.encode(residence.name) // Optional: replaces the raw coordinates with text on the map pin
-
-                    val mapUri =
-                        "geo:$latitude,$longitude?q=$latitude,$longitude($label)".toUri()
-
-                    // 2. Create the Intent to view the map
-                    val mapIntent = Intent(Intent.ACTION_VIEW, mapUri).apply {
-                        // Force it to use the Google Maps app package if available
-                        setPackage("com.google.android.apps.maps")
+                        Row {
+                            Icon(
+                                imageVector = Icons.Default.Place,
+                                contentDescription = null,
+                                modifier = Modifier.size(18.dp),
+                                tint = colorResource(R.color.colorPrimary)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(
+                                text = listOfNotNull(
+                                    residence.address,
+                                    residence.town,
+                                    residence.province
+                                )
+                                    .filter { it.isNotBlank() }
+                                    .joinToString(", "),
+                                fontSize = 14.sp,
+                                color = Color.Gray
+                            )
+                        }
                     }
 
-                    // 3. Start the activity safely
-                    try {
-                        context.startActivity(mapIntent)
-                    } catch (e: Exception) {
-                        // Fallback: If Google Maps app is missing, launch without forcing the package
-                        // (this will open the browser or any other map app available)
-                        val fallbackIntent = Intent(Intent.ACTION_VIEW, mapUri)
-                        context.startActivity(fallbackIntent)
+                    imageUrl(residence.imageUrl)?.let { url ->
+                        AsyncImage(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(300.dp)
+                                .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)),
+                            model = imageUrl(residence.imageUrl) ?: R.drawable.logo,
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop
+                        )
                     }
                 }
-            )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+
+                if (!residence.price.isNullOrBlank() || !residence.description.isNullOrBlank()) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                    ) {
+
+                        Column(modifier = Modifier.padding(16.dp)) {
+                            if (!residence.price.isNullOrBlank()) {
+                                Text(
+                                    text = priceLabel(residence.price),
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 20.sp,
+                                    color = colorResource(R.color.colorPrimary)
+                                )
+
+                                Spacer(modifier = Modifier.height(12.dp))
+                            }
+
+                            Text(
+                                text = HtmlCompat.fromHtml(
+                                    residence.description.orEmpty(),
+                                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                                ).toString().trim(),
+                                fontSize = 14.sp,
+                                lineHeight = 22.sp,
+                                color = Color.DarkGray
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                if( !residence.latitude.isNullOrBlank() && !residence.longitude.isNullOrBlank()) {
+                    DefaultButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(R.string.btn_map),
+                        icon = Icons.Default.Place,
+                        onClick = {
+                            val latitude = residence.latitude
+                            val longitude = residence.longitude
+                            val label = Uri.encode(residence.name)
+
+                            val mapUri =
+                                "geo:$latitude,$longitude?q=$latitude,$longitude($label)".toUri()
+
+                            val mapIntent = Intent(Intent.ACTION_VIEW, mapUri).apply {
+                                setPackage("com.google.android.apps.maps")
+                            }
+
+                            try {
+                                context.startActivity(mapIntent)
+                            } catch (e: Exception) {
+                                val fallbackIntent = Intent(Intent.ACTION_VIEW, mapUri)
+                                context.startActivity(fallbackIntent)
+                            }
+                        }
+                    )
+                }
+            }
         }
     }
 }
@@ -224,7 +241,7 @@ fun DefaultPreview() {
             town = "Granada",
             latitude = "123",
             longitude = "5623",
-            //imageUrl = "http://localhost:8000/img/residencia/1/residencia-prueba-02-510x510.webp"
+            imageUrl = "imagen-no-disponible-residencias-y-salud.webp"
         )
     )
 }
