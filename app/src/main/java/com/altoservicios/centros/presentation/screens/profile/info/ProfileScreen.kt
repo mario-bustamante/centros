@@ -13,6 +13,6 @@ fun ProfileScreen(
     onEditProfile: () -> Unit
 ) {
     Scaffold { paddingValues ->
-        ProfileContent(onEditProfile)
+        ProfileContent(onEditProfile, paddingValues = paddingValues)
     }
 }

@@ -88,7 +88,7 @@ class HomeContactViewModel @Inject constructor(
         }
         */
         errorMessage = ""
-        if (contacto.parentesco == "1") {
+        if (contacto.parentesco == 1) {
             activeStep = ContactStep.OWN_PERSON
             personas[0] = personas[0].copy(nombre = contacto.nombre)
         } else {

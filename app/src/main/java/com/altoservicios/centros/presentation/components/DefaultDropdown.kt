@@ -1,9 +1,8 @@
-package com.altoservicios.centros.presentation.screens.home.contact.components
+package com.altoservicios.centros.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.DropdownMenu
@@ -19,31 +18,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 
-/** Lista desplegable de opciones (valor, etiqueta) con valor de tipo texto. */
+/**
+ * Lista desplegable de opciones (id, texto). La primera opcion ([emptyLabel]) limpia la seleccion.
+ */
 @Composable
-fun ContactDropdown(
+fun DefaultDropdown(
+    modifier: Modifier? = Modifier,
     label: String,
-    options: List<Pair<String, String>>,
-    selected: String?,
-    onSelected: (String) -> Unit
+    emptyLabel: String,
+    options: List<Pair<Int, String>>,
+    selectedId: Int?,
+    onSelected: (Int?) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val finalModifier = (modifier ?: Modifier).fillMaxWidth()
 
-    Box(modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp)) {
+    Box(modifier = finalModifier) {
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = options.firstOrNull { it.first == selected }?.second.orEmpty(),
+            modifier = finalModifier,
+            value = options.firstOrNull { it.first == selectedId }?.second ?: "",
             onValueChange = {},
             readOnly = true,
             singleLine = true,
             label = { Text(text = label) },
+            trailingIcon = { Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.LightGray,
+                unfocusedContainerColor = Color.White,
+                disabledContainerColor = Color.Gray
             ),
-            trailingIcon = { Icon(imageVector = Icons.Default.KeyboardArrowDown, contentDescription = null) }
         )
         Box(
             modifier = Modifier
@@ -51,12 +55,19 @@ fun ContactDropdown(
                 .clickable { expanded = true }
         )
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-            options.forEach { (value, text) ->
+            DropdownMenuItem(
+                text = { Text(text = emptyLabel) },
+                onClick = {
+                    expanded = false
+                    onSelected(null)
+                }
+            )
+            options.forEach { (id, text) ->
                 DropdownMenuItem(
                     text = { Text(text = text) },
                     onClick = {
                         expanded = false
-                        onSelected(value)
+                        onSelected(id)
                     }
                 )
             }

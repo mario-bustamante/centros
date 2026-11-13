@@ -30,9 +30,9 @@ import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
 import com.altoservicios.centros.presentation.components.DefaultSlider
 import com.altoservicios.centros.presentation.components.DefaultTopBar
-import com.altoservicios.centros.presentation.components.FormTextField
+import com.altoservicios.centros.presentation.components.DefaultTextField
 import com.altoservicios.centros.presentation.components.MessageEffect
-import com.altoservicios.centros.presentation.components.OptionDropdown
+import com.altoservicios.centros.presentation.components.DefaultDropdown
 import com.altoservicios.centros.presentation.screens.residences.ResidencesViewModel
 
 @Composable
@@ -49,10 +49,6 @@ fun ResidenceSearchScreen(
 
     MessageEffect(message = vm.errorMessage, onConsumed = { vm.errorMessage = "" })
 
-    val fieldModifier = Modifier
-        .fillMaxWidth()
-        .padding(bottom = 12.dp)
-
     Scaffold(
         topBar = { DefaultTopBar(title = "Campos Búsqueda", upAvailable = true, navController = navController) }
     ) { paddingValues ->
@@ -64,17 +60,15 @@ fun ResidenceSearchScreen(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            FormTextField(
+            DefaultTextField(
                 label = stringResource(R.string.label_search_for),
                 value = search.searchFor,
                 onValueChange = { search = search.copy(searchFor = it) },
-                keyboardType = KeyboardType.Text,
-                singleLine = true,
-                enabled = true
             )
 
-            OptionDropdown(
-                modifier = fieldModifier,
+            Spacer(modifier = Modifier.height(8.dp))
+
+            DefaultDropdown(
                 label = stringResource(R.string.label_province),
                 emptyLabel = stringResource(R.string.spinner_province),
                 options = vm.provinces.map { it.id to it.province.orEmpty() },
@@ -85,8 +79,9 @@ fun ResidenceSearchScreen(
                 }
             )
 
-            OptionDropdown(
-                modifier = fieldModifier,
+            Spacer(modifier = Modifier.height(8.dp))
+
+            DefaultDropdown(
                 label = stringResource(R.string.label_town),
                 emptyLabel = stringResource(R.string.spinner_town),
                 options = vm.towns.map { it.id to it.town.orEmpty() },
@@ -94,14 +89,14 @@ fun ResidenceSearchScreen(
                 onSelected = { search = search.copy(town = it) }
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Text(text = "Presupuesto: ${vm.prices.initial}€")
             DefaultSlider(modifier = Modifier, price = vm.prices, vm = vm)
 
             Spacer(modifier = Modifier.height(8.dp))
             /*
-            OptionDropdown(
+            DefaultDropdown(
                 modifier = fieldModifier,
                 label = stringResource(R.string.label_room),
                 emptyLabel = stringResource(R.string.spinner_room),
@@ -112,7 +107,6 @@ fun ResidenceSearchScreen(
             */
 
             Row(
-                modifier = fieldModifier,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(modifier = Modifier.weight(1f), text = stringResource(R.string.label_near))

@@ -5,13 +5,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import com.altoservicios.centros.R
@@ -38,7 +42,6 @@ fun HomeContactContent(
                 valores = vm.valores,
                 onChange = { vm.contacto = it },
                 errorMessage = vm.errorMessage,
-                onBack = { },
                 onContinue = vm::onDataContinue,
                 vm = vm
             )
@@ -57,9 +60,26 @@ fun HomeContactContent(
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     vm.personas.indices.forEach { index ->
                         if (vm.person == index) {
-                            DefaultButton(modifier = Modifier, text = "Persona ${index + 1}", onClick = { vm.person = index })
+                            DefaultButton(
+                                modifier = Modifier,
+                                text = "Persona ${index + 1}",
+                                onClick = { vm.person = index }
+                            )
                         } else {
-                            OutlinedButton(onClick = { vm.person = index }) { Text(text = "Persona ${index + 1}") }
+                            OutlinedButton(
+                                onClick = { vm.person = index },
+                                modifier = Modifier.heightIn(min = 52.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.White,
+                                    contentColor = Color.Blue,
+                                    disabledContentColor = Color.White.copy(alpha = 0.4f)
+                                ),
+                                elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp, pressedElevation = 1.dp),
+                                contentPadding = ButtonDefaults.ContentPadding
+                            ) {
+                                Text(text = "Persona ${index + 1}")
+                            }
                         }
                     }
                 }

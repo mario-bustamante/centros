@@ -54,7 +54,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
-import com.altoservicios.centros.presentation.components.DefaultTextField
+import com.altoservicios.centros.presentation.screens.auth.components.AuthTextField
 import com.altoservicios.centros.presentation.navigation.screen.AuthScreen
 import com.altoservicios.centros.presentation.screens.auth.login.LoginViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -73,6 +73,7 @@ fun LoginContent(
     val context = LocalContext.current
     val googleError = stringResource(R.string.msg_google_error)
 
+    /*
     val googleClient = remember {
         val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(context.getString(R.string.google_web_client_id))
@@ -80,6 +81,7 @@ fun LoginContent(
             .build()
         GoogleSignIn.getClient(context, options)
     }
+    */
 
     val googleLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -136,7 +138,7 @@ fun LoginContent(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(420.dp),
+                    .height(340.dp),
                 shape = RoundedCornerShape(
                     topEnd = 30.dp,
                     topStart = 30.dp,
@@ -157,11 +159,12 @@ fun LoginContent(
                         fontSize = 20.sp
                     )
 
-
+                    /*
                     Button(
                         { googleClient.signOut().addOnCompleteListener { googleLauncher.launch(googleClient.signInIntent) } },
                         modifier = Modifier
                             .fillMaxWidth()
+                            .heightIn(min = 52.dp),
                             .padding(
                                 start = dimensionResource(id = R.dimen.btn_margin),
                                 end = dimensionResource(id = R.dimen.btn_margin)
@@ -170,7 +173,6 @@ fun LoginContent(
                         Text(text = stringResource(id = R.string.btn_google_login))
                     }
 
-
                     Text(
                         text = stringResource(id = R.string.lbl_option_login),
                         modifier = Modifier
@@ -178,8 +180,9 @@ fun LoginContent(
                             .padding(vertical = 20.dp),
                         textAlign = TextAlign.Center
                     )
+                    */
 
-                    DefaultTextField(
+                    AuthTextField(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
                         value = state.email,
                         onValueChange = { text ->
@@ -190,7 +193,7 @@ fun LoginContent(
                         keyboardType = KeyboardType.Email,
                     )
 
-                    DefaultTextField(
+                    AuthTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = state.password,
                         onValueChange = { text ->
@@ -205,7 +208,6 @@ fun LoginContent(
                     DefaultButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(60.dp)
                             .padding(top = 20.dp),
                         onClick = {
                             onLogin(vm)
@@ -229,6 +231,8 @@ fun LoginContent(
                             modifier = Modifier
                                 .clickable { onRegister(navController) },
                             color = Color.Blue,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
                         )
                     }
                 }

@@ -4,7 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.KeyboardType
 import com.altoservicios.centros.domain.model.Persona
 import com.altoservicios.centros.domain.model.ValoresFormulario
-import com.altoservicios.centros.presentation.components.FormTextField
+import com.altoservicios.centros.presentation.components.DefaultDropdown
+import com.altoservicios.centros.presentation.components.DefaultTextField
 
 @Composable
 fun ContactDataPersonFields(
@@ -12,32 +13,34 @@ fun ContactDataPersonFields(
     valores: ValoresFormulario,
     onChange: (Persona) -> Unit
 ) {
-    val textos = valores.textos
+    val lbText = valores.textos
 
-    ContactDropdown(
-        label = textos["trato"] ?: "Trato",
+    DefaultDropdown(
+        label = lbText["trato"] ?: "Trato",
+        emptyLabel = "Selecciona trato",
         options = valores.trato,
-        selected = persona.trato,
+        selectedId = persona.trato,
         onSelected = { onChange(persona.copy(trato = it)) }
     )
-    FormTextField(
-        label = textos["nombre"] ?: "Nombre",
+
+    DefaultTextField(
+        label = lbText["nombre"] ?: "Nombre",
         value = persona.nombre.orEmpty(),
         onValueChange = { onChange(persona.copy(nombre = it)) }
     )
-    FormTextField(
-        label = textos["domicilio"] ?: "Domicilio",
+    DefaultTextField(
+        label = lbText["domicilio"] ?: "Domicilio",
         value = persona.domicilio.orEmpty(),
         onValueChange = { onChange(persona.copy(domicilio = it)) }
     )
-    FormTextField(
-        label = textos["edad"] ?: "Edad",
+    DefaultTextField(
+        label = lbText["edad"] ?: "Edad",
         value = persona.edad.orEmpty(),
         onValueChange = { onChange(persona.copy(edad = it)) },
         keyboardType = KeyboardType.Number
     )
-    FormTextField(
-        label = textos["obs"] ?: "Observaciones",
+    DefaultTextField(
+        label = lbText["obs"] ?: "Observaciones",
         value = persona.obs.orEmpty(),
         onValueChange = { if (it.length <= 1000) onChange(persona.copy(obs = it)) },
         singleLine = false

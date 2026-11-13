@@ -1,5 +1,6 @@
 ﻿package com.altoservicios.centros.presentation.components
 
+import android.drm.DrmRights
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
@@ -25,8 +26,9 @@ fun DefaultButton(
     onClick: () -> Unit,
     color: Color = Color.Blue,
     icon: ImageVector? = null,
+    showIconRight: Boolean? = false,
     painter: Painter? = null,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     Button(
         modifier = modifier.heightIn(min = 52.dp),
@@ -42,14 +44,22 @@ fun DefaultButton(
         elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp, pressedElevation = 1.dp),
         contentPadding = ButtonDefaults.ContentPadding
     ) {
+        if(showIconRight == true) {
+            Text(text = text, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+            Spacer(modifier = Modifier.width(8.dp))
+        }
+
         if (icon != null) {
             Icon(imageVector = icon, contentDescription = null, modifier = Modifier.size(20.dp))
             Spacer(modifier = Modifier.width(8.dp))
         }
         if (painter != null) {
             Icon(painter = painter, contentDescription = null, tint = Color.White, modifier = Modifier.size(20.dp))
-            Spacer(modifier = Modifier.width(8.dp))
         }
-        Text(text = text, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+
+        if(showIconRight != true) {
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = text, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+        }
     }
 }

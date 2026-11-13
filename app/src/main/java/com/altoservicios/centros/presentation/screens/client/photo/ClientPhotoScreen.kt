@@ -7,12 +7,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -21,10 +26,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
@@ -34,9 +41,11 @@ import coil3.compose.AsyncImage
 import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
 import com.altoservicios.centros.presentation.components.DefaultTopBar
-import com.altoservicios.centros.presentation.components.FormTextField
+import com.altoservicios.centros.presentation.components.DefaultTextField
 import com.altoservicios.centros.presentation.components.MessageEffect
+import com.altoservicios.centros.presentation.components.dial
 import com.altoservicios.centros.presentation.components.imageUrl
+import com.altoservicios.centros.presentation.components.openWhatsApp
 import java.io.File
 
 @Composable
@@ -74,6 +83,7 @@ fun ClientPhotoScreen(navController: NavHostController, vm: ClientPhotoViewModel
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(220.dp)
+                        .clip(RoundedCornerShape(10.dp))
                         .background(Color.White.copy(alpha = 0.5f)),
                     model = preview,
                     contentDescription = null,
@@ -82,9 +92,9 @@ fun ClientPhotoScreen(navController: NavHostController, vm: ClientPhotoViewModel
 
                 DefaultButton(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 12.dp),
+                        .fillMaxWidth(),
                     text = stringResource(R.string.btn_take_picture),
+                    icon = Icons.Default.CameraAlt,
                     onClick = {
                         val directory = File(context.cacheDir, "images").apply { mkdirs() }
                         val file = File(directory, "photo_${System.currentTimeMillis()}.jpg")
@@ -95,12 +105,12 @@ fun ClientPhotoScreen(navController: NavHostController, vm: ClientPhotoViewModel
                     }
                 )
 
-                FormTextField(
+                DefaultTextField(
                     label = stringResource(R.string.label_title),
                     value = vm.title,
                     onValueChange = { vm.title = it }
                 )
-                FormTextField(
+                DefaultTextField(
                     label = stringResource(R.string.label_description),
                     value = vm.description,
                     onValueChange = { vm.description = it },
@@ -117,22 +127,36 @@ fun ClientPhotoScreen(navController: NavHostController, vm: ClientPhotoViewModel
                     Switch(checked = vm.principal, onCheckedChange = { vm.principal = it })
                 }
 
-                DefaultButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.btn_save),
-                    onClick = { vm.save() }
-                )
-
                 if (vm.photo != null) {
-                    DefaultButton(
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 8.dp),
-                        text = stringResource(R.string.btn_delete),
-                        color = Color.Red,
-                        onClick = { vm.delete() }
+                            //.background(Color.White)
+                            //.padding(16.dp, 16.dp, 16.dp, 20.dp)
+                    ) {
+                        DefaultButton(
+                            modifier = Modifier.weight(1f),
+                            text = stringResource(R.string.btn_save),
+                            onClick = { vm.save() }
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        DefaultButton(
+                            modifier = Modifier.weight(1f),
+                            text = stringResource(R.string.btn_delete),
+                            color = Color.Red,
+                            onClick = { vm.delete() }
+                        )
+                    }
+
+                } else {
+                    DefaultButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(R.string.btn_save),
+                        onClick = { vm.save() }
                     )
                 }
+
+
             }
 
             if (vm.isLoading) {

@@ -43,7 +43,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.DefaultButton
-import com.altoservicios.centros.presentation.components.DefaultTextField
+import com.altoservicios.centros.presentation.screens.auth.components.AuthTextField
 import com.altoservicios.centros.presentation.screens.auth.register.RegisterViewModel
 
 @SuppressLint("ConfigurationScreenWidthHeight")
@@ -117,7 +117,7 @@ fun RegisterContent(
                         fontSize = 20.sp
                     )
 
-                    DefaultTextField(
+                    AuthTextField(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
                         value = state.name,
                         onValueChange = { text ->
@@ -127,7 +127,7 @@ fun RegisterContent(
                         icon = Icons.Default.Person
                     )
 
-                    DefaultTextField(
+                    AuthTextField(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
                         value = state.email,
                         onValueChange = { text ->
@@ -138,7 +138,7 @@ fun RegisterContent(
                         keyboardType = KeyboardType.Email,
                     )
 
-                    DefaultTextField(
+                    AuthTextField(
                         modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
                         value = state.phone,
                         onValueChange = { text ->
@@ -149,7 +149,7 @@ fun RegisterContent(
                         keyboardType = KeyboardType.Number,
                     )
 
-                    DefaultTextField(
+                    AuthTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = state.password,
                         onValueChange = { text ->
@@ -161,7 +161,7 @@ fun RegisterContent(
                         hideText = true
                     )
 
-                    DefaultTextField(
+                    AuthTextField(
                         modifier = Modifier.fillMaxWidth(),
                         value = state.confirmPassword,
                         onValueChange = { text ->
@@ -176,7 +176,6 @@ fun RegisterContent(
                     DefaultButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(60.dp)
                             .padding(top = 20.dp),
                         onClick = {
                             onRegister(vm)

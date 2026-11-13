@@ -1,50 +1,40 @@
 package com.altoservicios.centros.presentation.components
 
-
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import com.altoservicios.centros.R
-
 
 @Composable
 fun DefaultTextField(
-    modifier: Modifier,
-    value: String,
-    onValueChange: (value: String) -> Unit,
+    modifier: Modifier? = Modifier,
     label: String,
-    icon: ImageVector? = null,
+    value: String,
+    onValueChange: (String) -> Unit,
     keyboardType: KeyboardType = KeyboardType.Text,
-    hideText: Boolean = false
+    singleLine: Boolean = true,
+    enabled: Boolean = true
 ) {
+    val finalModifier = (modifier ?: Modifier).fillMaxWidth()
+
     OutlinedTextField(
-        modifier = modifier,
+        modifier = finalModifier,
         value = value,
-        onValueChange = { text ->
-            onValueChange(text)
-        },
-        label = {
-            Text(text = label)
-        },
-        trailingIcon = {
-            if (icon != null) {
-                Icon(
-                    imageVector = icon,
-                    "",
-                    tint = colorResource(id = R.color.colorLink)
-                )
-            }
-        },
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        visualTransformation = if(hideText) PasswordVisualTransformation() else VisualTransformation.None
+        onValueChange = onValueChange,
+        label = { Text(text = label) },
+        singleLine = singleLine,
+        enabled = enabled,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.LightGray,
+            disabledTextColor = Color.DarkGray,
+        ),
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
     )
 }
