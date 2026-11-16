@@ -6,8 +6,8 @@ import java.io.File
 
 data class PhotoUseCase(
     val getPhotos: GetPhotosUseCase,
-    val uploadPhoto: UploadPhotoUseCase,
     val updatePhoto: UpdatePhotoUseCase,
+    val storePhoto: StorePhotoUseCase,
     val deletePhoto: DeletePhotoUseCase,
 )
 
@@ -15,9 +15,9 @@ class GetPhotosUseCase(private val repository: PhotoRepository) {
     suspend operator fun invoke(idResidence: String) = repository.getImages(idResidence)
 }
 
-class UploadPhotoUseCase(private val repository: PhotoRepository) {
+class StorePhotoUseCase(private val repository: PhotoRepository) {
     suspend operator fun invoke(residenceId: String, file: File, photo: Photo) =
-        repository.uploadImage(residenceId, file, photo)
+        repository.storeImage(residenceId, file, photo)
 }
 
 class UpdatePhotoUseCase(private val repository: PhotoRepository) {

@@ -23,7 +23,7 @@ class PhotoRepositoryImpl(
             Resource.Loading -> Resource.Loading
         }
 
-    override suspend fun uploadImage(
+    override suspend fun storeImage(
         residenceId: String,
         file: File,
         photo: Photo
@@ -35,7 +35,7 @@ class PhotoRepositoryImpl(
             file.asRequestBody("image/jpeg".toMediaTypeOrNull())
         )
         return when (val response = ResponseToRequest.call {
-            service.uploadImage(
+            service.storeImage(
                 image = image,
                 residenceId = residenceId.toRequestBody(textType),
                 title = (photo.title ?: "").toRequestBody(textType),
@@ -46,7 +46,7 @@ class PhotoRepositoryImpl(
             is Resource.Success -> if (response.data.data != null) {
                 Resource.Success(Unit)
             } else {
-                Resource.Failure("La respuesta de carga no contiene la ruta de la imagen")
+                Resource.Failure("La respuesta de carga no contiene la imagen")
             }
             is Resource.Failure -> Resource.Failure(response.message)
             Resource.Loading -> Resource.Loading

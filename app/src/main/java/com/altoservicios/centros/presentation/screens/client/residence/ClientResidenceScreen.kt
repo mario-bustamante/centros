@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -129,11 +130,11 @@ fun ClientResidenceScreen(
                     )
                 }
                 */
+                Spacer(modifier = Modifier.height(16.dp))
                 DefaultButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.btn_save),
+                    icon = Icons.Default.Save,
                     onClick = { vm.save(successMessage) }
                 )
             }

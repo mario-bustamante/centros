@@ -23,6 +23,16 @@ interface PhotoService {
         @Path("idResidence") idResidence: String,
     ): Response<PhotoResponse>
 
+    @Multipart
+    @POST("user/residence/image")
+    suspend fun storeImage(
+        @Part image: MultipartBody.Part,
+        @Part("residence_id") residenceId: RequestBody,
+        @Part("title") title: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("principal") principal: RequestBody
+    ): Response<PhotoUploadResponse>
+
     @PUT("user/residence/image")
     suspend fun updateImage(
         @Query("residence_id") residenceId: String,
@@ -38,13 +48,4 @@ interface PhotoService {
         @Query("id") id: Int?
     ): Response<PhotoDeleteResponse>
 
-    @Multipart
-    @POST("user/residence/image/upload")
-    suspend fun uploadImage(
-        @Part image: MultipartBody.Part,
-        @Part("residence_id") residenceId: RequestBody,
-        @Part("title") title: RequestBody,
-        @Part("description") description: RequestBody,
-        @Part("principal") principal: RequestBody
-    ): Response<PhotoUploadResponse>
 }

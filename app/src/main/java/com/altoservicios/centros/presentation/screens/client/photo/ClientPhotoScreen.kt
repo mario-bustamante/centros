@@ -17,7 +17,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -46,23 +51,15 @@ import com.altoservicios.centros.presentation.components.MessageEffect
 import com.altoservicios.centros.presentation.components.dial
 import com.altoservicios.centros.presentation.components.imageUrl
 import com.altoservicios.centros.presentation.components.openWhatsApp
+import com.altoservicios.centros.presentation.screens.client.photo.components.ClientPhotoContent
 import java.io.File
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun ClientPhotoScreen(navController: NavHostController, vm: ClientPhotoViewModel = hiltViewModel()) {
-    val context = LocalContext.current
-
-    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        val file = vm.pendingFile
-        if (success && file != null) vm.onImageCaptured(file)
-    }
-
-    MessageEffect(message = vm.message, onConsumed = { vm.message = "" })
-
-    LaunchedEffect(vm.finished) {
-        if (vm.finished) navController.popBackStack()
-    }
+fun ClientPhotoScreen(
+    navController: NavHostController,
+    vm: ClientPhotoViewModel = hiltViewModel()
+) {
 
     Scaffold(
         topBar = { DefaultTopBar(title = "Fotografía", upAvailable = true, navController = navController) }
@@ -73,91 +70,7 @@ fun ClientPhotoScreen(navController: NavHostController, vm: ClientPhotoViewModel
                 .fillMaxSize()
                 .background(colorResource(R.color.colorBgSecondary))
         ) {
-            Column(
-                modifier = Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(16.dp)
-            ) {
-                val preview: Any? = vm.imageFile ?: imageUrl(vm.photo?.path)
-                AsyncImage(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(220.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Color.White.copy(alpha = 0.5f)),
-                    model = preview,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
-                )
-
-                DefaultButton(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = stringResource(R.string.btn_take_picture),
-                    icon = Icons.Default.CameraAlt,
-                    onClick = {
-                        val directory = File(context.cacheDir, "images").apply { mkdirs() }
-                        val file = File(directory, "photo_${System.currentTimeMillis()}.jpg")
-                        vm.pendingFile = file
-                        cameraLauncher.launch(
-                            FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
-                        )
-                    }
-                )
-
-                DefaultTextField(
-                    label = stringResource(R.string.label_title),
-                    value = vm.title,
-                    onValueChange = { vm.title = it }
-                )
-                DefaultTextField(
-                    label = stringResource(R.string.label_description),
-                    value = vm.description,
-                    onValueChange = { vm.description = it },
-                    singleLine = false
-                )
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(modifier = Modifier.weight(1f), text = "Imagen principal")
-                    Switch(checked = vm.principal, onCheckedChange = { vm.principal = it })
-                }
-
-                if (vm.photo != null) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            //.background(Color.White)
-                            //.padding(16.dp, 16.dp, 16.dp, 20.dp)
-                    ) {
-                        DefaultButton(
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.btn_save),
-                            onClick = { vm.save() }
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        DefaultButton(
-                            modifier = Modifier.weight(1f),
-                            text = stringResource(R.string.btn_delete),
-                            color = Color.Red,
-                            onClick = { vm.delete() }
-                        )
-                    }
-
-                } else {
-                    DefaultButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(R.string.btn_save),
-                        onClick = { vm.save() }
-                    )
-                }
-
-
-            }
+            ClientPhotoContent(navController = navController, vm = vm)
 
             if (vm.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))

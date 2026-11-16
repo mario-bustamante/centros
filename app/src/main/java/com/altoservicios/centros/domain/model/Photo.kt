@@ -2,6 +2,7 @@ package com.altoservicios.centros.domain.model
 
 import com.google.gson.Gson
 import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import com.google.gson.annotations.SerializedName
 
 data class Photo(
@@ -32,7 +33,7 @@ data class PhotoUpdateResponse(
 )
 
 data class PhotoUploadResponse(
-    @SerializedName("data") val data: String? = null,
+    @SerializedName("data") val data: JsonObject? = null,
 )
 
 data class PhotoDeleteResponse(

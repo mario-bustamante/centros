@@ -19,8 +19,8 @@ import com.altoservicios.centros.domain.useCase.contact.GetContactValuesUseCase
 import com.altoservicios.centros.domain.useCase.photo.DeletePhotoUseCase
 import com.altoservicios.centros.domain.useCase.photo.GetPhotosUseCase
 import com.altoservicios.centros.domain.useCase.photo.PhotoUseCase
+import com.altoservicios.centros.domain.useCase.photo.StorePhotoUseCase
 import com.altoservicios.centros.domain.useCase.photo.UpdatePhotoUseCase
-import com.altoservicios.centros.domain.useCase.photo.UploadPhotoUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetMyResidencesUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetMyRoomsUseCase
 import com.altoservicios.centros.domain.useCase.residences.GetPricesUseCase
@@ -79,7 +79,7 @@ object UseCaseModule {
     @Provides
     fun providePhotoUseCase(repository: PhotoRepository) = PhotoUseCase(
         getPhotos = GetPhotosUseCase(repository),
-        uploadPhoto = UploadPhotoUseCase(repository),
+        storePhoto = StorePhotoUseCase(repository),
         updatePhoto = UpdatePhotoUseCase(repository),
         deletePhoto = DeletePhotoUseCase(repository)
     )

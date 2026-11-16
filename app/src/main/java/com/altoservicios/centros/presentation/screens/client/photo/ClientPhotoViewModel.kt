@@ -1,5 +1,6 @@
 package com.altoservicios.centros.presentation.screens.client.photo
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -43,31 +44,59 @@ class ClientPhotoViewModel @Inject constructor(
         imageFile = file
     }
 
-    fun save() {
+    fun update() {
+
+        val currentPhoto = photo
+        if (residenceId.isBlank()) {
+            message = "No se proporcionó el ID de la residencia"
+            return
+        }
+        if (currentPhoto?.id == null) {
+            message = "No se proporcionó el ID de la imagen"
+            return
+        }
+        if (imageFile != null) {
+            message = "No se puede reemplazar la fotografía existente"
+            return
+        }
+
+        val updatedPhoto = currentPhoto.copy(
+            title = title,
+            description = description,
+            principal = if (principal) 1 else 0
+        )
+        Log.d("ClientPhotoViewModel", "update")
+        Log.d("ClientPhotoViewModel", updatedPhoto.toJson())
+
+
+        execute { photoUseCase.updatePhoto(residenceId, updatedPhoto) }
+    }
+
+    fun store() {
+
         val newPhoto = Photo(
-            id = photo?.id,
             title = title,
             description = description,
             principal = if (principal) 1 else 0
         )
         val file = imageFile
 
-        if (file == null && photo == null) {
-            message = "Toma una fotografía primero"
-            return
-        }
         if (residenceId.isBlank()) {
             message = "No se proporcionó el ID de la residencia"
             return
         }
-
-        execute {
-            if (file != null) {
-                photoUseCase.uploadPhoto(residenceId, file, newPhoto)
-            } else {
-                photoUseCase.updatePhoto(residenceId, newPhoto)
-            }
+        if (imageFile == null || file == null) {
+            message = "Debe subir una fotografía"
+            return
         }
+        if (newPhoto.title.isNullOrBlank()) {
+            message = "Debe agregar el titulo"
+            return
+        }
+
+        Log.d("ClientPhotoViewModel", "store")
+        Log.d("ClientPhotoViewModel", newPhoto.toJson())
+        execute { photoUseCase.storePhoto(residenceId, file, newPhoto) }
     }
 
     fun delete() {

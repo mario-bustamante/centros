@@ -41,6 +41,7 @@ import com.altoservicios.centros.R
 import com.altoservicios.centros.presentation.components.MessageEffect
 import com.altoservicios.centros.presentation.components.imageUrl
 import com.altoservicios.centros.presentation.navigation.screen.PhotosScreen
+import com.altoservicios.centros.presentation.screens.client.photo.components.ClientPhotosContent
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -48,17 +49,14 @@ fun ClientPhotosScreen(
     navController: NavHostController,
     vm: ClientPhotosViewModel = hiltViewModel()
 ) {
-    // Se recarga cada vez que se vuelve de editar una fotografia
-    LaunchedEffect(Unit) { vm.load() }
-
-    MessageEffect(message = vm.message, onConsumed = { vm.message = "" })
-
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate(PhotosScreen.photo(vm.residenceId, null))
-            }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Agregar fotografía")
+            if(vm.photos.size <= 6) {
+                FloatingActionButton(onClick = {
+                    navController.navigate(PhotosScreen.photo(vm.residenceId, null))
+                }) {
+                    Icon(imageVector = Icons.Default.Add, contentDescription = "Agregar fotografía")
+                }
             }
         }
     ) { paddingValues ->
@@ -67,50 +65,8 @@ fun ClientPhotosScreen(
                 .fillMaxSize()
                 .background(colorResource(R.color.colorBgSecondary))
         ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(vertical = 8.dp)
-            ) {
-                items(items = vm.photos, key = { it.id ?: it.hashCode() }) { photo ->
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp, vertical = 6.dp)
-                            .clickable {
-                                navController.navigate(PhotosScreen.photo(vm.residenceId, photo))
-                            },
-                        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.8f))
-                    ) {
-                        Row(modifier = Modifier.padding(10.dp)) {
-                            AsyncImage(
-                                modifier = Modifier
-                                    .size(width = 110.dp, height = 80.dp)
-                                    .clip(RoundedCornerShape(10.dp)),
-                                model = imageUrl(photo.path),
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop
-                            )
 
-                            Column(modifier = Modifier.padding(start = 10.dp)) {
-                                Text(
-                                    text = photo.title.orEmpty(),
-                                    fontWeight = FontWeight.Bold,
-                                    maxLines = 1,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                Text(
-                                    text = photo.description.orEmpty(),
-                                    maxLines = 2,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                if (photo.principal == 1) {
-                                    Text(text = "Principal", color = colorResource(R.color.colorLink))
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            ClientPhotosContent(navController = navController, vm = vm)
 
             if (vm.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
