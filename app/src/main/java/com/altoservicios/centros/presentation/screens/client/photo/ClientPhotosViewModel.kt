@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.altoservicios.centros.domain.model.Photo
 import com.altoservicios.centros.domain.useCase.photo.PhotoUseCase
 import com.altoservicios.centros.domain.util.Resource
+import com.altoservicios.centros.presentation.screens.client.ClientResidenceCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientPhotosViewModel @Inject constructor(
     private val photoUseCase: PhotoUseCase,
+    private val cache: ClientResidenceCache,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -37,7 +39,7 @@ class ClientPhotosViewModel @Inject constructor(
         }
         isLoading = true
         viewModelScope.launch {
-            when (val result = photoUseCase.getPhotos(residenceId)) {
+            when (val result = cache.photos(residenceId) { photoUseCase.getPhotos(residenceId) }) {
                 is Resource.Success -> {
                     val receivedPhotos = result.data.data
                     if (receivedPhotos != null) {

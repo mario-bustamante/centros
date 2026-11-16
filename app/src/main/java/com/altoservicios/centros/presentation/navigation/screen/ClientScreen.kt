@@ -40,3 +40,13 @@ sealed class ClientScreen(
         icon = Icons.Default.Person
     )
 }
+
+fun clientMenuRoute(screen: MenuScreen, residenceId: String?): String? {
+    val id = residenceId?.takeIf { it.isNotBlank() && it != "{residenceId}" }
+    return when (screen) {
+        ClientScreen.Residence -> id?.let { ClientScreen.Residence.createRoute(it) }
+        ClientScreen.Rooms -> id?.let { ClientScreen.Rooms.createRoute(it) }
+        PhotosScreen -> id?.let { PhotosScreen.createRoute(it) }
+        else -> screen.route
+    }
+}

@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.altoservicios.centros.domain.model.Photo
 import com.altoservicios.centros.domain.useCase.photo.PhotoUseCase
 import com.altoservicios.centros.domain.util.Resource
+import com.altoservicios.centros.presentation.screens.client.ClientResidenceCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientPhotoViewModel @Inject constructor(
     private val photoUseCase: PhotoUseCase,
+    private val cache: ClientResidenceCache,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -111,7 +113,15 @@ class ClientPhotoViewModel @Inject constructor(
     private fun execute(block: suspend () -> Resource<*>) {
         isLoading = true
         viewModelScope.launch {
-            when (val result = block()) {
+            cache.invalidatePhotos(residenceId)
+            cache.invalidateResidence(residenceId)
+            val result = try {
+                block()
+            } finally {
+                cache.invalidatePhotos(residenceId)
+                cache.invalidateResidence(residenceId)
+            }
+            when (result) {
                 is Resource.Success -> finished = true
                 is Resource.Failure -> message = result.message
                 Resource.Loading -> Unit

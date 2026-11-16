@@ -42,6 +42,8 @@ fun MenuTopBar(
     navController: NavHostController,
     actions: @Composable RowScope.() -> Unit = {},
     onLogout: (() -> Unit)? = null,
+    routeForScreen: (MenuScreen) -> String? = { it.route },
+    preserveNavigationState: Boolean = true,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val scope = rememberCoroutineScope()
@@ -66,17 +68,18 @@ fun MenuTopBar(
                     HorizontalDivider()
 
                     screens.forEach { screen ->
-                        NavigationDrawerItem(
+                        val route = routeForScreen(screen)
+                        if (route != null) NavigationDrawerItem(
                             selected = currentDestination?.hierarchy?.any {
                                 it.route == screen.route
                             } == true,
                             onClick = {
-                                navController.navigate(screen.route) {
+                                navController.navigate(route) {
                                     popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                                        saveState = preserveNavigationState
                                     }
                                     launchSingleTop = true
-                                    restoreState = true
+                                    restoreState = preserveNavigationState
                                 }
                                 scope.launch { drawerState.close() }
                             },

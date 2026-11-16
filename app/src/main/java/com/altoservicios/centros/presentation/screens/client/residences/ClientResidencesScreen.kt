@@ -28,6 +28,7 @@ fun ClientResidencesScreen(
             onErrorConsumed = { vm.errorMessage = "" },
             onLoadNextPage = vm::loadNextPage,
             onResidenceClick = { residence ->
+                vm.selectResidence(residence.id)
                 navController.navigate(ClientScreen.Residence.createRoute(residence.id))
             }
         )

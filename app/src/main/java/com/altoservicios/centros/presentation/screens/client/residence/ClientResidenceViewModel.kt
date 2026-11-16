@@ -14,6 +14,7 @@ import com.altoservicios.centros.domain.model.RoomAvailability
 import com.altoservicios.centros.domain.model.Town
 import com.altoservicios.centros.domain.useCase.residences.ResidencesUseCase
 import com.altoservicios.centros.domain.util.Resource
+import com.altoservicios.centros.presentation.screens.client.ClientResidenceCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ClientResidenceViewModel @Inject constructor(
     private val residencesUseCase: ResidencesUseCase,
+    private val cache: ClientResidenceCache,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -53,29 +55,30 @@ class ClientResidenceViewModel @Inject constructor(
             Log.d("ClientResidenceViewModel", "Loading residence with ID: '$residenceId'")
 
             val residenceResult = if (residenceId.isNotBlank()) {
-                residencesUseCase.getResidenceById(residenceId)
+                cache.residence(residenceId) { residencesUseCase.getResidenceById(residenceId) }
             } else {
                 Resource.Failure("No residence ID provided")
             }
             
-            val provincesResult = residencesUseCase.getProvinces()
+            val provincesResult = cache.provinces(residenceId) { residencesUseCase.getProvinces() }
             val roomsResult = if (residenceId.isNotBlank()) {
                 Log.d("ClientResidenceViewModel", "Fetching rooms by ID: $residenceId")
-                residencesUseCase.getMyRooms(residenceId)
+                cache.rooms(residenceId) { residencesUseCase.getMyRooms(residenceId) }
             } else {
                 Log.w("ClientResidenceViewModel", "rooms ID is empty or blank!")
                 Resource.Failure("No residence ID provided")
             }
 
             if (residenceResult is Resource.Success) {
-                residence = residenceResult.data
+                residence = cache.residenceDraft(residenceId) ?: residenceResult.data
                 Log.d("ClientResidenceViewModel", "Residence loaded successfully: ${residence.name}")
                 residence.provinceId?.toIntOrNull()?.takeIf { it > 0 }?.let { loadTowns(it) }
             }
             if (provincesResult is Resource.Success) provinces = provincesResult.data
             if (roomsResult is Resource.Success) {
                 rooms = roomsResult.data
-                availability = rooms.associate { it.id to (it.numAvailable ?: 0).toString() }
+                availability = cache.roomsDraft(residenceId)
+                    ?: rooms.associate { it.id to (it.numAvailable ?: 0).toString() }
             }
 
             listOf(residenceResult, provincesResult, roomsResult)
@@ -91,16 +94,19 @@ class ClientResidenceViewModel @Inject constructor(
 
     fun onResidenceChange(newResidence: Residence) {
         residence = newResidence
+        cache.setResidenceDraft(residenceId, newResidence)
     }
 
     fun onProvinceSelected(idProvince: Int?) {
         residence = residence.copy(provinceId = idProvince?.toString(), townId = null)
+        cache.setResidenceDraft(residenceId, residence)
         towns = emptyList()
         idProvince?.let { loadTowns(it) }
     }
 
     fun onTownSelected(idTown: Int?) {
         residence = residence.copy(townId = idTown?.toString())
+        cache.setResidenceDraft(residenceId, residence)
     }
 
     fun save(successMessage: String) {
@@ -108,12 +114,19 @@ class ClientResidenceViewModel @Inject constructor(
             message = "No residence ID provided"
             return
         }
+        val savedResidence = residence
         isLoading = true
         viewModelScope.launch {
-            val result = residencesUseCase.updateMyResidence(residence)
+            cache.invalidateResidence(residenceId)
+            val result = try {
+                residencesUseCase.updateMyResidence(savedResidence)
+            } finally {
+                cache.invalidateResidence(residenceId)
+            }
             when (result) {
                 is Resource.Success -> {
-                    residence = result.data
+                    cache.clearResidenceDraft(residenceId, savedResidence)
+                    residence = cache.residenceDraft(residenceId) ?: result.data
                     message = successMessage
                 }
                 is Resource.Failure -> message = result.message
@@ -125,10 +138,12 @@ class ClientResidenceViewModel @Inject constructor(
 
     fun onAvailabilityChange(id: Int, value: String) {
         availability = availability + (id to value.filter { it.isDigit() }.take(5))
+        cache.setRoomsDraft(residenceId, availability)
     }
 
     fun saveRooms(successMessage: String) {
-        val rooms = availability.map { (id, value) -> RoomAvailability(id, value.toIntOrNull() ?: 0) }
+        val savedAvailability = availability
+        val rooms = savedAvailability.map { (id, value) -> RoomAvailability(id, value.toIntOrNull() ?: 0) }
         if (rooms.isEmpty()) return
         if (residenceId.isBlank()) {
             message = "No residence ID provided"
@@ -137,12 +152,20 @@ class ClientResidenceViewModel @Inject constructor(
 
         isLoading = true
         viewModelScope.launch {
-            when (val result = residencesUseCase.updateMyRooms(residenceId, rooms)) {
+            cache.invalidateRooms(residenceId)
+            val result = try {
+                residencesUseCase.updateMyRooms(residenceId, rooms)
+            } finally {
+                cache.invalidateRooms(residenceId)
+            }
+            when (result) {
                 is Resource.Success -> {
+                    cache.clearRoomsDraft(residenceId, savedAvailability)
                     this@ClientResidenceViewModel.rooms = this@ClientResidenceViewModel.rooms.map { room ->
-                        room.copy(numAvailable = availability[room.id]?.toIntOrNull() ?: 0)
+                        room.copy(numAvailable = savedAvailability[room.id]?.toIntOrNull() ?: 0)
                     }
-                    availability = this@ClientResidenceViewModel.rooms.associate { it.id to (it.numAvailable ?: 0).toString() }
+                    availability = cache.roomsDraft(residenceId)
+                        ?: this@ClientResidenceViewModel.rooms.associate { it.id to (it.numAvailable ?: 0).toString() }
                     message = successMessage
                 }
                 is Resource.Failure -> message = result.message
@@ -154,7 +177,7 @@ class ClientResidenceViewModel @Inject constructor(
 
     private fun loadTowns(idProvince: Int) {
         viewModelScope.launch {
-            val result = residencesUseCase.getTowns(idProvince)
+            val result = cache.towns(residenceId, idProvince) { residencesUseCase.getTowns(idProvince) }
             if (result is Resource.Success) towns = result.data
             if (result is Resource.Failure) message = result.message
         }

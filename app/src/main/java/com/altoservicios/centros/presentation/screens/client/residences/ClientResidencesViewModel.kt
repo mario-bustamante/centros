@@ -13,6 +13,7 @@ import com.altoservicios.centros.domain.model.Search
 import com.altoservicios.centros.domain.model.Town
 import com.altoservicios.centros.domain.useCase.residences.ResidencesUseCase
 import com.altoservicios.centros.domain.util.Resource
+import com.altoservicios.centros.presentation.screens.client.ClientResidenceCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -21,7 +22,8 @@ import javax.inject.Inject
 /** Compartido por el listado, el buscador y el mapa de residencias */
 @HiltViewModel
 class ClientResidencesViewModel @Inject constructor(
-    private val residencesUseCase: ResidencesUseCase
+    private val residencesUseCase: ResidencesUseCase,
+    private val cache: ClientResidenceCache
 ) : ViewModel() {
 
     var search by mutableStateOf(Search())
@@ -58,6 +60,10 @@ class ClientResidencesViewModel @Inject constructor(
 
     init {
         loadNextPage()
+    }
+
+    fun selectResidence(id: String) {
+        cache.selectResidence(id)
     }
 
     fun applySearch(newSearch: Search) {

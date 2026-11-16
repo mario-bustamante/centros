@@ -7,12 +7,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.altoservicios.centros.domain.model.User
 import com.altoservicios.centros.domain.useCase.auth.AuthUseCase
+import com.altoservicios.centros.presentation.screens.client.ClientResidenceCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(private val authUseCase: AuthUseCase): ViewModel() {
+class ProfileViewModel @Inject constructor(
+    private val authUseCase: AuthUseCase,
+    private val cache: ClientResidenceCache
+): ViewModel() {
 
     var user by mutableStateOf<User?>(null)
         private set
@@ -29,6 +33,7 @@ class ProfileViewModel @Inject constructor(private val authUseCase: AuthUseCase)
 
     fun logout(onComplete: () -> Unit) = viewModelScope.launch {
         authUseCase.logout()
+        cache.clear()
         onComplete()
     }
 

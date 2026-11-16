@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import com.altoservicios.centros.presentation.navigation.screen.ClientScreen
 import com.altoservicios.centros.presentation.navigation.screen.MenuScreen
 import com.altoservicios.centros.presentation.navigation.screen.PhotosScreen
+import com.altoservicios.centros.presentation.navigation.screen.clientMenuRoute
 
 @Composable
 fun RowScope.ClientBottomBarItem(
@@ -20,15 +21,7 @@ fun RowScope.ClientBottomBarItem(
     navController: NavHostController,
     currentResidenceId: String? = null
 ) {
-    val routeToNavigate = when {
-        screen is PhotosScreen && currentResidenceId != null -> {
-            PhotosScreen.createRoute(currentResidenceId)
-        }
-        screen == ClientScreen.Rooms && currentResidenceId != null -> {
-            ClientScreen.Rooms.createRoute(currentResidenceId)
-        }
-        else -> screen.route
-    }
+    val routeToNavigate = clientMenuRoute(screen, currentResidenceId)
     
     val isSelected = when {
         screen is PhotosScreen -> {
@@ -50,13 +43,14 @@ fun RowScope.ClientBottomBarItem(
     
     NavigationBarItem(
         selected = isSelected,
+        enabled = routeToNavigate != null,
         onClick = {
-            navController.navigate(routeToNavigate) {
+            if (routeToNavigate != null) navController.navigate(routeToNavigate) {
                 popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
+                    saveState = false
                 }
                 launchSingleTop = true
-                restoreState = true
+                restoreState = false
             }
         },
         label = {
