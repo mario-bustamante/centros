@@ -2,6 +2,7 @@ package com.altoservicios.centros.data.repository
 
 import com.altoservicios.centros.data.dataSource.remote.service.PhotoService
 import com.altoservicios.centros.domain.model.Photo
+import com.altoservicios.centros.domain.model.PhotoResponse
 import com.altoservicios.centros.domain.repository.PhotoRepository
 import com.altoservicios.centros.domain.util.Resource
 import com.altoservicios.centros.domain.util.ResponseToRequest
@@ -15,10 +16,17 @@ class PhotoRepositoryImpl(
     private val service: PhotoService
 ) : PhotoRepository {
 
-    override suspend fun getImages(idResidence: String): Resource<List<Photo>> =
+    override suspend fun getImages(idResidence: String): Resource<PhotoResponse> =
         when (val response = ResponseToRequest.call { service.getImages(idResidence) }) {
-            is Resource.Success -> response.data.data?.let { Resource.Success(it) }
-                ?: Resource.Failure("La respuesta de imágenes no contiene datos")
+            is Resource.Success -> {
+                val photos = response.data.data
+                val imageCount = response.data.meta
+                when {
+                    photos == null -> Resource.Failure("La respuesta de imágenes no contiene datos")
+                    imageCount?.imageCount == null -> Resource.Failure("La respuesta de imágenes no contiene image_count")
+                    else -> Resource.Success(PhotoResponse(photos, imageCount))
+                }
+            }
             is Resource.Failure -> Resource.Failure(response.message)
             Resource.Loading -> Resource.Loading
         }

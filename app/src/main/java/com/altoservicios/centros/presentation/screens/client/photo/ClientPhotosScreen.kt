@@ -51,7 +51,7 @@ fun ClientPhotosScreen(
 ) {
     Scaffold(
         floatingActionButton = {
-            if(vm.photos.size <= 6) {
+            if (vm.imageCount?.let { vm.photos.size+1 <= it } == true) {
                 FloatingActionButton(onClick = {
                     navController.navigate(PhotosScreen.photo(vm.residenceId, null))
                 }) {

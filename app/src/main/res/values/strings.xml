@@ -46,6 +46,9 @@
     <!-- fotografias -->
     <string name="btn_take_picture">Tomar foto</string>
     <string name="btn_delete">Eliminar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="confirm_delete_photo_title">Eliminar fotografía</string>
+    <string name="confirm_delete_photo_message">¿Deseas eliminar esta fotografía?</string>
     <string name="label_title">Título</string>
 
 </resources>

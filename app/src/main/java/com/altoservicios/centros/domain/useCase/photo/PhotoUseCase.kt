@@ -1,7 +1,9 @@
 package com.altoservicios.centros.domain.useCase.photo
 
 import com.altoservicios.centros.domain.model.Photo
+import com.altoservicios.centros.domain.model.PhotoResponse
 import com.altoservicios.centros.domain.repository.PhotoRepository
+import com.altoservicios.centros.domain.util.Resource
 import java.io.File
 
 data class PhotoUseCase(
@@ -12,7 +14,8 @@ data class PhotoUseCase(
 )
 
 class GetPhotosUseCase(private val repository: PhotoRepository) {
-    suspend operator fun invoke(idResidence: String) = repository.getImages(idResidence)
+    suspend operator fun invoke(idResidence: String): Resource<PhotoResponse> =
+        repository.getImages(idResidence)
 }
 
 class StorePhotoUseCase(private val repository: PhotoRepository) {

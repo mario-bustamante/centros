@@ -23,6 +23,9 @@ class ClientPhotosViewModel @Inject constructor(
 
     var photos by mutableStateOf<List<Photo>>(emptyList())
         private set
+
+    var imageCount by mutableStateOf<Int?>(null)
+        private set
     var isLoading by mutableStateOf(false)
         private set
     var message by mutableStateOf("")
@@ -35,7 +38,15 @@ class ClientPhotosViewModel @Inject constructor(
         isLoading = true
         viewModelScope.launch {
             when (val result = photoUseCase.getPhotos(residenceId)) {
-                is Resource.Success -> photos = result.data
+                is Resource.Success -> {
+                    val receivedPhotos = result.data.data
+                    if (receivedPhotos != null) {
+                        photos = receivedPhotos
+                        imageCount = result.data.meta?.imageCount
+                    } else {
+                        message = "La respuesta de imágenes no contiene datos"
+                    }
+                }
                 is Resource.Failure -> message = result.message
                 Resource.Loading -> Unit
             }
