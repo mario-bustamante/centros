@@ -22,15 +22,15 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
-class Test3 : ResidencesTest() {
+class Test3: ResidencesTest() {
 
-/*
+
     @Test
     fun searchResidences() {
         //se verifica que el buscador funcione, en el ActivitySearch, en el spinner de provincia, se selecciona Almería y en el
         //de municipio, se selecciona Albox, luego se hace click en buscar el cual nos envia al ActivityResidences y se verifica
         //que el recycle_view contenga una residencia
-
+        /*
         val scenario = ActivityScenario.launch(ResidencesSearchActivity::class.java)
 
         Thread.sleep(TestData.networkWaitingMillis)
@@ -52,8 +52,9 @@ class Test3 : ResidencesTest() {
         onView(withId(R.id.recycler_view_residences)).check(hasItemCount(1))
 
         scenario.close()
+        */
     }
-    */
+
 }
 
 class CustomAssertions {

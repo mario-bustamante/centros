@@ -16,6 +16,7 @@ import com.altoservicios.centros.domain.model.ValoresFormulario
 import com.altoservicios.centros.presentation.components.DefaultDropdown
 import com.altoservicios.centros.presentation.components.DefaultSlider
 import com.altoservicios.centros.presentation.components.DefaultTextField
+import com.altoservicios.centros.presentation.components.RadioGroupSelector
 import com.altoservicios.centros.presentation.screens.home.contact.HomeContactViewModel
 
 @Composable
@@ -24,50 +25,21 @@ fun ContactDataStep(
     valores: ValoresFormulario,
     onChange: (Contacto) -> Unit,
     errorMessage: String,
+    onBack: () -> Unit,
     onContinue: () -> Unit,
     vm: HomeContactViewModel
 ) {
     val lbText = valores.textos
 
     DefaultTextField(
-        label = lbText["nombre"] ?: "Nombre",
-        value = contacto.nombre.orEmpty(),
-        onValueChange = { onChange(contacto.copy(nombre = it)) }
-    )
-
-    DefaultTextField(
-        label = lbText["correo"] ?: "Email",
-        value = contacto.email.orEmpty(),
-        onValueChange = { onChange(contacto.copy(email = it)) },
-        keyboardType = KeyboardType.Email
-    )
-
-    DefaultTextField(
-        label = lbText["telefono"] ?: "Teléfono",
-        value = contacto.telefono.orEmpty(),
-        onValueChange = { onChange(contacto.copy(telefono = it)) },
-        keyboardType = KeyboardType.Phone
-    )
-
-    DefaultTextField(
         label = lbText["preferencia"] ?: "Preferencia",
         value = contacto.preferencia.orEmpty(),
+        singleLine = false,
         onValueChange = { onChange(contacto.copy(preferencia = it)) }
     )
 
-    DefaultDropdown(
-        label = lbText["urgencia"] ?: "Urgencia",
-        emptyLabel = "Selecciona urgencia",
-        options = valores.urgencia,
-        selectedId = contacto.urgencia,
-        onSelected = {
-            onChange(contacto.copy(urgencia = it))
-        }
-    )
-
-    DefaultDropdown(
+    RadioGroupSelector(
         label = lbText["parentesco"] ?: "Parentesco",
-        emptyLabel = "Selecciona parentesco",
         options = valores.parentesco,
         selectedId = contacto.parentesco,
         onSelected = { 
@@ -80,5 +52,5 @@ fun ContactDataStep(
 
     ContactErrorText(errorMessage)
 
-    ContactNavButtons(nextText = "Continuar", onNext = onContinue)
+    ContactNavButtons(onBack = onBack, nextText = "Continuar", onNext = onContinue)
 }

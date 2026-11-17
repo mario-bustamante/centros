@@ -2,6 +2,7 @@ package com.altoservicios.centros.data.repository
 
 import com.altoservicios.centros.data.dataSource.remote.service.PhotoService
 import com.altoservicios.centros.domain.model.PhotoDeleteResponse
+import com.altoservicios.centros.domain.model.Photo
 import com.altoservicios.centros.domain.model.PhotoResponse
 import com.altoservicios.centros.domain.model.PhotoUpdateResponse
 import com.altoservicios.centros.domain.model.PhotoUploadResponse
@@ -14,6 +15,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import retrofit2.Response
+import java.io.File
 
 class PhotoRepositoryImplTest {
     @Test
@@ -41,7 +43,28 @@ class PhotoRepositoryImplTest {
         assertEquals("La respuesta de imágenes no contiene image_count", (result as Resource.Failure).message)
     }
 
-    private class FakePhotoService(private val response: PhotoResponse) : PhotoService {
+    @Test
+    fun uploadRequiresImageObject() = runBlocking {
+        val gson = Gson()
+        val valid = gson.fromJson("""{"data":{"id":12,"principal":true}}""", PhotoUploadResponse::class.java)
+        val service = FakePhotoService(PhotoResponse(), valid)
+        val repository = PhotoRepositoryImpl(service)
+        val image = File("unused-test-image.jpg")
+
+        assertTrue(repository.storeImage("3", image, Photo()) is Resource.Success)
+
+        for (json in listOf("""{"data":null}""", """{}""", """{"data":"invalid"}""", """{"data":[]}""")) {
+            service.uploadResponse = gson.fromJson(json, PhotoUploadResponse::class.java)
+            val result = repository.storeImage("3", image, Photo())
+            assertTrue(result is Resource.Failure)
+            assertEquals("La respuesta de carga no contiene la imagen", (result as Resource.Failure).message)
+        }
+    }
+
+    private class FakePhotoService(
+        private val response: PhotoResponse,
+        var uploadResponse: PhotoUploadResponse? = null
+    ) : PhotoService {
         override suspend fun getImages(idResidence: String): Response<PhotoResponse> =
             Response.success(response)
 
@@ -51,7 +74,7 @@ class PhotoRepositoryImplTest {
             title: RequestBody,
             description: RequestBody,
             principal: RequestBody
-        ): Response<PhotoUploadResponse> = error("Not used")
+        ): Response<PhotoUploadResponse> = Response.success(requireNotNull(uploadResponse))
 
         override suspend fun updateImage(
             residenceId: String,

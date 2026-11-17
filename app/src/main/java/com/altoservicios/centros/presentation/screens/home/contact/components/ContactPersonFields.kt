@@ -6,6 +6,7 @@ import com.altoservicios.centros.domain.model.Persona
 import com.altoservicios.centros.domain.model.ValoresFormulario
 import com.altoservicios.centros.presentation.components.DefaultDropdown
 import com.altoservicios.centros.presentation.components.DefaultTextField
+import com.altoservicios.centros.presentation.components.RadioGroupSelector
 
 @Composable
 fun ContactDataPersonFields(
@@ -15,9 +16,8 @@ fun ContactDataPersonFields(
 ) {
     val lbText = valores.textos
 
-    DefaultDropdown(
+    RadioGroupSelector(
         label = lbText["trato"] ?: "Trato",
-        emptyLabel = "Selecciona trato",
         options = valores.trato,
         selectedId = persona.trato,
         onSelected = { onChange(persona.copy(trato = it)) }

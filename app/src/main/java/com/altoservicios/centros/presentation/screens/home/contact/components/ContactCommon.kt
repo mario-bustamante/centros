@@ -9,13 +9,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.altoservicios.centros.R
@@ -32,6 +32,7 @@ fun ContactErrorText(message: String) {
 fun ContactNavButtons(
     onBack: (() -> Unit)? = null,
     nextText: String,
+    nextIcon: ImageVector = Icons.AutoMirrored.Filled.ArrowForward,
     onNext: () -> Unit
 ) {
     Spacer(modifier = Modifier.height(6.dp))
@@ -47,15 +48,16 @@ fun ContactNavButtons(
             Spacer(modifier = Modifier.width(12.dp))
             DefaultButton(
                 modifier = Modifier.weight(1f),
-                text = "Enviar",
-                icon = Icons.AutoMirrored.Filled.Send,
-                onClick = onBack
+                text = nextText,
+                icon = nextIcon,
+                showIconRight = true,
+                onClick = onNext
             )
         } else {
             DefaultButton(
                 modifier = Modifier.fillMaxWidth(),
                 text = nextText,
-                icon = Icons.AutoMirrored.Filled.ArrowForward,
+                icon = nextIcon,
                 showIconRight = true,
                 onClick = onNext
             )

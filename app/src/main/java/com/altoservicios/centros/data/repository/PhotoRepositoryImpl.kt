@@ -51,7 +51,7 @@ class PhotoRepositoryImpl(
                 principal = (photo.principal ?: 0).toString().toRequestBody(textType)
             )
         }) {
-            is Resource.Success -> if (response.data.data != null) {
+            is Resource.Success -> if (response.data.data?.isJsonObject == true) {
                 Resource.Success(Unit)
             } else {
                 Resource.Failure("La respuesta de carga no contiene la imagen")

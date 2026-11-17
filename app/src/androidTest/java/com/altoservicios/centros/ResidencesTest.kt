@@ -1,12 +1,15 @@
 package com.altoservicios.centros
 
 import android.util.Log
+import androidx.lifecycle.ViewModel
 import androidx.test.core.app.ApplicationProvider
+import com.altoservicios.centros.domain.useCase.auth.AuthUseCase
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
 abstract class ResidencesTest {
-/*
-    protected val oauthApiService = TestData.provideOauthApiService(ApplicationProvider.getApplicationContext())
+    /*
+    protected val oauthApiService =  TestData.provideOauthApiService(ApplicationProvider.getApplicationContext())
     protected val oauthLocalService = TestData.provideOauthLocalService(ApplicationProvider.getApplicationContext())
     protected val residenceApiService = TestData.provideResidenceApiService(ApplicationProvider.getApplicationContext())
 

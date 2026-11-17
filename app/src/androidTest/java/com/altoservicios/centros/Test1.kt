@@ -6,6 +6,7 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import com.altoservicios.centros.presentation.screens.MainActivity
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,7 +15,7 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class Test1 : ResidencesTest() {
-/*
+    /*
     @Test
     fun retrievesResidences() {
         //se prueba que el listado de residencias no este vacio
@@ -42,5 +43,5 @@ class Test1 : ResidencesTest() {
 
         scenario.close()
     }
-*/
+    */
 }

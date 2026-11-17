@@ -3,6 +3,7 @@ package com.altoservicios.centros.domain.model
 import com.google.gson.Gson
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class PhotoUploadResponseTest {
@@ -15,14 +16,21 @@ class PhotoUploadResponseTest {
             PhotoUploadResponse::class.java
         )
 
-        assertEquals(12, response.data?.get("id")?.asInt)
-        assertEquals("3/foto", response.data?.get("imagen_url")?.asString)
-        assertEquals(true, response.data?.get("principal")?.asBoolean)
+        assertEquals(12, response.data?.asJsonObject?.get("id")?.asInt)
+        assertEquals("3/foto", response.data?.asJsonObject?.get("imagen_url")?.asString)
+        assertEquals(true, response.data?.asJsonObject?.get("principal")?.asBoolean)
+    }
+
+    @Test
+    fun parsesNullImageWithoutThrowing() {
+        val response = gson.fromJson("""{"data":null}""", PhotoUploadResponse::class.java)
+
+        assertTrue(response.data?.isJsonNull == true)
     }
 
     @Test
     fun leavesMissingImageAsNull() {
-        val response = gson.fromJson("""{"data":null}""", PhotoUploadResponse::class.java)
+        val response = gson.fromJson("""{}""", PhotoUploadResponse::class.java)
 
         assertNull(response.data)
     }
